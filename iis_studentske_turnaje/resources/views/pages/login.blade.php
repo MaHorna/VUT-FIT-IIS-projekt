@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -11,4 +11,12 @@
 	<p>register - username text field, password textfield, repeat password textfield, email textfield button to submit</p>
 	<p>skip login - guest user , button linking nonuser view</p>
     </body>
-</html>
+</html> --}}
+
+<x-layout>
+    <p>login, register and skip login page</p>
+	<p>login - username text field, password textfield, button to submit</p>
+	<p>register - username text field, password textfield, repeat password textfield, email textfield button to submit</p>
+	<p>skip login - guest user , button linking nonuser view</p>
+
+</x-layout>

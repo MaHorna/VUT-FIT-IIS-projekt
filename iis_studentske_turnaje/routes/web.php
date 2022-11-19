@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,22 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'App\Http\Controllers\PagesController@login');
-Route::get('/login', 'App\Http\Controllers\PagesController@login');
+Route::get('/', [PagesController::class, 'index']);
+Route::get('/login', [PagesController::class, 'login']);
 
-Route::get('/nonuser', 'App\Http\Controllers\PagesController@nonuser');
+Route::get('/nonuser', [PagesController::class, 'nonuser']);
 
-Route::get('/loged_user', 'App\Http\Controllers\PagesController@loged_user');
-Route::get('/profile', 'App\Http\Controllers\PagesController@profile');
-Route::get('/my_tour', 'App\Http\Controllers\PagesController@my_tour');
-Route::get('/tour_create', 'App\Http\Controllers\PagesController@tour_create');
-Route::get('/team_create', 'App\Http\Controllers\PagesController@team_create');
+Route::get('/loged_user', [PagesController::class, 'loged_user']);
+Route::get('/profile', [PagesController::class, 'profile']);
+Route::get('/my_tour', [PagesController::class, 'my_tour']);
+Route::get('/tour_create', [PagesController::class, 'tour_create']);
+Route::get('/team_create', [PagesController::class, 'team_create']);
 
-Route::get('/tournaments', 'App\Http\Controllers\PagesController@tournaments');
-Route::get('/users', 'App\Http\Controllers\PagesController@users');
-Route::get('/teams', 'App\Http\Controllers\PagesController@teams');
+Route::get('/tournaments', [PagesController::class, 'tournaments']);
+Route::get('/users', [PagesController::class, 'users']);
+Route::get('/teams', [PagesController::class, 'teams']);
 
-Route::get('/team/{id}', 'App\Http\Controllers\PagesController@team');
-Route::get('/tournament/{id}', 'App\Http\Controllers\PagesController@tournament');
-Route::get('/user/{id}', 'App\Http\Controllers\PagesController@user');
+Route::get('/team/{id}', [PagesController::class, 'team']);
+Route::get('/tournament/{id}', [PagesController::class, 'tournament']);
+Route::get('/user/{id}', [PagesController::class, 'user']);
 
