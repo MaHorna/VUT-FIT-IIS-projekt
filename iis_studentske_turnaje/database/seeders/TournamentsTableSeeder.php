@@ -24,7 +24,8 @@ class TournamentsTableSeeder extends Seeder
                 'game' => 'Chess',
                 'start_date' => DateTime::createFromFormat('Y-m-d H:i', '2022-11-19 14:38'),
                 'prize' => '1 ticket to Brazil',
-                'min_size' => 14,
+                'num_participants' => 14,
+                'teams_allowed' => true,
                 'description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
                 Mauris metus. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. 
                 Praesent vitae arcu tempor neque lacinia pretium. Aenean placerat. In enim a arcu imperdiet malesuada. 
@@ -37,9 +38,10 @@ class TournamentsTableSeeder extends Seeder
                 'name' => 'Legends of league',
                 'status' => 'ongoing',
                 'game' => 'League of legends',
-                'start_date' => DateTime::createFromFormat('Y-m-d H:i', '2022-11-19 14:38'),
+                'start_date' => DateTime::createFromFormat('Y-m-d H:i', '2022-06-20 13:00'),
                 'prize' => '500$',
-                'min_size' => 24,
+                'num_participants' => 24,
+                'teams_allowed' => true,
                 'description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
                 Mauris metus. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. 
                 Praesent vitae arcu tempor neque lacinia pretium. Aenean placerat. In enim a arcu imperdiet malesuada. 

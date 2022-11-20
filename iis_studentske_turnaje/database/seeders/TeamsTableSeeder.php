@@ -17,8 +17,7 @@ class TeamsTableSeeder extends Seeder
     {
         $teams = [
             [
-                //'leader_id' => 1,
-                'user_id' => 2,
+                'user_id' => 1,
                 'name' => 'Sk Telecom',
                 'description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
                 Mauris metus. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. 
@@ -28,7 +27,6 @@ class TeamsTableSeeder extends Seeder
                 Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Fusce consectetuer risus a nunc.'
             ],
             [
-                //'leader_id' => 1,
                 'user_id' => 2,
                 'name' => 'G2',
                 'description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
