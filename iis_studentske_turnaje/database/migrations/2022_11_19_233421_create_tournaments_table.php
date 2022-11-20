@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->enum('status', ['preparing', 'ongoing', 'finished']);
+            $table->enum('status', ['preparing', 'ongoing', 'finished'])->default('preparing');
             $table->string('logo')->nullable();
             $table->string('game');
             $table->dateTime('start_date');

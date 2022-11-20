@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Team;
+use App\Models\User;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
     // Show all listings
-    public function index()
+    public function index(Request $request)
     {
 
         return view('pages.index', 
         [
-            'tournaments' => Tournament::all()
+            'tournaments' => Tournament::latest()->filter(request(['search']))->paginate(1),
+            'users' => User::latest()->paginate(1),
+            'teams' => Team::latest()->paginate(1)
         ]);
     }
     public function login() {

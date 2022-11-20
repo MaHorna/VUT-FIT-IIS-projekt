@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PagesController;
-use App\Models\Tournament;
+use App\Http\Controllers\TournamentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +17,6 @@ use App\Models\Tournament;
 */
 
 Route::get('/', [PagesController::class, 'index']);
-
-// Route::get('/', function() {
-//     return view('index', [
-//         'pages.index' => Tournament::all()
-//     ]);
-// });
 
 
 Route::get('/login', [PagesController::class, 'login']);
@@ -43,7 +37,42 @@ Route::get('/team/{id}', [PagesController::class, 'team']);
 Route::get('/tournament/{id}', [PagesController::class, 'tournament']);
 Route::get('/user/{id}', [PagesController::class, 'user']);
 
+
+//------------------USER----------------------------
+
+// Show Register/Create Form
 Route::get('/register', [UserController::class, 'create']);
 
 // Create new user
-Route::post('/user', [UserController::class, 'store']);
+Route::post('/', [UserController::class, 'store']);
+
+//------------------TOURNAMENT----------------------------
+
+// Show create tournament form
+Route::get('/tournaments/create', [TournamentController::class, 'create']);
+
+// Store tournament data
+Route::post('/', [TournamentController::class, 'store']);
+
+// Show single tournament
+Route::get('/tournaments/{tournament}', [TournamentController::class, 'show']);
+
+// Edit tournament
+Route::get('/tournaments/{tournament}/edit', [TournamentController::class, 'edit']);
+
+// Update tournament
+Route::put('/tournaments/{tournament}', [TournamentController::class, 'update']);
+
+// Delete tournament
+Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destroy']);
+
+
+
+// Common Resource Routes:
+// index - show all listings
+// show - show single listing
+// create - show form to create new listing
+// store - store new listing
+// edit - show form to edit listing
+// update - update listing
+// destroy - delete listing
