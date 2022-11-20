@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('logo')->nullable();
             $table->longtext('description');
+            $table->integer('won_games')->default(0);
+            $table->integer('lost_games')->default(0);
             $table->timestamps();
         });
     }
