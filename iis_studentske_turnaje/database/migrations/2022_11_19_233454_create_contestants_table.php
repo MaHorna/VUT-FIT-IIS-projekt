@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('teams', function (Blueprint $table) {
+        Schema::create('contestants', function (Blueprint $table) {
             $table->id();
-            //$table->foreignId('leader_id')->onDelete('cascade');
-            //$table->foreign('leader_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained();
-            $table->string('name');
-            $table->string('logo')->nullable();
-            $table->longtext('description');
+            $table->foreignId('tournament_id')->constrained()->onDelete('cascade');
+            $table->foreignId('teamuser_id')->nullable()->constrained();
+            $table->foreignId('team_id')->nullable()->constrained();
+            $table->boolean('isteam')->default(false);
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists('contestants');
     }
 };

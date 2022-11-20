@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
+    // Show all listings
+    public function index()
+    {
+
+        return view('pages.index', 
+        [
+            'tournaments' => Tournament::all()
+        ]);
+    }
     public function login() {
 	    return view('pages.login');
     }

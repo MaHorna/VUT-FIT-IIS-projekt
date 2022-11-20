@@ -22,7 +22,8 @@ return new class extends Migration
             $table->string('game');
             $table->dateTime('start_date');
             $table->string('prize');
-            $table->integer('min_size');
+            $table->integer('num_participants');
+            $table->boolean('teams_allowed')->default(false);
             $table->longtext('description');
             $table->timestamps();
         });

@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PagesController;
+use App\Models\Tournament;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,14 @@ use App\Http\Controllers\PagesController;
 */
 
 Route::get('/', [PagesController::class, 'index']);
+
+// Route::get('/', function() {
+//     return view('index', [
+//         'pages.index' => Tournament::all()
+//     ]);
+// });
+
+
 Route::get('/login', [PagesController::class, 'login']);
 
 Route::get('/nonuser', [PagesController::class, 'nonuser']);
@@ -33,3 +43,7 @@ Route::get('/team/{id}', [PagesController::class, 'team']);
 Route::get('/tournament/{id}', [PagesController::class, 'tournament']);
 Route::get('/user/{id}', [PagesController::class, 'user']);
 
+Route::get('/register', [UserController::class, 'create']);
+
+// Create new user
+Route::post('/user', [UserController::class, 'store']);

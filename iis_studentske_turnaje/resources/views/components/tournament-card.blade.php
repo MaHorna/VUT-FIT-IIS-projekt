@@ -13,7 +13,7 @@
             </h3>
             <div class="text-xl font-bold mb-4">{{$tournament->game}}</div>
             <div class="text-lg mt-4">
-                <i class="fa-solid fa-location-dot"></i> {{$listing->start_date}}
+                <i class="fa-solid fa-clock-four"></i> {{$tournament->start_date}}
             </div>
         </div>
     </div>
