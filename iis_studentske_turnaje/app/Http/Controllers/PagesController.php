@@ -15,9 +15,9 @@ class PagesController extends Controller
 
         return view('pages.index', 
         [
-            'tournaments' => Tournament::latest()->filter(request(['search']))->paginate(1),
-            'users' => User::latest()->paginate(1),
-            'teams' => Team::latest()->paginate(1)
+            'tournaments' => Tournament::latest()->filter(request(['search']))->paginate(),
+            'users' => User::latest()->paginate(),
+            'teams' => Team::latest()->paginate()
         ]);
     }
     public function login() {
