@@ -11,14 +11,14 @@
                     alt=""
                 />
 
-                <?php 
+                @php 
                 $total_games = $user->lost_games + $user->won_games;
                 $win_rate = 0;
                 if ($total_games !== 0) {
                     $win_rate = ($user->won_games * 100) / $total_games;
                     
                 }
-                 ?>
+                @endphp
 
                 <h3 class="text-2xl mb-2">{{$user->name}}</h3>
                 <div class="text-xl font-bold mb-4">Email: {{$user->email}}</div>

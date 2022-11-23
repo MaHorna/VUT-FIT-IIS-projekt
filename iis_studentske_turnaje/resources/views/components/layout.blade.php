@@ -65,6 +65,9 @@
             .sidebar a:hover {
                 color: #f1f1f1;
             }
+            .sidebar form:hover {
+                color: #ff000096;
+            }
             #main {
                 padding: 16px;
                 margin-left: 65px;
@@ -83,14 +86,14 @@
                 <hr>
                 <a href="{{url('/tournaments')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Tournaments</span></a>
                 <a href="{{url('/my_tour')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>My Tournaments</span></a>
-                <a href="{{url('/tour_create')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Create Tournament</span></a>
+                <a href="{{url('/tournaments/create')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Create Tournament</span></a>
                 <hr>
                 <a href="{{url('/teams')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Teams</span></a>
                 <a href="{{url('/my_team')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>My Teams</span></a>
-                <a href="{{url('/team_create')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Create Team</span></a>
+                <a href="{{url('/teams/create')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Create Team</span></a>
                 <hr>
                 <a href="{{url('/users')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Users</span></a>
-                <a href="{{url('/profile')}}"><i class="fa-solid fa-user-plus"></i><span>Profile</span></a>
+                <a href="{{url('/users/' . Auth::user()->id)}}"><i class="fa-solid fa-user-plus"></i><span>Profile</span></a>
                 <form action="{{url('/logout')}}" method="post" class="inline">
                     @csrf
                     <button type="submit"><i class="fa-solid fa-door-closed"></i><span>Logout</span></button>

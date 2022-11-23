@@ -48,6 +48,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function scopeFilter($query, array $filters){
+        if ($filters['search'] ?? false) {
+            $query->where('name', 'like', '%'. request('search') . '%');
+        }
+    }
+
     // Relationship to Team
     public function team(){
         return $this->hasMany(Team::class, 'user_id');
