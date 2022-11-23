@@ -35,7 +35,7 @@
             <ul class="flex space-x-6 mr-6 text-lg">
                 @auth
                     <li>
-                        <a href="/register" class="hover:text-laravel"
+                        <a href="/users/{{Auth::user()->id}}" class="hover:text-laravel"
                             ><i class="fa-solid fa-user-plus"></i> Profile</a
                         >
                     </li>
