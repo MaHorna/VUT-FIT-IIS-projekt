@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->integer('won_games')->default(0);
             $table->integer('lost_games')->default(0);
+            $table->string('logo')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ class TournamentController extends Controller
     {
         return view('tournaments.index', 
         [
-            'tournaments' => Tournament::latest()->filter(request(['search']))->paginate(1),
+            'tournaments' => Tournament::latest()->filter(request(['search']))->paginate(),
         ]);
     }
 
@@ -48,6 +48,8 @@ class TournamentController extends Controller
         if ($request->hasFile('logo')) {
             $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
+       
+        $formFields['user_id'] = auth()->id();
 
         Tournament::create($formFields);
 
@@ -56,12 +58,22 @@ class TournamentController extends Controller
 
     // Show Edit tournament form
     public function edit(Tournament $tournament){
+        // Make sure logged in user is owner
+        if ($tournament->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
+
         return view('tournaments.edit', ['tournament' => $tournament]);
     }
 
     // Store tournament data
     public function update(Request $request, Tournament $tournament)
     {
+        // Make sure logged in user is owner
+        if ($tournament->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
+
         $formFields = $request->validate([
             'name' => ['required'],
             'game' => 'required',
@@ -83,6 +95,11 @@ class TournamentController extends Controller
 
     // Delete tournament
     public function destroy(Tournament $tournament){
+        // Make sure logged in user is owner
+        if ($tournament->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
+
         $tournament->delete();
 
         return redirect('/')

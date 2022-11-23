@@ -41,30 +41,51 @@ Route::get('/user/{id}', [PagesController::class, 'user']);
 //------------------USER----------------------------
 
 // Show Register/Create Form
-Route::get('/register', [UserController::class, 'create']);
+Route::get('/register', [UserController::class, 'create'])->middleware('guest');
 
 // Create new user
-Route::post('/', [UserController::class, 'store']);
+Route::post('/register', [UserController::class, 'store'])->middleware('guest');
+
+// Log user out
+Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
+
+// Show login form
+Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
+
+// Log in user
+Route::post('/users/authenticate', [UserController::class, 'authenticate'])->middleware('guest');
+
+// Show user profile
+Route::get('/users/{user}', [UserController::class, 'show']);
+
+// Edit user profile
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware('auth');
+
+// Update user profile
+Route::put('/users/{user}', [UserController::class, 'update'])->middleware('auth');
+
+// Delete user profile
+Route::delete('/users/{user}', [UserController::class, 'destroy'])->middleware('auth');
 
 //------------------TOURNAMENT----------------------------
 
 // Show create tournament form
-Route::get('/tournaments/create', [TournamentController::class, 'create']);
+Route::get('/tournaments/create', [TournamentController::class, 'create'])->middleware('auth');
 
 // Store tournament data
-Route::post('/', [TournamentController::class, 'store']);
+Route::post('/', [TournamentController::class, 'store'])->middleware('auth');
 
 // Show single tournament
 Route::get('/tournaments/{tournament}', [TournamentController::class, 'show']);
 
 // Edit tournament
-Route::get('/tournaments/{tournament}/edit', [TournamentController::class, 'edit']);
+Route::get('/tournaments/{tournament}/edit', [TournamentController::class, 'edit'])->middleware('auth');
 
 // Update tournament
-Route::put('/tournaments/{tournament}', [TournamentController::class, 'update']);
+Route::put('/tournaments/{tournament}', [TournamentController::class, 'update'])->middleware('auth');
 
 // Delete tournament
-Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destroy']);
+Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destroy'])->middleware('auth');
 
 
 
