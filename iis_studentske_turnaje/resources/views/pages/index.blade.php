@@ -23,7 +23,7 @@
                     />
                     <div>
                         <h3 class="text-2xl">
-                            <a href="{{url('/users/', $user->id)}}">{{$user->name}}</a>
+                            <a href="{{url('/users', $user->id)}}">{{$user->name}}</a>
                         </h3>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                     />
                     <div>
                         <h3 class="text-2xl">
-                            <a href="{{url('/teams/', $team->id)}}">{{$team->name}}</a>
+                            <a href="{{url('/teams', $team->id)}}">{{$team->name}}</a>
                         </h3>
                         <div class="text-xl font-bold mb-4">{{$team->won_games}}</div>
                         <div class="text-lg mt-4">

@@ -30,7 +30,7 @@
         </x-card>
 
         <x-card class="mt-4 p-2 flex space-x-6">
-            <a href="{{url('/users/{{$user->id}}/edit')}}">
+            <a href="{{url('/users/' . $user->id . '/edit')}}">
             <i class="fa-solid fa-pencil"></i>Edit
             </a>
 
