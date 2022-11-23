@@ -8,6 +8,15 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    //Show all users
+    public function index()
+    {
+        return view('users.index', 
+        [
+            'users' => User::latest()->filter(request(['search']))->paginate(),
+        ]);
+    }
+    
     // Show Register/Create form
     public function create()
     {

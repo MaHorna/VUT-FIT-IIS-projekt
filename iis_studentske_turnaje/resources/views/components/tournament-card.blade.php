@@ -9,7 +9,7 @@
         />
         <div>
             <h3 class="text-2xl">
-                <a href="/tournaments/{{$tournament->id}}">{{$tournament->name}}</a>
+                <a href="{{url('/tournaments/', $tournament->id)}}">{{$tournament->name}}</a>
             </h3>
             <div class="text-xl font-bold mb-4">{{$tournament->game}}</div>
             <div class="text-lg mt-4">
