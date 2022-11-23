@@ -1,5 +1,5 @@
 <x-layout>
-    <a href="/" class="inline-block text-black ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    <a href="{{url('/')}}" class="inline-block text-black ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
     <div class="mx-4">
         <x-card class="p-10">
             <div
@@ -30,7 +30,7 @@
         </x-card>
 
         <x-card class="mt-4 p-2 flex space-x-6">
-            <a href="/users/{{$user->id}}/edit">
+            <a href="{{url('/users/' . $user->id . '/edit')}}">
             <i class="fa-solid fa-pencil"></i>Edit
             </a>
 

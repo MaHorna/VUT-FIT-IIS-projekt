@@ -18,24 +18,13 @@ use App\Http\Controllers\TournamentController;
 
 Route::get('/', [PagesController::class, 'index']);
 
-
-Route::get('/login', [PagesController::class, 'login']);
-
 Route::get('/nonuser', [PagesController::class, 'nonuser']);
-
 Route::get('/loged_user', [PagesController::class, 'loged_user']);
 Route::get('/profile', [PagesController::class, 'profile']);
 Route::get('/my_tour', [PagesController::class, 'my_tour']);
 Route::get('/tour_create', [PagesController::class, 'tour_create']);
 Route::get('/team_create', [PagesController::class, 'team_create']);
-
-Route::get('/tournaments', [PagesController::class, 'tournaments']);
-Route::get('/users', [PagesController::class, 'users']);
 Route::get('/teams', [PagesController::class, 'teams']);
-
-Route::get('/team/{id}', [PagesController::class, 'team']);
-Route::get('/tournament/{id}', [PagesController::class, 'tournament']);
-Route::get('/user/{id}', [PagesController::class, 'user']);
 
 
 //------------------USER----------------------------
@@ -51,6 +40,9 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 
 // Show login form
 Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
+
+//Show all users
+Route::get('/users', [UserController::class, 'index']);
 
 // Log in user
 Route::post('/users/authenticate', [UserController::class, 'authenticate'])->middleware('guest');
@@ -68,6 +60,9 @@ Route::put('/users/{user}', [UserController::class, 'update'])->middleware('auth
 Route::delete('/users/{user}', [UserController::class, 'destroy'])->middleware('auth');
 
 //------------------TOURNAMENT----------------------------
+
+// Show all tournaments
+Route::get('/tournaments', [TournamentController::class, 'index']);
 
 // Show create tournament form
 Route::get('/tournaments/create', [TournamentController::class, 'create'])->middleware('auth');

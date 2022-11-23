@@ -24,9 +24,7 @@
             </div>
 
             <div class="mb-6">
-                <label for="email" class="inline-block text-lg mb-2"
-                    >Email</label
-                >
+                <label for="email" class="inline-block text-lg mb-2">Email</label>
                 <input
                     type="email"
                     class="border border-gray-200 rounded p-2 w-full"
@@ -41,8 +39,7 @@
             <div class="mb-6">
                 <label
                     for="password"
-                    class="inline-block text-lg mb-2"
-                >
+                    class="inline-block text-lg mb-2">
                     Password
                 </label>
                 <input
@@ -59,8 +56,7 @@
             <div class="mb-6">
                 <label
                     for="password2"
-                    class="inline-block text-lg mb-2"
-                >
+                    class="inline-block text-lg mb-2">
                     Confirm Password
                 </label>
                 <input
@@ -75,20 +71,13 @@
             </div>
 
             <div class="mb-6">
-                <button
-                    type="submit"
-                    class="bg-laravel text-white rounded py-2 px-4 hover:bg-black"
-                >
-                    Sign Up
-                </button>
+                <button type="submit" class="bg-laravel text-white rounded py-2 px-4 hover:bg-black">Sign Up</button>
             </div>
 
             <div class="mt-8">
                 <p>
                     Already have an account?
-                    <a href="/login" class="text-laravel"
-                        >Login</a
-                    >
+                    <a href="{{url('/login')}}" class="text-laravel">Login</a>
                 </p>
             </div>
         </form>
