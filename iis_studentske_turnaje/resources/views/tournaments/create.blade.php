@@ -7,7 +7,8 @@
             <p class="mb-4">Make your own tournament now</p>
         </header>
 
-        <form method="POST" action="{{url('/')}}" enctype="multipart/form-data">
+        <form method="POST" action="{{url('/tournaments')}}" enctype="multipart/form-data">
+
             @csrf
             <div class="mb-6">
                 <label

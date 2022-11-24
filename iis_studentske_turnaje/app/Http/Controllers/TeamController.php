@@ -13,7 +13,7 @@ class TeamController extends Controller
     {
         return view('teams.index', 
         [
-            'teams' => Team::latest()->filter(request(['search']))->paginate(1),
+            'teams' => Team::latest()->filter(request(['search']))->paginate(),
         ]);
     }
 
@@ -37,13 +37,14 @@ class TeamController extends Controller
     {
         $formFields = $request->validate([
             'name' => ['required', Rule::unique('teams', 'name')],
-            'num_participants' => 'required',
             'description' => 'required'
         ]);
 
         if ($request->hasFile('logo')) {
             $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
+
+        $formFields['user_id'] = auth()->id();
 
         Team::create($formFields);
 
@@ -60,7 +61,6 @@ class TeamController extends Controller
     {
         $formFields = $request->validate([
             'name' => ['required'],
-            'num_participants' => 'required',
             'description' => 'required'
         ]);
 
@@ -70,7 +70,7 @@ class TeamController extends Controller
 
         $team->update($formFields);
 
-        return back()->with('message', 'Team updated succesfully.');
+        return redirect('/')->with('message', 'Team updated succesfully.');
     }
 
     // Delete team

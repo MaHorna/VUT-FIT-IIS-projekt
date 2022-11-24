@@ -4,7 +4,7 @@
             <h1
                 class="text-3xl text-center font-bold my-6 uppercase"
             >
-                Manage Users
+                Manage tournaments
             </h1>
         </header>
         <x-search :path="'/admin/tournaments'"/>

@@ -7,7 +7,7 @@
             <p class="mb-4">Edit {{$team->name}}</p>
         </header>
 
-        <form method="POST" action="/Teams/{{$user->id}}" enctype="multipart/form-data">
+        <form method="POST" action="{{url('/teams/' . $team->id)}}" enctype="multipart/form-data">
             @csrf
 
             @method('PUT')
