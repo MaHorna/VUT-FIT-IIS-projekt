@@ -22,6 +22,8 @@ return new class extends Migration
             $table->integer('won_games')->default(0);
             $table->integer('lost_games')->default(0);
             $table->string('logo')->nullable();
+            // 0 User, 1 Admin
+            $table->smallInteger('role')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

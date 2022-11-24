@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -85,7 +86,7 @@ class UserController extends Controller
     // Show Edit user profile
     public function edit(User $user){
         // Make sure logged in user is owner
-        if ($user->id != auth()->id()) {
+        if ($user->id != auth()->id() && Auth::user()->role == 0) {
             abort(403, 'Unauthorized Action');
         }
         return view('users.edit', [
@@ -97,7 +98,7 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         // Make sure logged in user is owner
-        if ($user->id != auth()->id()) {
+        if ($user->id != auth()->id() && Auth::user()->role == 0) {
             abort(403, 'Unauthorized Action');
         }
 
@@ -117,19 +118,25 @@ class UserController extends Controller
     // Delete user profile
     public function destroy(Request $request, User $user){
         // Make sure logged in user is owner
-        if ($user->id != auth()->id()) {
+        if ($user->id != auth()->id() && Auth::user()->role == 0) {
             abort(403, 'Unauthorized Action');
         }
 
-        auth()->logout();
+        if ($user->id == auth()->id()) {
+            auth()->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        $user->delete();
-
-        return redirect('/')
+            return redirect('/')
             ->with('message', 'User has been deleted and logged out succesfully.');
+        }
+        else{
+            $user->delete();
+
+            return redirect()->back()
+            ->with('message', 'User has been deleted succesfully.');
+        }        
     }
 }
 

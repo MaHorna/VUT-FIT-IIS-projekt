@@ -84,16 +84,21 @@
             <a href="{{url('/')}}"><img src="{{asset('images/placeholder.png')}}" alt="" class="logo"/></a>
             @auth
                 <hr>
-                <a href="{{url('/tournaments')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Tournaments</span></a>
-                <a href="{{url('/my_tour')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>My Tournaments</span></a>
-                <a href="{{url('/tournaments/create')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Create Tournament</span></a>
+                <a href="{{url('/tournaments')}}"><i class="fa-solid fa-trophy"></i><span>Tournaments</span></a>
+                <a href="{{url('/my_tour')}}"><i class="fa-solid fa-calendar"></i><span>My Tournaments</span></a>
+                <a href="{{url('/tournaments/create')}}"><i class="fa-solid fa-plus"></i><span>Create Tournament</span></a>
                 <hr>
-                <a href="{{url('/teams')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Teams</span></a>
-                <a href="{{url('/my_team')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>My Teams</span></a>
-                <a href="{{url('/teams/create')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Create Team</span></a>
+                <a href="{{url('/teams')}}"><i class="fa-solid fa-people-group"></i><span>Teams</span></a>
+                <a href="{{url('/my_team')}}"><i class="fa-brands fa-teamspeak"></i><span>My Teams</span></a>
+                <a href="{{url('/teams/create')}}"><i class="fa-solid fa-plus"></i><span>Create Team</span></a>
                 <hr>
-                <a href="{{url('/users')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Users</span></a>
-                <a href="{{url('/users/' . Auth::user()->id)}}"><i class="fa-solid fa-user-plus"></i><span>Profile</span></a>
+                <a href="{{url('/users')}}"><i class="fa-solid fa-users"></i><span>Users</span></a>
+                <a href="{{url('/users/' . Auth::user()->id)}}"><i class="fa-solid fa-user-secret"></i><span>Profile</span></a>
+                @if (Auth::user()->role === 1)
+                <hr>
+                <a href="{{url('/admin/users')}}"><i class="fa-solid fa-users"></i><span>Manage users</span></a>
+                <a href="{{url('/admin/tournaments')}}"><i class="fa-solid fa-trophy"></i><span>Manage tournaments</span></a>
+                @endif
                 <form action="{{url('/logout')}}" method="post" class="inline">
                     @csrf
                     <button type="submit"><i class="fa-solid fa-door-closed"></i><span>Logout</span></button>
@@ -102,9 +107,9 @@
             @else
                 <a href="{{url('/register')}}"><i class="fa-solid fa-user-plus"></i><span>Register</span></a>
                 <a href="{{url('/login')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Login</span></a>
-                <a href="{{url('/tournaments')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Tournaments</span></a>
-                <a href="{{url('/teams')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Teams</span></a>
-                <a href="{{url('/users')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Users</span></a>
+                <a href="{{url('/tournaments')}}"><i class="fa-solid fa-trophy"></i><span>Tournaments</span></a>
+                <a href="{{url('/teams')}}"><i class="fa-solid fa-people-group"></i><span>Teams</span></a>
+                <a href="{{url('/users')}}"><i class="fa-solid fa-users"></i><span>Users</span></a>
             @endauth    
         </div>
         <div id="main">

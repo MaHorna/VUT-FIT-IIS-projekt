@@ -27,6 +27,7 @@ class User extends Authenticatable
         'logo',
         'won_games',
         'lost_games',
+        'role',
     ];
 
     /**

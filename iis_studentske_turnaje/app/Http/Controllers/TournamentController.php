@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 class TournamentController extends Controller
 {
@@ -59,7 +60,7 @@ class TournamentController extends Controller
     // Show Edit tournament form
     public function edit(Tournament $tournament){
         // Make sure logged in user is owner
-        if ($tournament->user_id != auth()->id()) {
+        if ($tournament->user_id != auth()->id() && Auth::user()->role == 0) {
             abort(403, 'Unauthorized Action');
         }
 
@@ -70,7 +71,8 @@ class TournamentController extends Controller
     public function update(Request $request, Tournament $tournament)
     {
         // Make sure logged in user is owner
-        if ($tournament->user_id != auth()->id()) {
+        dd(Auth::user()->role);
+        if ($tournament->user_id != auth()->id() && Auth::user()->role == 0) {
             abort(403, 'Unauthorized Action');
         }
 
@@ -96,7 +98,7 @@ class TournamentController extends Controller
     // Delete tournament
     public function destroy(Tournament $tournament){
         // Make sure logged in user is owner
-        if ($tournament->user_id != auth()->id()) {
+        if ($tournament->user_id != auth()->id() && Auth::user()->role == 0) {
             abort(403, 'Unauthorized Action');
         }
 
