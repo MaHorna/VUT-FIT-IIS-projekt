@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\TournamentController;
+use App\Http\Controllers\TeamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,6 +92,27 @@ Route::put('/tournaments/{tournament}', [TournamentController::class, 'update'])
 
 // Delete tournament
 Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destroy'])->middleware('auth');
+
+//------------------TEAM----------------------------
+
+// Show create team form
+Route::get('/teams/create', [TeamController::class, 'create']);
+
+// Store team data
+Route::post('/', [TeamController::class, 'store']);
+
+// Show single team
+Route::get('/teams/{team}', [TeamController::class, 'show']);
+
+// Edit team
+Route::get('/teams/{team}/edit', [TeamController::class, 'edit']);
+
+// Update team
+Route::put('/teams/{team}', [TeamController::class, 'update']);
+
+// Delete team
+Route::delete('/teams/{team}', [TeamController::class, 'destroy']);
+
 
 
 

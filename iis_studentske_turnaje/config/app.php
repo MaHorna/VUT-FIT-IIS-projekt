@@ -54,7 +54,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => 'studfit/xlogin/public',
+    
+    //env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL'),
 
