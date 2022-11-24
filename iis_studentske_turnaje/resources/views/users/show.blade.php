@@ -34,7 +34,7 @@
             <i class="fa-solid fa-pencil"></i>Edit
             </a>
 
-            <form method="POST" action="/users/{{$user->id}}">
+            <form method="POST" action="{{url('/users/'.$user->id)}}">
                 @csrf
                 @method('DELETE')
                 <button class="text-red-500"><i class="fa-solid fa-trash"></i>Delete</button>
