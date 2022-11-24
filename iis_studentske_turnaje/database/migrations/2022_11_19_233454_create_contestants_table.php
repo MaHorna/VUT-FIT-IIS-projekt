@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('contestants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tournament_id')->constrained()->onDelete('cascade');
-            $table->foreignId('teamuser_id')->nullable()->constrained();
-            $table->foreignId('team_id')->nullable()->constrained();
+            $table->foreignId('team_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->boolean('isteam')->default(false);
             $table->timestamps();
         });

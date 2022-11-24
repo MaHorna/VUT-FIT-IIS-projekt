@@ -29,5 +29,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(ContestsTableSeeder::class);
 
+        $this->call(UsersTableSeeder::class);
+
     }
 }

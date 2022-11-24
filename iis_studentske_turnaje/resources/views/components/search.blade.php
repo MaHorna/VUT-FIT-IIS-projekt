@@ -1,5 +1,6 @@
  <!-- Search -->
- <form action="/">
+ @props(['path'])
+ <form action="{{url($path)}}">
     <div class="relative border-2 border-gray-100 m-4 rounded-lg">
         <div class="absolute top-4 left-3">
             <i
