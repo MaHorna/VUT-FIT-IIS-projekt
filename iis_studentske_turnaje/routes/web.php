@@ -20,12 +20,8 @@ use App\Http\Controllers\TeamController;
 
 Route::get('/', [PagesController::class, 'index']);
 
-Route::get('/nonuser', [PagesController::class, 'nonuser']);
-Route::get('/loged_user', [PagesController::class, 'loged_user']);
 Route::get('/profile', [PagesController::class, 'profile']);
 Route::get('/my_tour', [PagesController::class, 'my_tour']);
-Route::get('/tour_create', [PagesController::class, 'tour_create']);
-Route::get('/team_create', [PagesController::class, 'team_create']);
 Route::get('/teams', [PagesController::class, 'teams']);
 
 //------------------ADMIN----------------------------
