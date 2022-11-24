@@ -1,5 +1,5 @@
 <x-layout>
-    @include('partials._search')
+    <x-search :path="'/tournaments'"/>
         <a href="{{url('/')}}" class="inline-block text-black ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
         <div class="mx-4">
             <x-card class="p-10">
