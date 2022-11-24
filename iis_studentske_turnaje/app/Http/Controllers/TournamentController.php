@@ -71,7 +71,6 @@ class TournamentController extends Controller
     public function update(Request $request, Tournament $tournament)
     {
         // Make sure logged in user is owner
-        dd(Auth::user()->role);
         if ($tournament->user_id != auth()->id() && Auth::user()->role == 0) {
             abort(403, 'Unauthorized Action');
         }
