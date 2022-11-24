@@ -6,7 +6,7 @@
         <p class="mb-4">Create an account to post gigs</p>
         </header>
 
-        <form method="POST" action="/register">
+        <form method="POST" action="{{url('/register')}}">
             @csrf
             <div class="mb-6">
                 <label for="name" class="inline-block text-lg mb-2">
