@@ -79,7 +79,7 @@ Route::get('/tournaments', [TournamentController::class, 'index']);
 Route::get('/tournaments/create', [TournamentController::class, 'create'])->middleware('auth');
 
 // Store tournament data
-Route::post('/', [TournamentController::class, 'store'])->middleware('auth');
+Route::post('/tournaments', [TournamentController::class, 'store'])->middleware('auth');
 
 // Show single tournament
 Route::get('/tournaments/{tournament}', [TournamentController::class, 'show']);
@@ -95,11 +95,14 @@ Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destro
 
 //------------------TEAM----------------------------
 
+// Show all teams
+Route::get('/teams', [TeamController::class, 'index']);
+
 // Show create team form
 Route::get('/teams/create', [TeamController::class, 'create']);
 
 // Store team data
-Route::post('/', [TeamController::class, 'store']);
+Route::post('/teams', [TeamController::class, 'store']);
 
 // Show single team
 Route::get('/teams/{team}', [TeamController::class, 'show']);

@@ -11,6 +11,20 @@ class Team extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name', 
+        'description', 
+        'logo',
+        'user_id'
+    ];
+
+    
+    public function scopeFilter($query, array $filters){
+        if ($filters['search'] ?? false) {
+            $query->where('name', 'like', '%'. request('search') . '%');
+        }
+    }
+
     // Relationship to User
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
