@@ -23,7 +23,15 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('123456'),
                 'email_verified_at' => now(),
                 'remember_token' => Str::random(10),
-            ]
+            ],
+            [
+                'name' => 'admin',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('123456'),
+                'email_verified_at' => now(),
+                'remember_token' => Str::random(10),
+                'role' => 1,
+            ],
         ];
 
         foreach ($users as $user => $value){

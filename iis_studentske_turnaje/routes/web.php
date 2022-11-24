@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\TournamentController;
 
@@ -26,6 +27,15 @@ Route::get('/tour_create', [PagesController::class, 'tour_create']);
 Route::get('/team_create', [PagesController::class, 'team_create']);
 Route::get('/teams', [PagesController::class, 'teams']);
 
+//------------------ADMIN----------------------------
+Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
+    //Show all users
+    Route::get('/users', [AdminController::class, 'showUsers']);
+
+    // Show all tournaments
+    Route::get('/tournaments', [AdminController::class, 'showTournaments']);
+
+});
 
 //------------------USER----------------------------
 
