@@ -1,5 +1,5 @@
 <x-layout>
-    <a href="{{url('/')}}" class="inline-block text-black ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    <a href="{{url('/')}}" class="inline-block ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
     <div class="mx-4">
         <x-card class="p-10">
             <div
@@ -7,7 +7,7 @@
             >
                 <img
                     class="w-48 mr-6 mb-6"
-                    src="{{asset('images/placeholder.png')}}"
+                    src="{{$user->logo ? asset('images/logos/' . $user->logo) : asset('/images/placeholder.png')}}"
                     alt=""
                 />
 
@@ -20,15 +20,15 @@
                 }
                 @endphp
 
-                <h3 class="text-2xl mb-2">{{$user->name}}</h3>
-                <div class="text-xl font-bold mb-4">Email: {{$user->email}}</div>
-                <div class="text-xl font-bold mb-4">Total games played: {{$total_games}}</div>
-                <div class="text-xl font-bold mb-4">Won games: {{$user->won_games}}</div>
-                <div class="text-xl font-bold mb-4">Lost games: {{$user->lost_games}}</div>
-                <div class="text-xl font-bold mb-4">Win rate: {{round($win_rate, 2);}}%</div>
+                <h3 class="text-2xl mb-2 text-yellowish">{{$user->name}}</h3>
+                <div class="text-xl mb-4">Email: {{$user->email}}</div>
+                <div class="text-xl mb-4">Total games: {{$total_games}}</div>
+                <div class="text-xl mb-4">Won games: {{$user->won_games}}</div>
+                <div class="text-xl mb-4">Lost games: {{$user->lost_games}}</div>
+                <div class="text-xl mb-4">Win rate: {{round($win_rate, 2);}}%</div>
             </div>
         </x-card>
-
+        @if (Auth::user() && Auth::user()->id == $user->id)
         <x-card class="mt-4 p-2 flex space-x-6">
             <a href="{{url('/users/' . $user->id . '/edit')}}">
             <i class="fa-solid fa-pencil"></i>Edit
@@ -40,5 +40,6 @@
                 <button class="text-red-500"><i class="fa-solid fa-trash"></i>Delete</button>
             </form>
         </x-card>
+        @endif
     </div>
 </x-layout>
