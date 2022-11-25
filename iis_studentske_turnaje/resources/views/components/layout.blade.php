@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="{{asset('images/placeholder.png')}}" />
+        <link rel="icon" href="{{asset('images/polarbear.jpg')}}" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
@@ -21,6 +21,9 @@
                     extend: {
                         colors: {
                             laravel: "#ef3b2d",
+                            yellowish: "#c69749",
+                            brownish: "#735f32",
+                            grayish: "#282a3a"
                         },
                     },
                 },
@@ -50,7 +53,7 @@
                 z-index: 1;
                 top: 0;
                 left: 0;
-                background-color: #111;
+                background-color: rgb(0, 0, 0);
                 transition: 0.5s;
                 overflow-x: hidden;
                 padding-top: 100px;
@@ -59,7 +62,7 @@
             .sidebar a , .sidebar form{
                 padding: 8px 8px 8px 25px;
                 text-decoration: none;
-                color: #818181;
+                color: #6b7280;
                 display: block;
             }
             .sidebar a:hover {
@@ -75,13 +78,17 @@
             }
             a span , form span{
                 margin-left: 25px;
+            }
+            body {
+                background-color: #282A3A;
+                color: white;
             }        
 	</style>
         <title>Studentske turnaje</title>
     </head>
     <body>
         <div id="mySidebar" class="sidebar" onmouseover="toggleSidebar()" onmouseout="toggleSidebar()">
-            <a href="{{url('/')}}"><img src="{{asset('images/placeholder.png')}}" alt="" class="logo"/></a>
+            <a href="{{url('/')}}"><img src="{{asset('images/sword.webp')}}" alt="" class="logo"/></a>
             @auth
                 <hr>
                 <a href="{{url('/tournaments')}}"><i class="fa-solid fa-trophy"></i><span>Tournaments</span></a>

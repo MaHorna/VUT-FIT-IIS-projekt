@@ -3,7 +3,7 @@
         <h2 class="text-2xl font-bold uppercase mb-1">
             Login
         </h2>
-        <p class="mb-4">log into your account</p>
+        <p class="mb-4">Log into your account</p>
         </header>
 
         <form method="POST" action="{{url('/users/authenticate')}}">
@@ -13,7 +13,7 @@
                     >Email</label>
                 <input
                     type="email"
-                    class="border border-gray-200 rounded p-2 w-full"
+                    class="border border-gray-200 rounded p-2 w-full bg-grayish"
                     name="email"
                     value="{{old('email')}}"/>
                     
@@ -30,7 +30,7 @@
                 </label>
                 <input
                     type="password"
-                    class="border border-gray-200 rounded p-2 w-full"
+                    class="border border-gray-200 rounded p-2 w-full bg-grayish"
                     name="password"
                     value="{{old('password')}}"/>
                 @error('password')
@@ -38,10 +38,10 @@
                 @enderror
             </div>
             <div class="mb-6">
-                <button type="submit" class="bg-laravel text-white rounded py-2 px-4 hover:bg-black">Sign in</button>
+                <button type="submit" class="bg-yellowish text-white rounded py-2 px-4 hover:bg-grayish">Sign in</button>
             </div>
             <div class="mt-8">
-                <p>Don't have an account?<a href="{{url('/register')}}" class="text-laravel">Register</a></p>
+                <p>Don't have an account?<a href="{{url('/register')}}" class="text-yellowish">Register</a></p>
             </div>
         </form>
     </x-card>

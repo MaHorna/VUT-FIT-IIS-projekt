@@ -104,11 +104,13 @@ class UserController extends Controller
 
         $formFields = $request->validate([
             'name' => 'required',
+            'logo' => 'required',
+            
         ]);
 
-        if ($request->hasFile('logo')) {
-            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
-        }
+        // if ($request->hasFile('logo')) {
+        //     $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+        // }
 
         $user->update($formFields);
 

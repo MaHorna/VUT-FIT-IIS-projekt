@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->enum('status', ['preparing', 'ongoing', 'finished'])->default('preparing');
-            $table->string('logo')->nullable();
+            $table->string('logo')->default('assassin.jpg');
             $table->string('game');
             $table->dateTime('start_date');
             $table->string('prize');

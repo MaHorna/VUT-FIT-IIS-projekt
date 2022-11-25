@@ -43,12 +43,13 @@ class TournamentController extends Controller
             'prize' => 'required',
             'num_participants' => 'required',
             'teams_allowed' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'logo' => 'required',
         ]);
 
-        if ($request->hasFile('logo')) {
-            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
-        }
+        // if ($request->hasFile('logo')) {
+        //     $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+        // }
        
         $formFields['user_id'] = auth()->id();
 
@@ -82,12 +83,13 @@ class TournamentController extends Controller
             'prize' => 'required',
             'num_participants' => 'required',
             'teams_allowed' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'logo' => 'required',
         ]);
 
-        if ($request->hasFile('logo')) {
-            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
-        }
+        // if ($request->hasFile('logo')) {
+        //     $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+        // }
 
         $tournament->update($formFields);
 

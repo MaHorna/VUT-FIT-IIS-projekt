@@ -7,7 +7,7 @@
             <p class="mb-4">Edit {{$tournament->name}}</p>
         </header>
 
-        <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}" enctype="multipart/form-data">
+        <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}" enctype="multipart/form-data" id="tournamentForm">
             @csrf
 
             @method('PUT')
@@ -19,7 +19,7 @@
                 >
                 <input
                     type="text"
-                    class="border border-gray-200 rounded p-2 w-full"
+                    class="border border-gray-200 rounded p-2 w-full bg-grayish"
                     name="name"
                     value="{{$tournament->name}}"
                 />
@@ -34,7 +34,7 @@
                 >
                 <input
                     type="game"
-                    class="border border-gray-200 rounded p-2 w-full"
+                    class="border border-gray-200 rounded p-2 w-full bg-grayish"
                     name="game"
                     value="{{$tournament->game}}"
                 />
@@ -51,7 +51,7 @@
                 >
                 <input
                     type="datetime-local"
-                    class="border border-gray-200 rounded p-2 w-full"
+                    class="border border-gray-200 rounded p-2 w-full bg-grayish"
                     name="start_date"
                     value="{{$tournament->start_date}}"
                 />
@@ -66,7 +66,7 @@
                 >
                 <input
                     type="text"
-                    class="border border-gray-200 rounded p-2 w-full"
+                    class="border border-gray-200 rounded p-2 w-full bg-grayish"
                     name="prize"
                     value="{{$tournament->prize}}"
                 />
@@ -84,7 +84,7 @@
                 </label>
                 <input
                     type="number"
-                    class="border border-gray-200 rounded p-2 w-full"
+                    class="border border-gray-200 rounded p-2 w-full bg-grayish"
                     name="num_participants"
                     value="{{$tournament->num_participants}}"
                 />
@@ -122,14 +122,20 @@
             </div>
 
             <div class="mb-6">
-                <label for="logo" class="inline-block text-lg mb-2">
-                    Tournament Logo
-                </label>
-                <input
-                    type="file"
-                    class="border border-gray-200 rounded p-2 w-full"
-                    name="logo"
-                />
+                <label
+                    for="logo"
+                    class="inline-block text-lg mb-2"
+                    >Tournament logo</label
+                >
+                <select id="logo" name="logo" form="tournamentForm" class="border bg-grayish border-gray-200 rounded p-2 w-full">
+                    <option value="assassin.jpg">Assassin</option>
+                    <option value="bull.jpg">Bull</option>
+                    <option value="cobra.jpg">Cobra</option>
+                    <option value="dragon.jpg">Dragon</option>
+                    <option value="saber.png">Saber</option>
+                    <option value="unicorn.png">Unicorn</option>
+                    <option value="wolf.jpg">Wolf</option>
+                </select>
                 @error('logo')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
@@ -137,7 +143,7 @@
 
             <img
             class="hidden w-48 mr-6 md:block"
-            src="{{$tournament->logo ? asset('storage/' . $tournament->logo) : asset('/images/placeholder.png')}}"
+            src="{{$tournament->logo ? asset('images/logos/' . $tournament->logo) : asset('/images/placeholder.png')}}"
             alt=""
             />
 
@@ -149,7 +155,7 @@
                     Tournament Description
                 </label>
                 <textarea
-                    class="border border-gray-200 rounded p-2 w-full"
+                    class="border border-gray-200 rounded p-2 w-full bg-grayish"
                     name="description"
                     rows="10"
                 >{{$tournament->description}}</textarea>
@@ -160,12 +166,12 @@
 
             <div class="mb-6">
                 <button
-                    class="bg-laravel text-white rounded py-2 px-4 hover:bg-black"
+                    class="bg-yellowish text-white rounded py-2 px-4 hover:bg-grayish"
                 >
                     Edit tournament
                 </button>
 
-                <a href="{{url('/')}}" class="text-black ml-4"> Back </a>
+                <a href="{{url('/')}}" class="ml-4"> Back </a>
             </div>
         </form>
     </x-card>

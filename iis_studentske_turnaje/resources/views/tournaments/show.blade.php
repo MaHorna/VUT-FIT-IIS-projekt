@@ -1,6 +1,6 @@
 <x-layout>
     <x-search :path="'/tournaments'"/>
-        <a href="{{url('/')}}" class="inline-block text-black ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        <a href="{{url('/')}}" class="inline-block ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
         <div class="mx-4">
             <x-card class="p-10">
                 <div
@@ -8,7 +8,7 @@
                 >
                     <img
                         class="w-48 mr-6 mb-6"
-                        src="{{asset('images/placeholder.png')}}"
+                        src="{{$tournament->logo ? asset('images/logos/' . $tournament->logo) : asset('/images/placeholder.png')}}"
                         alt=""
                     />
     
@@ -43,16 +43,21 @@
                     </div>
                 </div>
             </x-card>
-            <x-card class="mt-4 p-2 flex space-x-6">
-                <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}">
-                <i class="fa-solid fa-pencil"></i>Edit
-                </a>
 
-                <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}">
-                    @csrf
-                    @method('DELETE')
-                    <button class="text-red-500"><i class="fa-solid fa-trash"></i>Delete</button>
-                </form>
-            </x-card>
+            @if (Auth::user() && Auth::user()->id == $tournament->user_id)
+            
+                <x-card class="mt-4 p-2 flex space-x-6">
+                    <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}">
+                    <i class="fa-solid fa-pencil"></i>Edit
+                    </a>
+
+                    <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}">
+                        @csrf
+                        @method('DELETE')
+                        <button class="text-red-500"><i class="fa-solid fa-trash"></i>Delete</button>
+                    </form>
+                </x-card>
+            @endif
+            
         </div>
     </x-layout>
