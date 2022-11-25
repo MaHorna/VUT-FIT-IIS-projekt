@@ -32,6 +32,8 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     // Show all tournaments
     Route::get('/tournaments', [AdminController::class, 'showTournaments']);
 
+    // Approve tournament
+    Route::put('/tournaments/{tournament}', [AdminController::class, 'updateTournaments']);
 });
 
 //------------------USER----------------------------

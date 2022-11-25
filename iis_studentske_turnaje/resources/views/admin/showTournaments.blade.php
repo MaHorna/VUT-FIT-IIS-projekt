@@ -20,22 +20,46 @@
                                     {{$tournament->name}}
                                 </a>
                             </td>
-                            <td
-                                class="px-4 py-8 border-t border-b border-gray-300 text-lg"
-                            >
+                            
                                 @if ($tournament->approved == 0)
+                                <td
+                                    class="px-4 py-8 border-t border-b border-gray-300 text-lg"
+                                    >
                                     <p
                                     class="text-red-400 px-6 py-2 rounded-xl"
                                     >Not approved</p
-                                    >   
+                                    >
+                                </td>   
+                                <td
+                                class="px-4 py-8 border-t border-b border-gray-300 text-lg"
+                            >
+                                <form method="POST" action="{{url('/admin/tournaments/' . $tournament->id)}}" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <button class="text-green-500"><i class="fa-solid fa-check"></i>Approve</button>
+                                </form>
+                            </td>
                                 @else
+                                <td
+                                    class="px-4 py-8 border-t border-b border-gray-300 text-lg"
+                                    >
                                     <p
                                     class="text-green-400 px-6 py-2 rounded-xl"
                                     >Approved</p
                                     >
+                                </td>
+
+                                <td
+                                    class="px-4 py-8 border-t border-b border-gray-300 text-lg"
+                                    >
+                                    <p
+                                    class="text-green-400 px-6 py-2 rounded-xl"
+                                    ></p
+                                    >
+                                </td>
                                 @endif
                                 
-                            </td>
+                            
                             <td
                                 class="px-4 py-8 border-t border-b border-gray-300 text-lg"
                             >
