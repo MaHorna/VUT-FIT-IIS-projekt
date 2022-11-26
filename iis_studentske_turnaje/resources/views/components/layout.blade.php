@@ -96,7 +96,7 @@
                 <a href="{{url('/tournaments/create')}}"><i class="fa-solid fa-plus"></i><span>Create Tournament</span></a>
                 <hr>
                 <a href="{{url('/teams')}}"><i class="fa-solid fa-people-group"></i><span>Teams</span></a>
-                <a href="{{url('/my_team')}}"><i class="fa-brands fa-teamspeak"></i><span>My Teams</span></a>
+                <a href="{{url('/my_teams')}}"><i class="fa-brands fa-teamspeak"></i><span>My Teams</span></a>
                 <a href="{{url('/teams/create')}}"><i class="fa-solid fa-plus"></i><span>Create Team</span></a>
                 <hr>
                 <a href="{{url('/users')}}"><i class="fa-solid fa-users"></i><span>Users</span></a>
