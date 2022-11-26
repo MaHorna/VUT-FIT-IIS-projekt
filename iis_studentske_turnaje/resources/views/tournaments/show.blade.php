@@ -73,7 +73,7 @@
                             <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
                             <input type="hidden" name="team_id" value="-1">
                             <input type="hidden" name="user_id" value="{{auth()->id()}}">
-                            <input type="hidden" name="isteam" value="false">
+                            <input type="hidden" name="isteam" value="0">
                             <button class="text-red-500"><i class="fa-solid fa-trash"></i>Join game</button>
                         </form>
                     @endif
