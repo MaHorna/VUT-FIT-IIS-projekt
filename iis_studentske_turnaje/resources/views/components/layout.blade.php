@@ -101,7 +101,7 @@
                 <hr>
                 <a href="{{url('/users')}}"><i class="fa-solid fa-users"></i><span>Users</span></a>
                 <a href="{{url('/users/' . Auth::user()->id)}}"><i class="fa-solid fa-user-secret"></i><span>Profile</span></a>
-                @if (Auth::user()->role === 1)
+                @if (Auth::user()->role == 1)
                 <hr>
                 <a href="{{url('/admin/users')}}"><i class="fa-solid fa-users"></i><span>Manage users</span></a>
                 <a href="{{url('/admin/tournaments')}}"><i class="fa-solid fa-trophy"></i><span>Manage tournaments</span></a>
