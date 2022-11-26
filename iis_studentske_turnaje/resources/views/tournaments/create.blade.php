@@ -14,7 +14,7 @@
                 <label
                     for="name"
                     class="inline-block text-lg mb-2"
-                    >Tournament Name</label
+                    >Tournament Name<i class="text-yellowish">*</i></label
                 >
                 <input
                     type="text"
@@ -29,7 +29,7 @@
 
             <div class="mb-6">
                 <label for="game" class="inline-block text-lg mb-2"
-                    >Game</label
+                    >Game<i class="text-yellowish">*</i></label
                 >
                 <input
                     type="game"
@@ -46,7 +46,7 @@
                 <label
                     for="start_date"
                     class="inline-block text-lg mb-2"
-                    >Start time</label
+                    >Start time<i class="text-yellowish">*</i></label
                 >
                 <input
                     type="datetime-local"
@@ -63,7 +63,7 @@
 
             <div class="mb-6">
                 <label for="prize" class="inline-block text-lg mb-2"
-                    >Prize</label
+                    >Prize<i class="text-yellowish">*</i></label
                 >
                 <input
                     type="text"
@@ -81,7 +81,7 @@
                     for="num_participants"
                     class="inline-block text-lg mb-2"
                 >
-                    Number of contestants
+                    Number of contestants<i class="text-yellowish">*</i>
                 </label>
                 <input
                     type="number"
@@ -126,7 +126,7 @@
                 <label
                     for="logo"
                     class="inline-block text-lg mb-2"
-                    >Tournament logo</label
+                    >Tournament logo<i class="text-yellowish">*</i></label
                 >
                 <select id="logo" name="logo" form="tournamentForm" class="border border-gray-200 bg-grayish rounded p-2 w-full">
                     <option value="assassin.jpg">Assassin</option>
@@ -153,7 +153,7 @@
                     class="border border-gray-200 rounded p-2 w-full bg-grayish"
                     name="description"
                     rows="10"
-                    placeholder="Random bullshit go"
+                    placeholder="Description..."
                     {{old('description')}}
                 ></textarea>
                 @error('description')

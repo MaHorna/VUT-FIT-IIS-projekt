@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('prize');
             $table->integer('num_participants');
             $table->boolean('teams_allowed')->default(false);
-            $table->longtext('description');
+            $table->longtext('description')->nullable();
             $table->smallInteger('approved')->default(0);
             $table->timestamps();
         });

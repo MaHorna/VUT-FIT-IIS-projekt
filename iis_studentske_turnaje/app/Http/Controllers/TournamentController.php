@@ -43,7 +43,7 @@ class TournamentController extends Controller
             'prize' => 'required',
             'num_participants' => 'required',
             'teams_allowed' => 'required',
-            'description' => 'required',
+            'description',
             'logo' => 'required',
         ]);
 
@@ -83,7 +83,7 @@ class TournamentController extends Controller
             'prize' => 'required',
             'num_participants' => 'required',
             'teams_allowed' => 'required',
-            'description' => 'required',
+            'description',
             'logo' => 'required',
         ]);
 

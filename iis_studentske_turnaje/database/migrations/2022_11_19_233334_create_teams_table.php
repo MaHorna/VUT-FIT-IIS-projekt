@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('logo')->default('assassin.jpg');
-            $table->longtext('description');
+            $table->longtext('description')->nullable();
             $table->integer('won_games')->default(0);
             $table->integer('lost_games')->default(0);
             $table->timestamps();

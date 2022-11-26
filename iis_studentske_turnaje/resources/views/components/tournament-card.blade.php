@@ -19,7 +19,7 @@
             @if ($tournament->teams_allowed)
                 <div class="text-0.5xl mb-4">Type: Team vs Team</div>
             @else
-                <div class="text-0.5xl mb-4">Player vs Player</div>
+                <div class="text-0.5xl mb-4">Type: Player vs Player</div>
             @endif
             
         </div>

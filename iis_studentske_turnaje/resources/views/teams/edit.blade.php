@@ -15,7 +15,7 @@
                 <label
                     for="name"
                     class="inline-block text-lg mb-2"
-                    >Team Name</label
+                    >Team Name<i class="text-yellowish">*</i></label
                 >
                 <input
                     type="text"
@@ -32,7 +32,7 @@
                 <label
                     for="logo"
                     class="inline-block text-lg mb-2"
-                    >Tournament logo</label
+                    >Tournament logo<i class="text-yellowish">*</i></label
                 >
                 <select id="logo" name="logo" form="teamForm" class="border bg-grayish border-gray-200 rounded p-2 w-full">
                     <option value="assassin.jpg">Assassin</option>
