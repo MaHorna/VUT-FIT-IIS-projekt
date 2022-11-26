@@ -7,7 +7,7 @@
             <p class="mb-4">Make your own Team now</p>
         </header>
 
-        <form method="POST" action="/teams" enctype="multipart/form-data" id="teamForm">
+        <form method="POST" action="{{url('/teams')}}" enctype="multipart/form-data" id="teamForm">
             @csrf
             <div class="mb-6">
                 <label
@@ -72,7 +72,7 @@
                     Create Team
                 </button>
 
-                <a href="/" class="ml-4"> Back </a>
+                <a href="{{url('/')}}" class="ml-4"> Back </a>
             </div>
         </form>
     </x-card>
