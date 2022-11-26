@@ -13,6 +13,13 @@ class Contestant extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'tournament_id', 
+        'team_id', 
+        'user_id', 
+        'isteam',];
+
+
     // Relationship to User
     public function user(){
         return $this->belongsTo(User::class, 'user_id');

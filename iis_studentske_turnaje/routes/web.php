@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\ContestantController;
 use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\MyTeamController;
@@ -21,9 +23,8 @@ use App\Http\Controllers\MyTeamController;
 
 Route::get('/', [PagesController::class, 'index']);
 
-Route::get('/profile', [PagesController::class, 'profile']);
-Route::get('/my_tour', [PagesController::class, 'my_tour']);
-Route::get('/teams', [PagesController::class, 'teams']);
+Route::get('/profile', [PagesController::class, 'profile']); //TODO: can be moved to users section ? or removed
+Route::get('/my_tour', [PagesController::class, 'my_tour']); //TODO: change controller , make harmonogram ... 
 
 //------------------ADMIN----------------------------
 Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
@@ -125,6 +126,13 @@ Route::get('/my_teams/{team}', [MyTeamController::class, 'show']);
 
 
 
+//------------------CONTESTANT----------------------------
+
+// Store contestant data
+Route::post('/contestant', [ContestantController::class, 'store'])->middleware('auth');
+
+// Delete tournament
+Route::delete('/contestant', [ContestantController::class, 'destroy'])->middleware('auth');
 
 
 // Common Resource Routes:

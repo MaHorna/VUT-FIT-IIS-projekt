@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </x-card>
-            
+
             @if (Auth::user() && Auth::user()->id == $team->user_id)
                 <x-card class="mt-4 p-2 flex space-x-6">
                     <a href="/teams/{{$team->id}}/edit">
