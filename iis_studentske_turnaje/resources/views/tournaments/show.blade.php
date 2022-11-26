@@ -14,6 +14,8 @@
     
                     <h3 class="text-2xl mb-2">{{$tournament->name}}</h3>
                     <div class="text-xl font-bold mb-4">{{$tournament->game}}</div>
+			<div class="text-xl font-bold mb-4">{{$tournament->status}}</div>
+			<div class="text-xl font-bold mb-4">{{$tournament->teams_allowed}}</div>
                     <div class="text-lg my-4">
                         <i class="fa-solid fa-location-dot"></i> {{$tournament->start_date}}
                     </div>
@@ -24,40 +26,67 @@
                         </h3>
                         <div class="text-lg space-y-6">
                             {{$tournament->description}}
-    
-                            {{-- <a
-                                href="mailto:{{$listing->email}}"
-                                class="block bg-laravel text-white mt-6 py-2 rounded-xl hover:opacity-80"
-                                ><i class="fa-solid fa-envelope"></i>
-                                Contact Employer</a
-                            >
-    
-                            <a
-                                href="{{$listing->website}}"
-                                target="_blank"
-                                class="block bg-black text-white py-2 rounded-xl hover:opacity-80"
-                                ><i class="fa-solid fa-globe"></i> Visit
-                                Website</a
-                            > --}}
                         </div>
                     </div>
                 </div>
             </x-card>
 
-            @if (Auth::user() && Auth::user()->id == $tournament->user_id)
-            
-                <x-card class="mt-4 p-2 flex space-x-6">
-                    <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}">
-                    <i class="fa-solid fa-pencil"></i>Edit
-                    </a>
-
-                    <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}">
-                        @csrf
-                        @method('DELETE')
-                        <button class="text-red-500"><i class="fa-solid fa-trash"></i>Delete</button>
-                    </form>
-                </x-card>
+            <x-card class="mt-4 p-2 flex space-x-6">
+            @if ($tournament->status = 'preparing')
+                @if ($tournament->teams_allowed == 1)
+                    @if ($is_registered_leader)
+                        <form method="POST" action="{{url('/contestant/' . $contestant->id)}}">
+                            @csrf
+                            @method('DELETE')
+                            <button class="text-red-500"><i class="fa-solid fa-trash"></i>Leave game</button>
+                        </form>
+                    @else
+                        @if ($is_team_leader)
+                            <form action="{{url('/contestant')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
+                                
+                                <label>Choose which team of your's should compete ?</label>
+                                <select name="team_id" id="team_id" class="css_team_combobox">
+                                    @foreach($teams as $team)
+                                    <option value="{{ $team->id }}">{{ $team->name}}</option>
+                                    @endforeach
+                                </select>
+                                <input type="hidden" name="user_id" value="-1">
+                                <input type="hidden" name="isteam" value="true">
+                                <button class="text-red-500"><i class="fa-solid fa-trash"></i>Join game</button>
+                            </form>
+                        @else    
+                            <p>You are not team leader, cant join</p>
+                        @endif
+                    @endif
+                @else
+                    @if ($is_registered_user)
+                        <form method="POST" action="{{url('/contestant/' . $contestant->id)}}">
+                            @csrf
+                            @method('DELETE')
+                            <button class="text-red-500"><i class="fa-solid fa-trash"></i>Leave game</button>
+                        </form>
+                    @else
+                        <form action="{{url('/contestant')}}" method="POST">
+                            @csrf
+                            <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
+                            <input type="hidden" name="team_id" value="-1">
+                            <input type="hidden" name="user_id" value="{{auth()->id()}}">
+                            <input type="hidden" name="isteam" value="false">
+                            <button class="text-red-500"><i class="fa-solid fa-trash"></i>Join game</button>
+                        </form>
+                    @endif
+		@endif
             @endif
-            
+            @if (Auth::user() && Auth::user()->id == $tournament->user_id)
+                <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}"><i class="fa-solid fa-pencil"></i>Edit</a>
+                <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}">
+                    @csrf
+                    @method('DELETE')
+                    <button class="text-red-500"><i class="fa-solid fa-trash"></i>Delete</button>
+                </form>  
+            @endif
+            </x-card>
         </div>
     </x-layout>

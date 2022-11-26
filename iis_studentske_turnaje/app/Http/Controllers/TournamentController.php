@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
 use App\Models\Tournament;
+use App\Models\Contestant;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -21,10 +22,44 @@ class TournamentController extends Controller
     // Show single tounament
     public function show(Tournament $tournament)
     {
+        $is_registered_leader = false;
+        if (Auth::check()) {
+            if(DB::table('teams')
+                ->join('contestants', 'contestants.user_id', '=', 'teams.user_id')
+                ->where('tournament_id', $tournament->id)
+                ->where('teams.user_id', Auth::user()->id)
+                ->exists())
+            {
+                $is_registered_leader = true;
+            }
+        }
+        $is_team_leader = false;
+        if (Auth::check()) {
+            if(DB::table('teams')
+                ->where('user_id', Auth::user()->id)
+                ->exists())
+            {
+                $is_team_leader = true;
+            }
+        }
+        $is_registered_user = false;
+        if (Auth::check()) {
+            if(DB::table('contestants')
+                ->where('tournament_id', $tournament->id)
+                ->where('user_id', Auth::user()->id)
+                ->exists())
+            {
+                $is_registered_user = true;
+            }
+        }
         return view('tournaments.show', 
         [
-            'tournament' => $tournament
+            'tournament' => $tournament,
+            'is_registered_leader' => $is_registered_leader,
+            'is_team_leader' => $is_team_leader,
+            'is_registered_user' => $is_registered_user,
         ]);
+
     }
 
     // Show create tournament form

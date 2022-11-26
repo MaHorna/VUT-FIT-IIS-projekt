@@ -20,9 +20,8 @@ use App\Http\Controllers\TeamController;
 
 Route::get('/', [PagesController::class, 'index']);
 
-Route::get('/profile', [PagesController::class, 'profile']);
-Route::get('/my_tour', [PagesController::class, 'my_tour']);
-Route::get('/teams', [PagesController::class, 'teams']);
+Route::get('/profile', [PagesController::class, 'profile']); //TODO: can be moved to users section ? or removed
+Route::get('/my_tour', [PagesController::class, 'my_tour']); //TODO: change controller , make harmonogram ... 
 
 //------------------ADMIN----------------------------
 Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
@@ -115,6 +114,13 @@ Route::put('/teams/{team}', [TeamController::class, 'update']);
 Route::delete('/teams/{team}', [TeamController::class, 'destroy']);
 
 
+//------------------CONTESTANT----------------------------
+
+// Store contestant data
+Route::post('/contestant', [ContestantController::class, 'store'])->middleware('auth');
+
+// Delete tournament
+Route::delete('/contestant', [ContestantController::class, 'destroy'])->middleware('auth');
 
 
 // Common Resource Routes:
