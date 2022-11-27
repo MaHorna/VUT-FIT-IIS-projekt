@@ -7,7 +7,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ContestantController;
 use App\Http\Controllers\TournamentController;
-use App\Http\Controllers\TeamController;
 use App\Http\Controllers\MyTeamController;
 
 /*
@@ -116,6 +115,9 @@ Route::put('/teams/{team}', [TeamController::class, 'update']);
 // Delete team
 Route::delete('/teams/{team}', [TeamController::class, 'destroy']);
 
+// Add new player
+Route::post('/my_teams/{team}/add_user', [TeamController::class, 'add_user']);
+
 //------------------MY_TEAM----------------------------
 
 // Show all teams
@@ -123,6 +125,7 @@ Route::get('/my_teams', [MyTeamController::class, 'index']);
 
 // Show single team
 Route::get('/my_teams/{team}', [MyTeamController::class, 'show']);
+
 
 
 
