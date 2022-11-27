@@ -94,10 +94,6 @@ class TeamController extends Controller
     public function add_user(Request $request)
     {
 
-        // if ($request->hasFile('logo')) {
-        //     $formFields['logo'] = $request->file('logo')->store('logos', 'public');
-        // }
-
         $formFields['user_id'] = $request['user_id'] ;
         $formFields['team_id'] = $request['team_id'] ;
 
@@ -106,5 +102,12 @@ class TeamController extends Controller
         return back()->with('message', 'player add succesfully.');
     }
 
+    // Delete user
+    public function remove_user(Teamuser $team_user){
+
+        $team_user->delete();
+
+        return back()->with('message', 'player removed succesfully.');
+    }
 
 }

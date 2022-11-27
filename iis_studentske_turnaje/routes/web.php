@@ -121,6 +121,9 @@ Route::delete('/teams/{team}', [TeamController::class, 'destroy']);
 // Add new player
 Route::post('/my_teams/{team}/add_user', [TeamController::class, 'add_user']);
 
+// remove player
+Route::delete('/my_teams/{team_user}/remove_user', [TeamController::class, 'remove_user']);
+
 //------------------MY_TEAM----------------------------
 
 // Show all teams
