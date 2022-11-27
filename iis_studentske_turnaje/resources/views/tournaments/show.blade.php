@@ -76,16 +76,18 @@
                         </form>
                     @endif
 		        @endif
-                <form action="{{url('/tournaments/' .$tournament->id .'/start')}}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
-                    <input type="hidden" name="user_id" value="-1">
-                    <input type="hidden" name="isteam" value="true">
-                    <button class="text-red-500"><i class="fa-solid fa-trash"></i>Start tournament</button>
-                </form>
             @endif
             @if (Auth::user() && Auth::user()->id == $tournament->user_id)
+                @if ($tournament->status == 'preparing')
+                    <form action="{{url('/tournaments/' .$tournament->id .'/start')}}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
+                        <input type="hidden" name="user_id" value="-1">
+                        <input type="hidden" name="isteam" value="true">
+                        <button class="text-red-500"><i class="fa-solid fa-trash"></i>Start tournament</button>
+                    </form>
+                @endif
                 <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}"><i class="fa-solid fa-pencil"></i>Edit</a>
                 <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}">
                     @csrf
