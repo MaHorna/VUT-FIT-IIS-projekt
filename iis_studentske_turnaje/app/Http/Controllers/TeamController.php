@@ -37,15 +37,11 @@ class TeamController extends Controller
     {
         $formFields = $request->validate([
             'name' => ['required', Rule::unique('teams', 'name')],
-            'description' => 'required',
             'logo' => 'required',
         ]);
 
-        // if ($request->hasFile('logo')) {
-        //     $formFields['logo'] = $request->file('logo')->store('logos', 'public');
-        // }
-
         $formFields['user_id'] = auth()->id();
+        $formFields['description'] = $request['description'];
 
         Team::create($formFields);
 
@@ -62,13 +58,10 @@ class TeamController extends Controller
     {
         $formFields = $request->validate([
             'name' => ['required'],
-            'description' => 'required',
             'logo' => 'required',
         ]);
 
-        // if ($request->hasFile('logo')) {
-        //     $formFields['logo'] = $request->file('logo')->store('logos', 'public');
-        // }
+        $formFields['description'] = $request['description'];
 
         $team->update($formFields);
 
