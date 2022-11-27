@@ -95,7 +95,7 @@
     <body>
         <div id="mySidebar" class="sidebar" onmouseover="toggleSidebar()" onmouseout="toggleSidebar()">
             <div class="logo_holder">
-                <a href="{{url('/')}}"><img src="{{asset('images/sword.webp')}}" alt="" class="logo"/></a>
+                <a href="{{url('/')}}"><img src="{{asset('images/polarbear.jpg')}}" alt="" class="logo"/></a>
             </div>
             @auth
                 <hr>
