@@ -80,7 +80,7 @@ class ContestantsTableSeeder extends Seeder
             ],
             [
                 'tournament_id' => 3,
-                'user_id' => 11,
+                'user_id' => 22,
                 'isteam' => false
             ],
             [
