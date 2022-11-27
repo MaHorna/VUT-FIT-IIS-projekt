@@ -93,21 +93,19 @@ class TeamController extends Controller
     // Add user
     public function add_user(Request $request)
     {
-
-        $formFields['user_id'] = $request['user_id'] ;
-        $formFields['team_id'] = $request['team_id'] ;
-
+        $formFields = $request->validate([
+            'user_id' => ['required'],
+            'team_id' => ['required'],
+        ]);
         Teamuser::create($formFields);
-
         return back()->with('message', 'player add succesfully.');
     }
-
+    
     // Delete user
-    public function remove_user(Teamuser $team_user){
-
-        $team_user->delete();
-
+    public function remove_user($user_id,  $team_id){
+        $deleted = Teamuser::where('user_id', $user_id)->where('team_id', $team_id)->delete();
         return back()->with('message', 'player removed succesfully.');
     }
+    
 
 }

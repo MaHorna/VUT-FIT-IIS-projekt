@@ -147,9 +147,8 @@ class TournamentController extends Controller
         if ($tournament->user_id != auth()->id() && Auth::user()->role == 0) {
             abort(403, 'Unauthorized Action');
         }
-
+        dd($tournament);
         $tournament->delete();
-
         return redirect('/')
             ->with('message', 'Tournament deleted succesfully.');
     }

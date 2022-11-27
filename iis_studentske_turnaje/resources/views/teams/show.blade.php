@@ -20,9 +20,9 @@
                     </div>
                     <div class="border border-gray-200 w-full mb-6"></div>
                     @foreach($team_users as $team_user)
-                        <option value="{{ $team_user->id }}">{{ $team_user->name}}</option>
-
-                        <form method="POST" action="/my_teams/{{$team_user->id}}/remove_user">
+                        <p>{{$team_user->name}}</p>
+                        <p>{{$team_user->id}}</p>
+                        <form method="POST" action="{{url('/my_teams/destroy/'. $team_user->user_id . '/'. $team_user->team_id)}}">
                             @csrf
                             @method('DELETE')
                             <button class="text-red-500"><i class="fa-solid"></i>Delete</button>
@@ -43,7 +43,7 @@
                         <button class="text-red-500"><i class="fa-solid fa-trash"></i>Delete</button>
                     </form>
 
-                    <form action="{{url('/my_teams/' . $team->id . '/add_user')}}" method="POST">
+                    <form action="{{url('/my_teams/add_user/' . $team->id)}}" method="POST">
                         @csrf
                         <input type="hidden" name="team_id" value="{{$team->id}}">
                                 
