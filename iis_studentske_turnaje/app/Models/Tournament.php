@@ -21,7 +21,8 @@ class Tournament extends Model
         'teams_allowed', 
         'description', 
         'logo', 
-        'user_id'];
+        'user_id',
+        'status',];
 
     public function scopeFilter($query, array $filters){
         if ($filters['search'] ?? false) {

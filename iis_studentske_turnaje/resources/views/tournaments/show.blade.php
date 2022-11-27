@@ -30,7 +30,7 @@
             </x-card>
 
             <x-card class="mt-4 p-2 flex space-x-6">
-            @if ($tournament->status = 'preparing')
+            @if ($tournament->status == 'preparing')
                 @if ($tournament->teams_allowed == 1)
                     @if ($is_registered_leader)
                         <form method="POST" action="{{url('/contestant/' . $contestant->id)}}">
@@ -75,7 +75,15 @@
                             <button class="text-red-500"><i class="fa-solid fa-trash"></i>Join game</button>
                         </form>
                     @endif
-		@endif
+		        @endif
+                <form action="{{url('/tournaments/' .$tournament->id .'/start')}}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
+                    <input type="hidden" name="user_id" value="-1">
+                    <input type="hidden" name="isteam" value="true">
+                    <button class="text-red-500"><i class="fa-solid fa-trash"></i>Start tournament</button>
+                </form>
             @endif
             @if (Auth::user() && Auth::user()->id == $tournament->user_id)
                 <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}"><i class="fa-solid fa-pencil"></i>Edit</a>

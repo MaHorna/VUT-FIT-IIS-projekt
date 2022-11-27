@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use DB;
-use App\Models\Tournament;
+use App\Models\Team;
+use App\Models\Contest;
 use App\Models\Contestant;
+use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +61,7 @@ class TournamentController extends Controller
             'is_registered_leader' => $is_registered_leader,
             'is_team_leader' => $is_team_leader,
             'is_registered_user' => $is_registered_user,
+            'teams' => Team::all()
         ]);
 
     }
@@ -143,5 +147,45 @@ class TournamentController extends Controller
         return redirect('/')
             ->with('message', 'Tournament deleted succesfully.');
     }
+
+
+
+    // Store tournament data
+    public function start(Tournament $tournament)
+    {
+        // Make sure logged in user is owner
+        if ($tournament->user_id != auth()->id() && Auth::user()->role == 0) {
+            abort(403, 'Unauthorized Action');
+        }
+
+        $formFields['status'] = 'ongoing';
+        $tournament->update($formFields);
+
+        $contestants = Contestant::where('tournament_id', $tournament->id)->get();
+        //dd($contestantss);
+
+        $count = count($contestants);
+        if (count($contestants) % 2 == 1) {
+            $count++;
+        }
+        
+        $first = true;
+        foreach ($contestants as $contestant) {
+            if ($first == true) {
+                
+                $first = false;
+            }
+            else {
+                
+                $first = true;
+            }
+            
+            Contest::create($formFields);
+        }
+
+        return back()->with('message', 'Tournament status changed to ongoing.');
+    }
+
+
 
 }
