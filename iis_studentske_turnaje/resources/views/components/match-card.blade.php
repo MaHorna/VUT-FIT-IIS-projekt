@@ -1,6 +1,6 @@
 @props(['contest', 'tournament'])
 
-<div>
+<div style="width:300px;">
     @if ($tournament->teams_allowed == true)
         @php
             $team1 = App\Models\Team::join('contestants', 'contestants.team_id', '=', 'teams.id')

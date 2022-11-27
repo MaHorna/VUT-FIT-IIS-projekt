@@ -57,12 +57,14 @@ class TournamentController extends Controller
                 $is_registered_user = true;
             }
         }
+
         return view('tournaments.show', 
         [
             'tournament' => $tournament,
             'is_registered_leader' => $is_registered_leader,
             'is_team_leader' => $is_team_leader,
             'is_registered_user' => $is_registered_user,
+            'contestants' => Contestant::where('tournament_id', $tournament->id)->get(),
             'teams' => Team::all(),
             'contests' => Contest::where(['tournament_id' => $tournament->id])->get(),
             'lastRound' => Contest::where(['tournament_id' => $tournament->id])->max('round'),
@@ -252,6 +254,7 @@ class TournamentController extends Controller
         return back()->with('message', 'Tournament has started');
     }
 
+
         // Show harmonogram
         public function harmonogram()
         {
@@ -269,5 +272,30 @@ class TournamentController extends Controller
                 'tournaments' => Tournament::where([''])
             ]);
         }
+
+    public function my_tour()
+    {
+        $my_hosted_tournaments = 
+            Tournament::where(['user_id' => auth()->id()])
+            ->get();
+        $my_played_tournaments = 
+            Tournament::join('contestants','contestants.tournament_id', '=', 'tournaments.id')
+            ->where(['contestants.user_id' => auth()->id()])
+            ->get();
+        $my_team_tournaments = 
+            Tournament::join('contestants','contestants.tournament_id', '=', 'tournaments.id')
+            ->join('teams', 'teams.id', '=' , 'contestants.team_id')
+            ->join('teamusers', 'teamusers.team_id', '=', 'teams.id')
+            ->join('users', 'users.id', '=', 'teamusers.user_id')
+            ->where(['users.id' => auth()->id()])
+            ->get();
+        return view('tournaments.my_tour', 
+        [
+            'my_hosted_tournaments' => $my_hosted_tournaments,
+            'my_player_tournaments' => $my_played_tournaments,
+            'my_team_tournaments' => $my_team_tournaments,
+        ]);
+    }
+
 
 }

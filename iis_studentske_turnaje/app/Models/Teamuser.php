@@ -12,6 +12,10 @@ class Teamuser extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'team_id',
+        'user_id'];
+
     // Relationship to User
     public function user(){
         return $this->belongsTo(User::class, 'user_id');

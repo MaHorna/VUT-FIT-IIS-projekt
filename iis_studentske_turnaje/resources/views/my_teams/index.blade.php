@@ -28,7 +28,7 @@
             
                             <div>
                                 <h3 class="text-2xl font-bold text-yellowish">
-                                    <a href="{{url('/my_teams', $team->id)}}">{{$team->name}}</a>
+                                    <a href="{{url('/teams', $team->id)}}">{{$team->name}}</a>
 
                                 </h3>
                                 <div class="text-xl mb-4">Total games: {{$total_games}}</div>

@@ -22,9 +22,6 @@ use App\Http\Controllers\MyTeamController;
 
 Route::get('/', [PagesController::class, 'index']);
 
-Route::get('/profile', [PagesController::class, 'profile']); //TODO: can be moved to users section ? or removed
-Route::get('/my_tour', [PagesController::class, 'my_tour']); //TODO: change controller , make harmonogram ... 
-
 //------------------ADMIN----------------------------
 Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     //Show all users
@@ -98,6 +95,9 @@ Route::put('/tournaments/{tournament}/start', [TournamentController::class, 'sta
 // Delete tournament
 Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destroy'])->middleware('auth');
 
+// Show my tournaments
+Route::get('/my_tournaments', [TournamentController::class, 'my_tour'])->middleware('auth');
+
 //------------------TEAM----------------------------
 
 // Show all teams
@@ -121,6 +121,12 @@ Route::put('/teams/{team}', [TeamController::class, 'update']);
 // Delete team
 Route::delete('/teams/{team}', [TeamController::class, 'destroy']);
 
+// Add new player
+Route::post('/my_teams/{team}/add_user', [TeamController::class, 'add_user']);
+
+// remove player
+Route::delete('/my_teams/{team_user}/remove_user', [TeamController::class, 'remove_user']);
+
 //------------------MY_TEAM----------------------------
 
 // Show all teams
@@ -128,6 +134,7 @@ Route::get('/my_teams', [MyTeamController::class, 'index']);
 
 // Show single team
 Route::get('/my_teams/{team}', [MyTeamController::class, 'show']);
+
 
 
 
