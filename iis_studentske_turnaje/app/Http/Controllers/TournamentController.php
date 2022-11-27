@@ -57,12 +57,14 @@ class TournamentController extends Controller
                 $is_registered_user = true;
             }
         }
+
         return view('tournaments.show', 
         [
             'tournament' => $tournament,
             'is_registered_leader' => $is_registered_leader,
             'is_team_leader' => $is_team_leader,
             'is_registered_user' => $is_registered_user,
+            'contestants' => Contestant::where('tournament_id', $tournament->id)->get(),
             'teams' => Team::all(),
             'contests' => Contest::where(['tournament_id' => $tournament->id])->get(),
             'lastRound' => Contest::where(['tournament_id' => $tournament->id])->max('round'),

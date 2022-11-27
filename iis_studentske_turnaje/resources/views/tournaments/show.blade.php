@@ -12,7 +12,11 @@
                     <h3 class="text-2xl mb-2">{{$tournament->name}}</h3>
                     <div class="text-xl font-bold mb-4">{{$tournament->game}}</div>
 			        <div class="text-xl font-bold mb-4">{{$tournament->status}}</div>
-			        <div class="text-xl font-bold mb-4">{{$tournament->teams_allowed}}</div>
+                    @if ($tournament->teams_allowed)
+                        <div class="text-0.5xl mb-4">Type: Team vs Team</div>
+                    @else
+                        <div class="text-0.5xl mb-4">Type: Player vs Player</div>
+                    @endif
                     <div class="text-lg my-4">
                         <i class="fa-solid fa-location-dot"></i> {{$tournament->start_date}}
                     </div>
@@ -23,8 +27,14 @@
                         </div>
                     </div>
                 </div>
-            </x-card>
+                
+                @foreach ($contestants as $contestant)
+                    <x-match-card :contest="$contest" :tournament="$tournament"/>
+                @endforeach
 
+
+
+            </x-card>
             @if ($tournament->status == 'ongoing')
                 <x-card class="mt-4">
                     <div style='display: flex;overflow-x:auto'>
@@ -61,14 +71,14 @@
                                 @csrf
                                 <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
                                 
-                                <label>Choose which team of your's should compete ?</label>
-                                <select name="team_id" id="team_id" class="css_team_combobox">
+                                <label>Choose which team of your's should compete: </label>
+                                <select name="team_id" id="team_id" class="css_team_combobox" style="color:black;padding:5px;margin:5px;">
                                     @foreach($teams as $team)
-                                    <option value="{{ $team->id }}">{{ $team->name}}</option>
+                                    <option style="color:black;" value="{{ $team->id }}">{{ $team->name}}</option>
                                     @endforeach
                                 </select>
-                                <input type="hidden" name="user_id" value="-1">
-                                <input type="hidden" name="isteam" value="true">
+                                <input type="hidden" name="user_id" value="NULL">
+                                <input type="hidden" name="isteam" value="1">
                                 <button class="text-red-500"><i class="fa-solid fa-trash"></i>Join game</button>
                             </form>
                         @else    
@@ -86,7 +96,7 @@
                         <form action="{{url('/contestant')}}" method="POST">
                             @csrf
                             <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
-                            <input type="hidden" name="team_id" value="-1">
+                            <input type="hidden" name="team_id" value="NULL">
                             <input type="hidden" name="user_id" value="{{auth()->id()}}">
                             <input type="hidden" name="isteam" value="0">
                             <button class="text-red-500"><i class="fa-solid fa-trash"></i>Join game</button>

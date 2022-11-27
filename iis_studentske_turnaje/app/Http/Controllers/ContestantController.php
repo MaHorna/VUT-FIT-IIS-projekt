@@ -19,6 +19,13 @@ class ContestantController extends Controller
             'isteam' => 'required',
         ]);
         $formFields['user_id'] = $request['user_id'];
+        if ($request['isteam'] == 1) {
+            $formFields['user_id'] = null;
+        }
+        if ($request['isteam'] == 0) {
+            $formFields['team_id'] = null;
+        }
+        
         Contestant::create($formFields);
         return redirect('/')->with('message', 'Successfully joined tournament.');
     }
