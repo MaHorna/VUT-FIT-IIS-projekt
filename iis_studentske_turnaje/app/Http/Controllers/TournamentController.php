@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+
 use App\Models\Team;
 use App\Models\Contest;
 use App\Models\Contestant;
 use App\Models\Tournament;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class TournamentController extends Controller
@@ -149,6 +150,22 @@ class TournamentController extends Controller
     }
 
 
+    private function bracket($tournament_id, $round, $next_id){
+        $fields = [
+            'tournament_id' => $tournament_id,
+            'contest_child_id' => $next_id,
+            'round' => $round,
+        ];
+
+        $contest = Contest::create($fields);
+
+        $round--;
+
+        if ($round > 0) {
+            $this->bracket($tournament_id, $round, $contest->id);
+            $this->bracket($tournament_id, $round, $contest->id);
+        }
+    }
 
     // Store tournament data
     public function start(Tournament $tournament)
@@ -161,26 +178,58 @@ class TournamentController extends Controller
         $formFields['status'] = 'ongoing';
         $tournament->update($formFields);
 
-        $contestants = Contestant::where('tournament_id', $tournament->id)->get();
+        $contestants = Contestant::where(['tournament_id' => $tournament->id])->get();
         //dd($contestantss);
 
+
+        $round = 2;
         $count = count($contestants);
-        if (count($contestants) % 2 == 1) {
-            $count++;
+        if ($count > 0) {
+            while (ceil($count/2) > ($round^2)-1) {
+                $round++;
+            }
         }
         
+        if ($count == 0 || $count == 1) {
+            // error
+        }
+        elseif ($count == 2) {
+            $fields = [
+                'tournament_id' => $tournament->id,
+                'contest_child_id' => null,
+                'round' => 1,
+            ];
+            $contest = Contest::create($fields);
+        }
+        else {
+            $fields = [
+                'tournament_id' => $tournament->id,
+                'contest_child_id' => null,
+                'round' => $round,
+            ];
+            $contest = Contest::create($fields);
+            $round--;
+            $this->bracket($tournament->id, $round, $contest->id);
+            $this->bracket($tournament->id, $round, $contest->id);
+        }
+
+        $contests = Contest::where([
+            'tournament_id' => $tournament->id,
+            'round' => 1,
+        ])->get();
+
+        // Tu by mala byt tiez rekurzia ale uz neviem 
         $first = true;
-        foreach ($contestants as $contestant) {
-            if ($first == true) {
-                
-                $first = false;
+        for ($i=0; $i < count($contests)/2; $i++) { 
+            $contest[$i]->contestant1_id = $contestants[$i]->id;
+            if ($contestants[$i] != null) {
+                $contest[$i]->contestant2_id = $contestants[(count($contests) * 2) -$i]->id;
             }
-            else {
-                
-                $first = true;
+            $contest[(count($contests)/2)+$i]->contestant1_id = $contestants[$i+1]->id;
+            if ($contestants[(count($contests) * 2) -$i -1] != null) {
+                $contest[(count($contests)/2)+$i]->contestant2_id = $contestants[(count($contests) * 2) -$i -1]->id;
             }
             
-            Contest::create($formFields);
         }
 
         return back()->with('message', 'Tournament status changed to ongoing.');
