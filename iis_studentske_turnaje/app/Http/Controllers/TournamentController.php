@@ -254,6 +254,25 @@ class TournamentController extends Controller
         return back()->with('message', 'Tournament has started');
     }
 
+
+        // Show harmonogram
+        public function harmonogram()
+        {
+            DB::table('tournaments')
+                ->join('contestants', 'contestants.tournament_id', '=', 'tournament_id')
+                ->join('contestants', 'contestants.tournament_id', '=', 'tournament_id')
+                ->where('tournament_id', $tournament->id)
+                ->where('teams.user_id', Auth::user()->id)
+                ->exists();
+            dd($tournaments);
+
+            return view('tournaments.harmonogram', 
+            [
+
+                'tournaments' => Tournament::where([''])
+            ]);
+        }
+
     public function my_tour()
     {
         $my_hosted_tournaments = 
@@ -277,5 +296,6 @@ class TournamentController extends Controller
             'my_team_tournaments' => $my_team_tournaments,
         ]);
     }
+
 
 }
