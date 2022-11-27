@@ -9,6 +9,16 @@ class Contest extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'tournament_id', 
+        'contestant1_id', 
+        'contestant2_id', 
+        'contest_child_id',
+        'start_date', 
+        'score1', 
+        'score2', 
+        'round',];
+
     // Relationship to Tournament
     public function tournament(){
         return $this->belongsTo(Tournament::class, 'tournament_id');

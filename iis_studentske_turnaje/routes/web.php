@@ -89,6 +89,9 @@ Route::get('/tournaments/{tournament}/edit', [TournamentController::class, 'edit
 // Update tournament
 Route::put('/tournaments/{tournament}', [TournamentController::class, 'update'])->middleware('auth');
 
+// Update tournament
+Route::put('/tournaments/{tournament}/start', [TournamentController::class, 'start'])->middleware('auth');
+
 // Delete tournament
 Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destroy'])->middleware('auth');
 
@@ -134,9 +137,11 @@ Route::get('/my_teams/{team}', [MyTeamController::class, 'show']);
 // Store contestant data
 Route::post('/contestant', [ContestantController::class, 'store'])->middleware('auth');
 
-// Delete tournament
-Route::delete('/contestant', [ContestantController::class, 'destroy'])->middleware('auth');
+// Delete team contestant
+Route::delete('/contestant/destroy_team/{tournament}', [ContestantController::class, 'destroy_team'])->middleware('auth');
 
+// Delete user contestant
+Route::delete('/contestant/destroy_user/{tournament}', [ContestantController::class, 'destroy_user'])->middleware('auth');
 
 // Common Resource Routes:
 // index - show all listings

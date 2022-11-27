@@ -29,11 +29,33 @@
                 </div>
             </x-card>
 
+            @if ($tournament->status == 'ongoing')
+                <x-card class="mt-4">
+                    <div style='display: flex;'>
+                        @for ($i = 1; $i <= $lastRound; $i++)
+                            <div style='
+                            flex: 1;
+                            display: flex;
+                            margin-right: 30px;
+                            flex-direction: column;
+                            justify-content: space-around;'>
+                                @foreach ($contests as $contest)
+                                    @if ($contest->round == $i)
+                                        <x-match-card :contest="$contest" :tournament="$tournament"/>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endfor
+                    </div>
+                   
+                </x-card>
+            @endif
+
             <x-card class="mt-4 p-2 flex space-x-6">
-            @if ($tournament->status = 'preparing')
+            @if ($tournament->status == 'preparing')
                 @if ($tournament->teams_allowed == 1)
                     @if ($is_registered_leader)
-                        <form method="POST" action="{{url('/contestant/' . $contestant->id)}}">
+                        <form method="POST" action="{{url('/contestant/destroy_team/'.$tournament->id)}}">
                             @csrf
                             @method('DELETE')
                             <button class="text-red-500"><i class="fa-solid fa-trash"></i>Leave game</button>
@@ -60,7 +82,7 @@
                     @endif
                 @else
                     @if ($is_registered_user)
-                        <form method="POST" action="{{url('/contestant/' . $contestant->id)}}">
+                        <form method="POST" action="{{url('/contestant/destroy_user/'.$tournament->id)}}">
                             @csrf
                             @method('DELETE')
                             <button class="text-red-500"><i class="fa-solid fa-trash"></i>Leave game</button>
@@ -75,9 +97,19 @@
                             <button class="text-red-500"><i class="fa-solid fa-trash"></i>Join game</button>
                         </form>
                     @endif
-		@endif
+		        @endif
             @endif
             @if (Auth::user() && Auth::user()->id == $tournament->user_id)
+                @if ($tournament->status == 'preparing')
+                    <form action="{{url('/tournaments/' .$tournament->id .'/start')}}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
+                        <input type="hidden" name="user_id" value="-1">
+                        <input type="hidden" name="isteam" value="true">
+                        <button class="text-red-500"><i class="fa-solid fa-trash"></i>Start tournament</button>
+                    </form>
+                @endif
                 <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}"><i class="fa-solid fa-pencil"></i>Edit</a>
                 <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}">
                     @csrf
