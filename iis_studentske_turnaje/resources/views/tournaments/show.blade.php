@@ -33,7 +33,7 @@
             @if ($tournament->status == 'preparing')
                 @if ($tournament->teams_allowed == 1)
                     @if ($is_registered_leader)
-                        <form method="POST" action="{{url('/contestant/' . $contestant->id)}}">
+                        <form method="POST" action="{{url('/contestant/destroy_team/'.$tournament->id)}}">
                             @csrf
                             @method('DELETE')
                             <button class="text-red-500"><i class="fa-solid fa-trash"></i>Leave game</button>
@@ -60,7 +60,7 @@
                     @endif
                 @else
                     @if ($is_registered_user)
-                        <form method="POST" action="{{url('/contestant/' . $contestant->id)}}">
+                        <form method="POST" action="{{url('/contestant/destroy_user/'.$tournament->id)}}">
                             @csrf
                             @method('DELETE')
                             <button class="text-red-500"><i class="fa-solid fa-trash"></i>Leave game</button>
