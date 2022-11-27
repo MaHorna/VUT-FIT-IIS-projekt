@@ -56,11 +56,10 @@
                 background-color: rgb(0, 0, 0);
                 transition: 0.5s;
                 overflow-x: hidden;
-                padding-top: 100px;
                 white-space: nowrap;
             }
             .sidebar a , .sidebar form{
-                padding: 8px 8px 8px 25px;
+                padding: 8px 8px 8px 8px;
                 text-decoration: none;
                 color: #6b7280;
                 display: block;
@@ -77,46 +76,55 @@
                 transition: margin-left 0.5s;
             }
             a span , form span{
-                margin-left: 25px;
+                margin-left: 20px;
             }
             body {
                 background-color: #282A3A;
                 color: white;
             }        
+            a i.layout_main {
+                width: 30px;
+                margin: 0px 15px 0px 15px;
+            }
+            .logo_holder{
+                height: 240px;
+            }
 	</style>
         <title>Studentske turnaje</title>
     </head>
     <body>
         <div id="mySidebar" class="sidebar" onmouseover="toggleSidebar()" onmouseout="toggleSidebar()">
-            <a href="{{url('/')}}"><img src="{{asset('images/sword.webp')}}" alt="" class="logo"/></a>
+            <div class="logo_holder">
+                <a href="{{url('/')}}"><img src="{{asset('images/sword.webp')}}" alt="" class="logo"/></a>
+            </div>
             @auth
                 <hr>
-                <a href="{{url('/tournaments')}}"><i class="fa-solid fa-trophy"></i><span>Tournaments</span></a>
-                <a href="{{url('/my_tour')}}"><i class="fa-solid fa-calendar"></i><span>My Tournaments</span></a>
-                <a href="{{url('/tournaments/create')}}"><i class="fa-solid fa-plus"></i><span>Create Tournament</span></a>
+                <a href="{{url('/tournaments')}}"><i class="fa-solid layout_main fa-trophy"></i><span>Tournaments</span></a>
+                <a href="{{url('/my_tour')}}"><i class="fa-solid layout_main fa-calendar"></i><span>My Tournaments</span></a>
+                <a href="{{url('/tournaments/create')}}"><i class="fa-solid layout_main fa-plus"></i><span>Create Tournament</span></a>
                 <hr>
-                <a href="{{url('/teams')}}"><i class="fa-solid fa-people-group"></i><span>Teams</span></a>
-                <a href="{{url('/my_teams')}}"><i class="fa-brands fa-teamspeak"></i><span>My Teams</span></a>
-                <a href="{{url('/teams/create')}}"><i class="fa-solid fa-plus"></i><span>Create Team</span></a>
+                <a href="{{url('/teams')}}"><i class="fa-solid layout_main fa-people-group"></i><span>Teams</span></a>
+                <a href="{{url('/my_teams')}}"><i class="fa-brands layout_main fa-teamspeak"></i><span>My Teams</span></a>
+                <a href="{{url('/teams/create')}}"><i class="fa-solid layout_main fa-plus"></i><span>Create Team</span></a>
                 <hr>
-                <a href="{{url('/users')}}"><i class="fa-solid fa-users"></i><span>Users</span></a>
-                <a href="{{url('/users/' . Auth::user()->id)}}"><i class="fa-solid fa-user-secret"></i><span>Profile</span></a>
+                <a href="{{url('/users')}}"><i class="fa-solid layout_main fa-users"></i><span>Users</span></a>
+                <a href="{{url('/users/' . Auth::user()->id)}}"><i class="fa-solid layout_main fa-user-secret"></i><span>Profile</span></a>
                 @if (Auth::user()->role == 1)
                 <hr>
-                <a href="{{url('/admin/users')}}"><i class="fa-solid fa-users"></i><span>Manage users</span></a>
-                <a href="{{url('/admin/tournaments')}}"><i class="fa-solid fa-trophy"></i><span>Manage tournaments</span></a>
+                <a href="{{url('/admin/users')}}"><i class="fa-solid layout_main fa-users"></i><span>Manage users</span></a>
+                <a href="{{url('/admin/tournaments')}}"><i class="fa-solid layout_main fa-trophy"></i><span>Manage tournaments</span></a>
                 @endif
                 <form action="{{url('/logout')}}" method="post" class="inline">
                     @csrf
-                    <button type="submit"><i class="fa-solid fa-door-closed"></i><span>Logout</span></button>
+                    <button type="submit"><i class="fa-solid layout_main fa-door-closed" style="width:45px;margin-right:15px;"></i><span>Logout</span></button>
                 </form>
                 <hr>
             @else
-                <a href="{{url('/register')}}"><i class="fa-solid fa-user-plus"></i><span>Register</span></a>
-                <a href="{{url('/login')}}"><i class="fa-solid fa-arrow-right-to-bracket"></i><span>Login</span></a>
-                <a href="{{url('/tournaments')}}"><i class="fa-solid fa-trophy"></i><span>Tournaments</span></a>
-                <a href="{{url('/teams')}}"><i class="fa-solid fa-people-group"></i><span>Teams</span></a>
-                <a href="{{url('/users')}}"><i class="fa-solid fa-users"></i><span>Users</span></a>
+                <a href="{{url('/register')}}"><i class="fa-solid layout_main fa-user-plus"></i><span>Register</span></a>
+                <a href="{{url('/login')}}"><i class="fa-solid layout_main fa-arrow-right-to-bracket"></i><span>Login</span></a>
+                <a href="{{url('/tournaments')}}"><i class="fa-solid layout_main fa-trophy"></i><span>Tournaments</span></a>
+                <a href="{{url('/teams')}}"><i class="fa-solid layout_main fa-people-group"></i><span>Teams</span></a>
+                <a href="{{url('/users')}}"><i class="fa-solid layout_main fa-users"></i><span>Users</span></a>
             @endauth    
         </div>
         <div id="main">
