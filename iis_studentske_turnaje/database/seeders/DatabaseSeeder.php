@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        User::factory(10)->create();
+        User::factory(20)->create();
+
+        $this->call(UsersTableSeeder::class);
 
         $this->call(TeamsTableSeeder::class);
 
@@ -29,7 +31,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(ContestsTableSeeder::class);
 
-        $this->call(UsersTableSeeder::class);
+
 
     }
 }

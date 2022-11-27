@@ -165,6 +165,30 @@ class TournamentController extends Controller
             $this->bracket($tournament_id, $round, $contest->id);
             $this->bracket($tournament_id, $round, $contest->id);
         }
+        return;
+    }
+
+    private function addContestantToBracket($contestants, $contests, $iteration, $positon){
+        $result = count($contests) / (2**($iteration + 1)); // n / 2^(I + 1)
+
+        $contests[$positon]->contestant1_id = $contestants[$positon]->id;
+        if ((count($contests) * 2) - 1 - $positon < count($contestants)) {
+            $contests[$positon]->contestant2_id = $contestants[(count($contests) * 2) - 1 - $positon]->id;
+        } 
+        $contests[$positon]->update();
+        
+        $contests[$positon + $result]->contestant1_id = $contestants[$positon + $result]->id;
+        if ((count($contests) * 2) - 1 - $positon - $result < count($contestants)) {
+            $contests[$positon + $result]->contestant2_id = $contestants[(count($contests) * 2) - 1 - $positon - $result]->id;
+        } 
+        $contests[$positon + $result]->update();
+
+        if ($result > 1) {
+            $iteration++;
+            $this->addContestantToBracket($contestants, $contests, $iteration, $positon);
+            $this->addContestantToBracket($contestants, $contests, $iteration, $positon + $result);
+        }
+        return;
     }
 
     // Store tournament data
@@ -175,31 +199,30 @@ class TournamentController extends Controller
             abort(403, 'Unauthorized Action');
         }
 
-        $formFields['status'] = 'ongoing';
-        $tournament->update($formFields);
-
         $contestants = Contestant::where(['tournament_id' => $tournament->id])->get();
-        //dd($contestantss);
-
 
         $round = 2;
         $count = count($contestants);
         if ($count > 0) {
-            while (ceil($count/2) > ($round^2)-1) {
+            while ($count > 2**$round) {
                 $round++;
             }
         }
+        //dd($count, $round, (2**$round));
         
         if ($count == 0 || $count == 1) {
-            // error
+            return back()->with('message', 'You need at least 2 contestants');
         }
         elseif ($count == 2) {
             $fields = [
                 'tournament_id' => $tournament->id,
                 'contest_child_id' => null,
                 'round' => 1,
+                'contestant1_id' => $contestants[0]->id,
+                'contestant2_id' => $contestants[1]->id
             ];
             $contest = Contest::create($fields);
+
         }
         else {
             $fields = [
@@ -211,28 +234,19 @@ class TournamentController extends Controller
             $round--;
             $this->bracket($tournament->id, $round, $contest->id);
             $this->bracket($tournament->id, $round, $contest->id);
+
+            $contests = Contest::where([
+                'tournament_id' => $tournament->id,
+                'round' => 1,
+            ])->get();
+    
+            $this->addContestantToBracket($contestants, $contests, 0, 0);
         }
 
-        $contests = Contest::where([
-            'tournament_id' => $tournament->id,
-            'round' => 1,
-        ])->get();
+        $tournament->status = 'ongoing';
+        $tournament->save();
 
-        // Tu by mala byt tiez rekurzia ale uz neviem 
-        $first = true;
-        for ($i=0; $i < count($contests)/2; $i++) { 
-            $contest[$i]->contestant1_id = $contestants[$i]->id;
-            if ($contestants[$i] != null) {
-                $contest[$i]->contestant2_id = $contestants[(count($contests) * 2) -$i]->id;
-            }
-            $contest[(count($contests)/2)+$i]->contestant1_id = $contestants[$i+1]->id;
-            if ($contestants[(count($contests) * 2) -$i -1] != null) {
-                $contest[(count($contests)/2)+$i]->contestant2_id = $contestants[(count($contests) * 2) -$i -1]->id;
-            }
-            
-        }
-
-        return back()->with('message', 'Tournament status changed to ongoing.');
+        return back()->with('message', 'Tournament has started');
     }
 
 

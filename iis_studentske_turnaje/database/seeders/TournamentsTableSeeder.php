@@ -48,6 +48,16 @@ class TournamentsTableSeeder extends Seeder
                 Maecenas libero. Nullam at arcu a est sollicitudin euismod. 
                 Integer rutrum, orci vestibulum ullamcorper ultricies, lacus quam ultricies odio, vitae placerat pede sem sit amet enim. 
                 Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Fusce consectetuer risus a nunc.'
+            ],
+            [
+                'user_id' => 22,
+                'name' => 'Real tournament',
+                'status' => 'preparing',
+                'game' => 'League of legends',
+                'start_date' => DateTime::createFromFormat('Y-m-d H:i', '2022-06-20 13:00'),
+                'prize' => '500$',
+                'num_participants' => 32,
+                'teams_allowed' => false,
             ]
         ];
 

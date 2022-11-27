@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('contestant2_id')->nullable()->constrained('contestants')->onDelete('set null');
             $table->foreignId('contest_child_id')->nullable()->constrained('contests')->onDelete('set null');
             $table->dateTime('start_date')->nullable();
-            $table->integer('round');
+            $table->integer('round')->default(0);
             $table->integer('score1')->default(0);
             $table->integer('score2')->default(0);
             $table->timestamps();
