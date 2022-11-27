@@ -121,6 +121,8 @@
             @auth
                 <hr>
                 <a href="{{url('/tournaments')}}"><i class="fa-solid layout_main fa-trophy"></i><span>Tournaments</span></a>
+                <a href="{{url('/my_tour')}}"><i class="fa-solid layout_main fa-cubes"></i><span>My Tournaments</span></a>
+                <a href="{{url('/tournaments/harmonogram')}}"><i class="fa-solid layout_main fa-calendar"></i><span>Harmonogram</span></a>
                 <a href="{{url('/my_tournaments')}}"><i class="fa-solid layout_main fa-calendar"></i><span>My Tournaments</span></a>
                 <a href="{{url('/tournaments/create')}}"><i class="fa-solid layout_main fa-plus"></i><span>Create Tournament</span></a>
                 <hr>

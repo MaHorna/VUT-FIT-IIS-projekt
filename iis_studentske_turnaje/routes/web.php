@@ -74,6 +74,9 @@ Route::get('/tournaments', [TournamentController::class, 'index']);
 // Show create tournament form
 Route::get('/tournaments/create', [TournamentController::class, 'create'])->middleware('auth');
 
+// Show harmonogram
+Route::get('/tournaments/harmonogram', [TournamentController::class, 'harmonogram'])->middleware('auth');
+
 // Store tournament data
 Route::post('/tournaments', [TournamentController::class, 'store'])->middleware('auth');
 
