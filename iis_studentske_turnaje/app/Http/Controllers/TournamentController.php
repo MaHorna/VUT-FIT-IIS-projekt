@@ -252,6 +252,28 @@ class TournamentController extends Controller
         return back()->with('message', 'Tournament has started');
     }
 
-
+    public function my_tour()
+    {
+        $my_hosted_tournaments = 
+            Tournament::where(['user_id' => auth()->id()])
+            ->get();
+        $my_played_tournaments = 
+            Tournament::join('contestants','contestants.tournament_id', '=', 'tournaments.id')
+            ->where(['contestants.user_id' => auth()->id()])
+            ->get();
+        $my_team_tournaments = 
+            Tournament::join('contestants','contestants.tournament_id', '=', 'tournaments.id')
+            ->join('teams', 'teams.id', '=' , 'contestants.team_id')
+            ->join('teamusers', 'teamusers.team_id', '=', 'teams.id')
+            ->join('users', 'users.id', '=', 'teamusers.user_id')
+            ->where(['users.id' => auth()->id()])
+            ->get();
+        return view('tournaments.my_tour', 
+        [
+            'my_hosted_tournaments' => $my_hosted_tournaments,
+            'my_player_tournaments' => $my_played_tournaments,
+            'my_team_tournaments' => $my_team_tournaments,
+        ]);
+    }
 
 }

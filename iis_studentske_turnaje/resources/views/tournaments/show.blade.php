@@ -3,25 +3,21 @@
         <a href="{{url('/')}}" class="inline-block ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
         <div class="mx-4">
             <x-card class="p-10">
-                <div
-                    class="flex flex-col items-center justify-center text-center"
-                >
+                <div class="flex flex-col items-center justify-center text-center">
                     <img
                         class="w-48 mr-6 mb-6"
                         src="{{$tournament->logo ? asset('images/logos/' . $tournament->logo) : asset('/images/placeholder.png')}}"
                         alt=""
                     />
-    
                     <h3 class="text-2xl mb-2">{{$tournament->name}}</h3>
                     <div class="text-xl font-bold mb-4">{{$tournament->game}}</div>
-			<div class="text-xl font-bold mb-4">{{$tournament->status}}</div>
-			<div class="text-xl font-bold mb-4">{{$tournament->teams_allowed}}</div>
+			        <div class="text-xl font-bold mb-4">{{$tournament->status}}</div>
+			        <div class="text-xl font-bold mb-4">{{$tournament->teams_allowed}}</div>
                     <div class="text-lg my-4">
                         <i class="fa-solid fa-location-dot"></i> {{$tournament->start_date}}
                     </div>
                     <div class="border border-gray-200 w-full mb-6"></div>
                     <div>
-
                         <div class="text-lg space-y-6">
                             {{$tournament->description}}
                         </div>
@@ -31,7 +27,7 @@
 
             @if ($tournament->status == 'ongoing')
                 <x-card class="mt-4">
-                    <div style='display: flex;'>
+                    <div style='display: flex;overflow-x:auto'>
                         @for ($i = 1; $i <= $lastRound; $i++)
                             <div style='
                             flex: 1;
@@ -47,7 +43,6 @@
                             </div>
                         @endfor
                     </div>
-                   
                 </x-card>
             @endif
 
