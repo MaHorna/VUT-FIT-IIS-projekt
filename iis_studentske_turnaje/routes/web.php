@@ -7,7 +7,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ContestantController;
 use App\Http\Controllers\TournamentController;
-use App\Http\Controllers\TeamController;
 use App\Http\Controllers\MyTeamController;
 
 /*
