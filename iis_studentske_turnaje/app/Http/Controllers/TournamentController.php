@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Team;
+use App\Models\User;
 use App\Models\Contest;
 use App\Models\Contestant;
 use App\Models\Tournament;
