@@ -21,6 +21,12 @@
                     <div class="border border-gray-200 w-full mb-6"></div>
                     @foreach($team_users as $team_user)
                         <option value="{{ $team_user->id }}">{{ $team_user->name}}</option>
+
+                        <form method="POST" action="/my_teams/{{$team_user->id}}/remove_user">
+                            @csrf
+                            @method('DELETE')
+                            <button class="text-red-500"><i class="fa-solid"></i>Delete</button>
+                        </form>
                     @endforeach
                 </div>
             </x-card>
