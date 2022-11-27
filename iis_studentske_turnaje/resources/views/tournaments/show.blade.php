@@ -29,7 +29,7 @@
                 </div>
                 
                 @foreach ($contestants as $contestant)
-                    <x-match-card :contest="$contest" :tournament="$tournament"/>
+                    <div class="text-0.5xl mb-4">{{$contestant->name}}</div>
                 @endforeach
 
 
