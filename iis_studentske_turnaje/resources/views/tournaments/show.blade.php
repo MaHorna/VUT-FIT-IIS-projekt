@@ -29,6 +29,23 @@
                 </div>
             </x-card>
 
+            @if ($tournament->status == 'ongoing')
+                <x-card class="mt-4">
+                    <div class='bracket'>
+                        @for ($i = 1; $i <= $lastRound; $i++)
+                            <div class='round'>
+                                @foreach ($contests as $contest)
+                                    @if ($contest->round == $i)
+                                        <x-match-card :contest="$contest" :tournament="$tournament"/>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endfor
+                    </div>
+                   
+                </x-card>
+            @endif
+
             <x-card class="mt-4 p-2 flex space-x-6">
             @if ($tournament->status == 'preparing')
                 @if ($tournament->teams_allowed == 1)

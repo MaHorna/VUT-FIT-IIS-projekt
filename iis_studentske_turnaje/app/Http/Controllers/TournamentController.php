@@ -62,7 +62,9 @@ class TournamentController extends Controller
             'is_registered_leader' => $is_registered_leader,
             'is_team_leader' => $is_team_leader,
             'is_registered_user' => $is_registered_user,
-            'teams' => Team::all()
+            'teams' => Team::all(),
+            'contests' => Contest::where(['tournament_id' => $tournament->id])->get(),
+            'lastRound' => Contest::where(['tournament_id' => $tournament->id])->max('round'),
         ]);
 
     }
