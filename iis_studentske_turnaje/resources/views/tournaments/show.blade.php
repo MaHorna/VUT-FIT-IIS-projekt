@@ -31,9 +31,14 @@
 
             @if ($tournament->status == 'ongoing')
                 <x-card class="mt-4">
-                    <div class='bracket'>
+                    <div style='display: flex;'>
                         @for ($i = 1; $i <= $lastRound; $i++)
-                            <div class='round'>
+                            <div style='
+                            flex: 1;
+                            display: flex;
+                            margin-right: 30px;
+                            flex-direction: column;
+                            justify-content: space-around;'>
                                 @foreach ($contests as $contest)
                                     @if ($contest->round == $i)
                                         <x-match-card :contest="$contest" :tournament="$tournament"/>
