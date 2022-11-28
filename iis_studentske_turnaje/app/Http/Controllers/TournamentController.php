@@ -294,9 +294,9 @@ class TournamentController extends Controller
 
         $my_team_matches = contest::join('contestants', 'contestants.id', '=', 'contests.contestant2_id')
             ->join('teams', 'teams.id', '=', 'contestants.team_id')
-            ->join('tournaments', 'tournaments.id', '=', 'contestants.tournament_id')
             ->join('teamusers', 'teams.id', '=', 'teamusers.team_id')
             ->join('users', 'users.id', '=', 'teamusers.user_id')
+            ->join('tournaments', 'tournaments.id', '=', 'contestants.tournament_id')
             ->where(['users.id' => auth()->id()])
             ->orderBy('contests.date', 'ASC')
             ->get();

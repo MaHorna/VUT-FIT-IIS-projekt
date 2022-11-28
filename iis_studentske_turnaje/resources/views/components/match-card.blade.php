@@ -4,12 +4,12 @@
     @if ($tournament->teams_allowed == true)
         @php
             $team1 = App\Models\Team::join('contestants', 'contestants.team_id', '=', 'teams.id')
-                ->where('tournament_id', $tournament->id)
+                ->where('contestants.tournament_id', $tournament->id)
                 ->join('contests', 'contestants.id', '=', 'contests.contestant1_id')
                 ->where('contestants.id', $contest->contestant1_id)
                 ->first();
             $team2 = App\Models\Team::join('contestants', 'contestants.team_id', '=', 'teams.id')
-                ->where('tournament_id', $tournament->id)
+                ->where('contestants.tournament_id', $tournament->id)
                 ->join('contests', 'contestants.id', '=', 'contests.contestant2_id')
                 ->where('contestants.id', $contest->contestant2_id)
                 ->first();
@@ -17,18 +17,32 @@
 
         <div style="margin: 15px 0; overflow: hidden; border-radius: 5px;">
             <div style="color: #fff; padding: 10px 8px; background-color: #c69749;border-bottom: 1px solid #282a3a;">
-                @if (!is_null($user1))
+                @if (!is_null($team1))
+                    <div class="flex">
+                        <div class="flex-1 w-10">
+                            <a href="{{url('/users', $team1->id)}}">{{$team1->name}}</a>
+                        </div>
 
-                    <a href="{{url('/teams', $team1->id)}}">{{$team1->name}}</a><button class="open-button" data-modal="modal{{$contest->id}}" style="text-align: right;">{{$contest->score1}}</button>
-
+                        <div class="flex-none">
+                            <button class="open-button" onclick="openForm()" style="text-align: right;"><span style="text-align: right;">{{$contest->score1}}</span></button>
+                        </div>
+                    </div>
                 @else
                     <span>-</span>
                 @endif
             </div>
             <div style="color: #fff; padding: 10px 8px; background-color: #c69749;">
-                @if (!is_null($user2))
+                @if (!is_null($team2))
 
-                    <a href="{{url('/teams', $team2->id)}}">{{$team2->name}}</a><button class="open-button" data-modal="modal{{$contest->id}}" style="text-align: right;">{{$contest->score2}}</button>
+                    <div class="flex">
+                        <div class="flex-1 w-10">
+                            <a href="{{url('/users', $team2->id)}}">{{$team2->name}}</a>
+                        </div>
+
+                        <div class="flex-none">
+                            <button class="open-button" onclick="openForm()"><span style="text-align: right;">{{$contest->score2}}</span></button>
+                        </div>
+                    </div>
 
                 @else
                     <span>-</span>
