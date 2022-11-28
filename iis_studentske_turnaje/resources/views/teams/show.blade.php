@@ -21,7 +21,6 @@
                     <div class="border border-gray-200 w-full mb-6"></div>
                     @foreach($team_users as $team_user)
                         <p>{{$team_user->name}}</p>
-                        <p>{{$team_user->id}}</p>
                         <form method="POST" action="{{url('/my_teams/destroy/'. $team_user->user_id . '/'. $team_user->team_id)}}">
                             @csrf
                             @method('DELETE')

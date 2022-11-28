@@ -27,13 +27,15 @@
                         </div>
                     </div>
                 </div>
-                @foreach ($contestants as $contestant)
-                    
-                    <div class="text-0.5xl mb-4">{{$contestant->name}}</div>
-                @endforeach
-
-
-
+                <div class="border border-gray-200 w-full mb-6"></div>
+                @if ($contestants->count() > 0)
+                    <h3 class="text-2xl relative left-5 text-white font-bold">Joined:</h3>
+                    @foreach ($contestants as $contestant)
+                        <div class="text-0.5xl mb-4">{{$contestant->name}}</div>
+                    @endforeach
+                @else
+                    <h3 class="text-2xl relative left-5 text-white font-bold">Noone joined yet</h3>
+                @endif
             </x-card>
             @if ($tournament->status != 'preparing')
                 <x-card class="mt-4">

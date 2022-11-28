@@ -63,7 +63,12 @@ class TournamentController extends Controller
                 $query->select('team_id')->from('contestants')->where('tournament_id', $tournament->id);
             })->get();
         }
-
+        $contestants = null;
+        if ($tournament->teams_allowed == 1){
+            $contestants = Contestant::where('tournament_id', $tournament->id)->join('teams', 'contestants.team_id', '=', 'teams.id')->get();
+        } else {
+            $contestants = Contestant::where('tournament_id', $tournament->id)->join('users', 'contestants.user_id', '=', 'users.id')->get();
+        }
         
         return view('tournaments.show', 
         [
@@ -71,7 +76,7 @@ class TournamentController extends Controller
             'is_registered_leader' => $is_registered_leader,
             'is_team_leader' => $is_team_leader,
             'is_registered_user' => $is_registered_user,
-            'contestants' => Contestant::where('tournament_id', $tournament->id)->get(),
+            'contestants' => $contestants,
             'my_non_registered_teams' => $my_non_registered_teams,
             'contests' => Contest::where(['tournament_id' => $tournament->id])->get(),
             'lastRound' => Contest::where(['tournament_id' => $tournament->id])->max('round'),
@@ -284,12 +289,60 @@ class TournamentController extends Controller
     // Show harmonogram
     public function harmonogram()
     {
+        $my_hosted_tournaments = 
+            Tournament::where(['user_id' => auth()->id()])
+            ->orderBy('start_date', 'ASC')
+            ->get();       
+        $my_played_tournaments = 
+            Tournament::join('contestants','contestants.tournament_id', '=', 'tournaments.id')
+            ->where(['contestants.user_id' => auth()->id()])
+            ->orderBy('start_date', 'ASC')
+            ->get();
+        $my_team_tournaments = 
+            Tournament::join('contestants','contestants.tournament_id', '=', 'tournaments.id')
+            ->join('teams', 'teams.id', '=' , 'contestants.team_id')
+            ->join('teamusers', 'teamusers.team_id', '=', 'teams.id')
+            ->join('users', 'users.id', '=', 'teamusers.user_id')
+            ->where(['users.id' => auth()->id()])
+            ->orderBy('start_date', 'ASC')
+            ->get();
+
+        $my_matches1 = Contest::join('contestants', 'contestants.id', '=', 'contests.contestant1_id')
+            ->join('users', 'users.id', '=', 'contestants.user_id')
+            ->join('tournaments', 'tournaments.id', '=', 'contestants.tournament_id')
+            ->where(['users.id' => auth()->id()])
+            ->orderBy('contests.start_date', 'ASC')
+            ->get();
+        $my_matches2 = Contest::join('contestants', 'contestants.id', '=', 'contests.contestant2_id')
+            ->join('users', 'users.id', '=', 'contestants.user_id')
+            ->join('tournaments', 'tournaments.id', '=', 'contestants.tournament_id')
+            ->where(['users.id' => auth()->id()])
+            ->orderBy('contests.start_date', 'ASC')
+            ->get();
+
         $my_matches = Contest::leftjoin('contestants as con2', 'con2.id', '=', 'contests.contestant2_id')
             ->leftjoin('contestants as con1', 'con1.id', '=', 'contests.contestant1_id')
             ->join('users', 'users.id', '=', 'con1.user_id')
             ->join('tournaments', 'tournaments.id', '=', 'contests.tournament_id')
             ->where(['users.id' => auth()->id()])
-            ->orderBy('contests.date', 'ASC')
+            ->orderBy('contests.start_date', 'ASC')
+            ->get();
+
+        $my_team_matches1 = Contest::join('contestants', 'contestants.id', '=', 'contests.contestant1_id')
+            ->join('teams', 'teams.id', '=', 'contestants.team_id')
+            ->join('tournaments', 'tournaments.id', '=', 'contestants.tournament_id')
+            ->join('teamusers', 'teams.id', '=', 'teamusers.team_id')
+            ->join('users', 'teamusers.user_id', '=', 'users.id')
+            ->where(['users.id' => auth()->id()])
+            ->orderBy('contests.start_date', 'ASC')
+            ->get();
+        $my_team_matches2 = contest::join('contestants', 'contestants.id', '=', 'contests.contestant2_id')
+            ->join('teams', 'teams.id', '=', 'contestants.team_id')
+            ->join('tournaments', 'tournaments.id', '=', 'contestants.tournament_id')
+            ->join('teamusers', 'teams.id', '=', 'teamusers.team_id')
+            ->join('users', 'users.id', '=', 'teamusers.user_id')
+            ->where(['users.id' => auth()->id()])
+            ->orderBy('contests.start_date', 'ASC')
             ->get();
 
         $my_team_matches = contest::join('contestants', 'contestants.id', '=', 'contests.contestant2_id')
@@ -298,12 +351,19 @@ class TournamentController extends Controller
             ->join('teamusers', 'teams.id', '=', 'teamusers.team_id')
             ->join('users', 'users.id', '=', 'teamusers.user_id')
             ->where(['users.id' => auth()->id()])
-            ->orderBy('contests.date', 'ASC')
+            ->orderBy('contests.start_date', 'ASC')
             ->get();
 
         
         return view('tournaments.harmonogram', 
         [
+            'my_hosted_tournaments' => $my_hosted_tournaments,
+            'my_player_tournaments' => $my_played_tournaments,
+            'my_team_tournaments' => $my_team_tournaments,
+            'my_matches1' => $my_matches1,
+            'my_matches2' => $my_matches2,
+            'my_team_matches1' => $my_team_matches1,
+            'my_team_matches2' => $my_team_matches2,
             'my_team_matches' => $my_team_matches,
             'my_matches' => $my_matches,
         ]);
@@ -336,7 +396,7 @@ class TournamentController extends Controller
     public function updatescore(Contest $contest, Request $request){
         $contest->score1 = $request->score1;
         $contest->score2 = $request->score2;
-        $contest->date = $request->date;
+        $contest->start_date = $request->start_date;
 
         $contest->update();
 
