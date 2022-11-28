@@ -63,7 +63,12 @@ class TournamentController extends Controller
                 $query->select('team_id')->from('contestants')->where('tournament_id', $tournament->id);
             })->get();
         }
-
+        $contestants = null;
+        if ($tournament->teams_allowed == 1){
+            $contestants = Contestant::where('tournament_id', $tournament->id)->join('teams', 'contestants.team_id', '=', 'teams.id')->get();
+        } else {
+            $contestants = Contestant::where('tournament_id', $tournament->id)->join('users', 'contestants.user_id', '=', 'users.id')->get();
+        }
         
         return view('tournaments.show', 
         [
@@ -71,7 +76,7 @@ class TournamentController extends Controller
             'is_registered_leader' => $is_registered_leader,
             'is_team_leader' => $is_team_leader,
             'is_registered_user' => $is_registered_user,
-            'contestants' => Contestant::where('tournament_id', $tournament->id)->get(),
+            'contestants' => $contestants,
             'my_non_registered_teams' => $my_non_registered_teams,
             'contests' => Contest::where(['tournament_id' => $tournament->id])->get(),
             'lastRound' => Contest::where(['tournament_id' => $tournament->id])->max('round'),
@@ -208,6 +213,10 @@ class TournamentController extends Controller
 
         $contestants = Contestant::where(['tournament_id' => $tournament->id])->get();
 
+        if (count($contestants) < $tournament->num_participants) {
+            return back()->with('message', 'You need at least ' . $tournament->num_participants . ' contestants. You have now '.count($contestants));
+        }
+
         $round = 2;
         $count = count($contestants);
         if ($count > 0) {
@@ -338,9 +347,9 @@ class TournamentController extends Controller
 
         $my_team_matches = contest::join('contestants', 'contestants.id', '=', 'contests.contestant2_id')
             ->join('teams', 'teams.id', '=', 'contestants.team_id')
-            ->join('tournaments', 'tournaments.id', '=', 'contestants.tournament_id')
             ->join('teamusers', 'teams.id', '=', 'teamusers.team_id')
             ->join('users', 'users.id', '=', 'teamusers.user_id')
+            ->join('tournaments', 'tournaments.id', '=', 'contestants.tournament_id')
             ->where(['users.id' => auth()->id()])
             ->orderBy('contests.start_date', 'ASC')
             ->get();

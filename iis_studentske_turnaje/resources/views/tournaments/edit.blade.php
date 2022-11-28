@@ -80,7 +80,7 @@
                     for="num_participants"
                     class="inline-block text-lg mb-2"
                 >
-                    Number of contestants<i class="text-yellowish">*</i>
+                    Minimum contestants<i class="text-yellowish">*</i>
                 </label>
                 <input
                     type="number"

@@ -14,7 +14,7 @@ class Contest extends Model
         'contestant1_id', 
         'contestant2_id', 
         'contest_child_id',
-        'start_date', 
+        'date', 
         'score1', 
         'score2', 
         'round',];

@@ -7,14 +7,17 @@
                 <a href="{{url('/tournaments/' . $contest->tournament_id)}}">{{$contest->name}}</a>
             </h3>
             <div class="text-0.5lg mb-4">
-                <i class="fa-solid fa-clock-four"></i> {{$contest->start_date}}
+                <i class="fa-solid fa-clock-four"></i> {{$contest->date}}
             </div> 
             <div class="text-0.5lg mb-4">
-                Score1: {{$contest->score1}}
+                <b>Round:</b> {{$contest->round}}
+            </div>
+            <div class="text-0.5lg mb-4">
+                <b>Score1:</b> {{$contest->score1}}
             </div>
              
             <div class="text-0.5lg mb-4">
-                Score2: {{$contest->score2}}
+                <b>Score2:</b> {{$contest->score2}}
             </div>      
         </div>
     </div>

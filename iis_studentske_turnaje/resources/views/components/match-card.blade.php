@@ -4,12 +4,12 @@
     @if ($tournament->teams_allowed == true)
         @php
             $team1 = App\Models\Team::join('contestants', 'contestants.team_id', '=', 'teams.id')
-                ->where('tournament_id', $tournament->id)
+                ->where('contestants.tournament_id', $tournament->id)
                 ->join('contests', 'contestants.id', '=', 'contests.contestant1_id')
                 ->where('contestants.id', $contest->contestant1_id)
                 ->first();
             $team2 = App\Models\Team::join('contestants', 'contestants.team_id', '=', 'teams.id')
-                ->where('tournament_id', $tournament->id)
+                ->where('contestants.tournament_id', $tournament->id)
                 ->join('contests', 'contestants.id', '=', 'contests.contestant2_id')
                 ->where('contestants.id', $contest->contestant2_id)
                 ->first();
@@ -17,18 +17,32 @@
 
         <div style="margin: 15px 0; overflow: hidden; border-radius: 5px;">
             <div style="color: #fff; padding: 10px 8px; background-color: #c69749;border-bottom: 1px solid #282a3a;">
-                @if (!is_null($user1))
+                @if (!is_null($team1))
+                    <div class="flex">
+                        <div class="flex-1 w-10">
+                            <a href="{{url('/users', $team1->id)}}">{{$team1->name}}</a>
+                        </div>
 
-                    <a href="{{url('/teams', $team1->id)}}">{{$team1->name}}</a><button class="open-button" data-modal="modal{{$contest->id}}" style="text-align: right;">{{$contest->score1}}</button>
-
+                        <div class="flex-none">
+                            <button class="open-button" onclick="openForm()" style="text-align: right;"><span style="text-align: right;">{{$contest->score1}}</span></button>
+                        </div>
+                    </div>
                 @else
                     <span>-</span>
                 @endif
             </div>
             <div style="color: #fff; padding: 10px 8px; background-color: #c69749;">
-                @if (!is_null($user2))
+                @if (!is_null($team2))
 
-                    <a href="{{url('/teams', $team2->id)}}">{{$team2->name}}</a><button class="open-button" data-modal="modal{{$contest->id}}" style="text-align: right;">{{$contest->score2}}</button>
+                    <div class="flex">
+                        <div class="flex-1 w-10">
+                            <a href="{{url('/users', $team2->id)}}">{{$team2->name}}</a>
+                        </div>
+
+                        <div class="flex-none">
+                            <button class="open-button" onclick="openForm()"><span style="text-align: right;">{{$contest->score2}}</span></button>
+                        </div>
+                    </div>
 
                 @else
                     <span>-</span>
@@ -39,7 +53,7 @@
         <div class="modal{{$contest->id}} " id="modal">
             @if (!is_null($team1) || !is_null($team2))
                 <x-card>
-                    <form method="POST" action="/tournaments/{{$contest->id}}/updatescore" class="form-container">
+                    <form method="POST" action="{{url('/tournaments/'.$contest->id.'/updatescore')}}" class="form-container">
                         @csrf
                         @method("PUT")
                         @if (!is_null($team1))
@@ -62,19 +76,19 @@
 
                         <div class="mb-6">
                             <label
-                                for="start_date"
+                                for="date"
                                 class="inline-block text-lg mb-2"
                                 >Start time</i></label
                             >
                             <input
                                 type="datetime-local"
                                 class="border border-gray-200 rounded p-2 w-full bg-grayish"
-                                name="start_date"
+                                name="date"
                                 min="{{now()}}"
                                 step="1"
-                                value="{{$contest->start_date}}"
+                                value="{{$contest->date}}"
                             />
-                            @error('start_date')
+                            @error('date')
                                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
                         </div>
@@ -85,7 +99,7 @@
                 </x-card>
                 <hr>
                 <x-card class="mt-3">
-                    <form method="POST" action="/tournaments/{{$contest->id}}/updatewinner" class="form-container">
+                    <form method="POST" action="{{url('/tournaments/' . $contest->id . '/updatewinner')}}" class="form-container">
                         @csrf
                         @method("PUT")
                         @if (!is_null($team1))
@@ -162,7 +176,7 @@
         <div class="modal{{$contest->id}} " id="modal">
             @if (!is_null($user1) || !is_null($user2))
                 <x-card>
-                    <form method="POST" action="/tournaments/{{$contest->id}}/updatescore" class="form-container">
+                    <form method="POST" action="{{url('/tournaments/'.$contest->id.'/updatescore')}}" class="form-container">
                         @csrf
                         @method("PUT")
                         @if (!is_null($user1))
@@ -185,19 +199,19 @@
 
                         <div class="mb-6">
                             <label
-                                for="start_date"
+                                for="date"
                                 class="inline-block text-lg mb-2"
                                 >Start time</i></label
                             >
                             <input
                                 type="datetime-local"
                                 class="border border-gray-200 rounded p-2 w-full bg-grayish"
-                                name="start_date"
+                                name="date"
                                 min="{{now()}}"
                                 step="1"
-                                value="{{$contest->start_date}}"
+                                value="{{$contest->date}}"
                             />
-                            @error('start_date')
+                            @error('date')
                                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
                         </div>
@@ -208,7 +222,7 @@
                 </x-card>
                 <hr>
                 <x-card class="mt-3">
-                    <form method="POST" action="/tournaments/{{$contest->id}}/updatewinner" class="form-container">
+                    <form method="POST" action="{{url('/tournaments/'.$contest->id.'/updatewinner')}}" class="form-container">
                         @csrf
                         @method("PUT")
                         @if (!is_null($user1))

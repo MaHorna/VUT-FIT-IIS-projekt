@@ -36,7 +36,7 @@ class TournamentsTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'name' => 'Legends of league',
-                'status' => 'ongoing',
+                'status' => 'preparing',
                 'game' => 'League of legends',
                 'start_date' => DateTime::createFromFormat('Y-m-d H:i', '2022-06-20 13:00'),
                 'prize' => '500$',
@@ -55,9 +55,19 @@ class TournamentsTableSeeder extends Seeder
                 'status' => 'preparing',
                 'game' => 'League of legends',
                 'start_date' => DateTime::createFromFormat('Y-m-d H:i', '2022-06-20 13:00'),
-                'prize' => '500$',
-                'num_participants' => 32,
+                'prize' => '$500',
+                'num_participants' => 5,
                 'teams_allowed' => false,
+            ],
+            [
+                'user_id' => 22,
+                'name' => 'Golf cup',
+                'status' => 'preparing',
+                'game' => 'Golf with friends',
+                'start_date' => DateTime::createFromFormat('Y-m-d H:i', '2022-12-12 12:00'),
+                'prize' => 'Golden ball',
+                'num_participants' => 5,
+                'teams_allowed' => true,
             ]
         ];
 
