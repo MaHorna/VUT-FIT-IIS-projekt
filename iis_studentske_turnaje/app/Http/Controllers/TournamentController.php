@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Team;
-use App\Models\User;
 use App\Models\Contest;
 use App\Models\Contestant;
 use App\Models\Tournament;
@@ -157,7 +156,7 @@ class TournamentController extends Controller
             ->with('message', 'Tournament deleted succesfully.');
     }
 
-
+    // Recursive function for generating bracket
     private function bracket($tournament_id, $round, $next_id){
         $fields = [
             'tournament_id' => $tournament_id,
@@ -176,6 +175,7 @@ class TournamentController extends Controller
         return;
     }
 
+    // Recursive function for adding contestants into bracket
     private function addContestantToBracket($contestants, $contests, $iteration, $positon){
         $result = count($contests) / (2**($iteration + 1)); // n / 2^(I + 1)
 
@@ -199,7 +199,7 @@ class TournamentController extends Controller
         return;
     }
 
-    // Store tournament data
+    // Generate bracket
     public function start(Tournament $tournament)
     {
         // Make sure logged in user is owner
@@ -355,6 +355,7 @@ class TournamentController extends Controller
         ]);
     }
 
+    // Show my tournaments
     public function my_tour()
     {
         $my_hosted_tournaments = 
@@ -381,6 +382,7 @@ class TournamentController extends Controller
         ]);
     }
 
+    // Update score and date 
     public function updatescore(Contest $contest, Request $request){
         $contest->score1 = $request->score1;
         $contest->score2 = $request->score2;
@@ -391,6 +393,7 @@ class TournamentController extends Controller
         return back()->with('message', 'Contest score updated succesfully.');
     }
 
+    // Update winner
     public function updatewinner(Contest $contest, Request $request){
         $contest_child = Contest::find($contest->contest_child_id);
 
@@ -419,6 +422,7 @@ class TournamentController extends Controller
         return back()->with('message', 'Final contest updated.');
     }
 
+    // Change tournament state to finished
     public function end(Tournament $tournament){
         // Make sure logged in user is owner
         if ($tournament->user_id != auth()->id() && Auth::user()->role == 0) {

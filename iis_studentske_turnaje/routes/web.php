@@ -8,7 +8,6 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ContestantController;
 use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\MyTeamController;
-use App\Models\Teamuser;
 
 /*
 |--------------------------------------------------------------------------
@@ -134,9 +133,8 @@ Route::delete('/teams/{team}', [TeamController::class, 'destroy']);
 // Add new player
 Route::post('/my_teams/add_user/{team}', [TeamController::class, 'add_user']);
 
-// remove player
+// Remove player
 Route::delete('/my_teams/destroy/{user_id}/{team_id}', [TeamController::class, 'remove_user']);
-
 
 //------------------MY_TEAM----------------------------
 
@@ -145,9 +143,6 @@ Route::get('/my_teams', [MyTeamController::class, 'index']);
 
 // Show single team
 Route::get('/my_teams/{team}', [MyTeamController::class, 'show']);
-
-
-
 
 //------------------CONTESTANT----------------------------
 
