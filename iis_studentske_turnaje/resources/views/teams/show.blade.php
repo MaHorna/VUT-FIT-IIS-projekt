@@ -10,10 +10,9 @@
                         alt=""
                     />
     
-                    <h3 class="text-2xl mb-2">{{$team->name}}</h3>
-                    <div class="text-lg my-4"></div>
+                    <h3 class="text-2xl mb-2 text-yellowish">{{$team->name}}</h3>
                     <div class="border border-gray-200 w-full mb-6"></div>
-                    <div>
+                    <div class="mb-2">
                         <div class="text-lg space-y-6">
                             {{$team->description}}
                         </div>
@@ -21,14 +20,20 @@
                     <div class="border border-gray-200 w-full mb-6"></div>
                     @if (Auth::user())
                         @foreach($team_users as $team_user)
-                            <p>{{$team_user->name}}</p>
-                            @if ((Auth::user() && Auth::user()->id == $team->user_id) or (Auth::user() && Auth::user()->id == $team_user->user_id))
-                            <form method="POST" action="{{url('/my_teams/destroy/'. $team_user->user_id . '/'. $team_user->team_id)}}">
-                                @csrf
-                                @method('DELETE')
-                                <button class="text-red-500"><i class="fa-solid"></i> Delete</button>
-                            </form>
-                            @endif
+                            <div class="flex">
+                                <div class="mr-2">
+                                    <span>{{$team_user->name}}</span>
+                                </div>
+                                <div>
+                                    @if ((Auth::user() && Auth::user()->id == $team->user_id) or (Auth::user() && Auth::user()->id == $team_user->user_id))
+                                        <form method="POST" action="{{url('/my_teams/destroy/'. $team_user->user_id . '/'. $team_user->team_id)}}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="text-red-500"><i class="fa-solid fa-x"></i></button>
+                                        </form>
+                                    @endif
+                                </div>
+                            </div>
                         @endforeach
                     @endif
                 </div>

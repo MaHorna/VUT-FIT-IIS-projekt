@@ -9,7 +9,7 @@
                         src="{{$tournament->logo ? asset('images/logos/' . $tournament->logo) : asset('/images/placeholder.png')}}"
                         alt=""
                     />
-                    <h3 class="text-2xl mb-2">{{$tournament->name}}</h3>
+                    <h3 class="text-2xl mb-2 text-yellowish">{{$tournament->name}}</h3>
                     <div class="text-xl font-bold mb-4">{{$tournament->game}}</div>
 			        <div class="text-xl font-bold mb-4">{{$tournament->status}}</div>
                     @if ($tournament->teams_allowed)

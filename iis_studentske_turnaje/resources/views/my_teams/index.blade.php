@@ -7,8 +7,17 @@
         @unless (count($teams) == 0)
                 
             @foreach ($teams as $team)
-
-                @if (Auth::user() && (Auth::user()->id == $team->user_id))
+                @php
+                    $isInTeam = false;
+                @endphp
+                @foreach ($team->teamuser as $team_user)
+                    @if (Auth::user() && $team_user->user_id == Auth::user()->id)
+                        @php
+                            $isInTeam = true;
+                        @endphp
+                    @endif
+                @endforeach
+                @if (Auth::user() && (Auth::user()->id == $team->user_id) or $isInTeam)
                     <x-card>
                         <div class="flex">
                             <img

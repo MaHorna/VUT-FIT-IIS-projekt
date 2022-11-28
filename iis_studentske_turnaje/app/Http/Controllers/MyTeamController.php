@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Teamuser;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class MyTeamController extends Controller
 {

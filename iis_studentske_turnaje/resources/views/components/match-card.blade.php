@@ -7,11 +7,13 @@
                 ->where('contestants.tournament_id', $tournament->id)
                 ->join('contests', 'contestants.id', '=', 'contests.contestant1_id')
                 ->where('contestants.id', $contest->contestant1_id)
+                ->select('teams.id', 'teams.name',)
                 ->first();
             $team2 = App\Models\Team::join('contestants', 'contestants.team_id', '=', 'teams.id')
                 ->where('contestants.tournament_id', $tournament->id)
                 ->join('contests', 'contestants.id', '=', 'contests.contestant2_id')
                 ->where('contestants.id', $contest->contestant2_id)
+                ->select('teams.id', 'teams.name',)
                 ->first();
         @endphp
 
@@ -20,7 +22,7 @@
                 @if (!is_null($team1))
                     <div class="flex">
                         <div class="flex-1 w-10">
-                            <a href="{{url('/users', $team1->id)}}">{{$team1->name}}</a>
+                            <a href="{{url('/teams', $team1->id)}}">{{$team1->name}}</a>
                         </div>
 
                         <div class="flex-none">
@@ -36,7 +38,7 @@
 
                     <div class="flex">
                         <div class="flex-1 w-10">
-                            <a href="{{url('/users', $team2->id)}}">{{$team2->name}}</a>
+                            <a href="{{url('/teams', $team2->id)}}">{{$team2->name}}</a>
                         </div>
 
                         <div class="flex-none">
@@ -129,11 +131,13 @@
                 ->where('contestants.tournament_id', $tournament->id)
                 ->join('contests', 'contestants.id', '=', 'contests.contestant1_id')
                 ->where('contestants.id', $contest->contestant1_id)
+                ->select('users.id', 'users.name',)
                 ->first();
             $user2 = App\Models\User::join('contestants', 'contestants.user_id', '=', 'users.id')
                 ->where('contestants.tournament_id', $tournament->id)
                 ->join('contests', 'contestants.id', '=', 'contests.contestant2_id')
                 ->where('contestants.id', $contest->contestant2_id)
+                ->select('users.id', 'users.name',)
                 ->first();
         @endphp
         
