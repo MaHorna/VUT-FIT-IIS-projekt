@@ -108,10 +108,6 @@ class UserController extends Controller
             
         ]);
 
-        // if ($request->hasFile('logo')) {
-        //     $formFields['logo'] = $request->file('logo')->store('logos', 'public');
-        // }
-
         $user->update($formFields);
 
         return back()->with('message', 'User profile updated succesfully.');
