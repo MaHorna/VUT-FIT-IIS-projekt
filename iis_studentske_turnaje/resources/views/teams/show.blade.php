@@ -1,6 +1,6 @@
 <x-layout>
     <x-search :path="'/teams'"/>
-        <a href="/" class="inline-block ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        <a href="{{url('/')}}" class="inline-block ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
         <div class="mx-4">
             <x-card class="p-10">
                 <div class="flex flex-col items-center justify-center text-center">
@@ -21,12 +21,13 @@
                     <div class="border border-gray-200 w-full mb-6"></div>
                     @foreach($team_users as $team_user)
                         <p>{{$team_user->name}}</p>
-                        <p>{{$team_user->id}}</p>
+                        @if ((Auth::user() && Auth::user()->id == $team->user_id) or (Auth::user() && Auth::user()->id == $team_user->user_id))
                         <form method="POST" action="{{url('/my_teams/destroy/'. $team_user->user_id . '/'. $team_user->team_id)}}">
                             @csrf
                             @method('DELETE')
                             <button class="text-red-500"><i class="fa-solid"></i> Delete</button>
                         </form>
+                        @endif
                     @endforeach
                 </div>
             </x-card>

@@ -31,14 +31,15 @@ class TeamController extends Controller
                 ->join('users','teamusers.user_id', '=', 'users.id')
                 ->where('teams.id',$team->id)
                 ->get();
-
+                
         }
         return view('teams.show', 
         [
             'team_users' => $team_users,
             'team' => $team,
             'users' => User::latest()->filter(request(['search']))->get(),
-        ]);
+        ]); 
+
     }
 
     // Show create team form
