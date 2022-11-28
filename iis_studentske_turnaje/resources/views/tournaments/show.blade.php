@@ -73,7 +73,7 @@
                                 
                                 <label>Choose which team of your's should compete: </label>
                                 <select name="team_id" id="team_id" class="css_team_combobox" style="color:black;padding:5px;margin:5px;">
-                                    @foreach($teams as $team)
+                                    @foreach($my_non_registered_teams as $team)
                                     <option style="color:black;" value="{{ $team->id }}">{{ $team->name}}</option>
                                     @endforeach
                                 </select>
@@ -112,14 +112,14 @@
                         <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
                         <input type="hidden" name="user_id" value="-1">
                         <input type="hidden" name="isteam" value="true">
-                        <button class="text-red-500"><i class="fa-solid fa-trash"></i>Start tournament</button>
+                        <button class="text-red-500" style="padding:5px;margin:5px;" ><i class="fa-solid fa-trash"></i>Start tournament</button>
                     </form>
                 @endif
-                <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}"><i class="fa-solid fa-pencil"></i>Edit</a>
+                <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}" style="padding:5px;margin:5px;"><i class="fa-solid fa-pencil"></i>Edit</a>
                 <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}">
                     @csrf
                     @method('DELETE')
-                    <button class="text-red-500"><i class="fa-solid fa-trash"></i>Delete</button>
+                    <button class="text-red-500" style="padding:5px;margin:5px;"><i class="fa-solid fa-trash"></i>Delete</button>
                 </form>  
             @endif
             </x-card>
