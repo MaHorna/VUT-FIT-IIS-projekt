@@ -25,7 +25,7 @@
                         <form method="POST" action="{{url('/my_teams/destroy/'. $team_user->user_id . '/'. $team_user->team_id)}}">
                             @csrf
                             @method('DELETE')
-                            <button class="text-red-500"><i class="fa-solid"></i>Delete</button>
+                            <button class="text-red-500"><i class="fa-solid"></i> Delete</button>
                         </form>
                     @endforeach
                 </div>
@@ -34,21 +34,21 @@
             @if (Auth::user() && Auth::user()->id == $team->user_id)
                 <x-card class="mt-4 p-2 flex space-x-6">
                     <a href="/teams/{{$team->id}}/edit">
-                    <i class="fa-solid fa-pencil"></i>Edit
+                    <i class="fa-solid fa-pencil"></i> Edit
                     </a>
 
                     <form method="POST" action="/teams/{{$team->id}}">
                         @csrf
                         @method('DELETE')
-                        <button class="text-red-500"><i class="fa-solid fa-trash"></i>Delete</button>
+                        <button class="text-red-500"><i class="fa-solid fa-trash"></i> Delete</button>
                     </form>
 
                     <form action="{{url('/my_teams/add_user/' . $team->id)}}" method="POST">
                         @csrf
                         <input type="hidden" name="team_id" value="{{$team->id}}">
                                 
-                        <label>Choose which user you want to add to team ?</label>
-                            <select name="user_id" id="user_id" class="css_team_combobox bg-black" >
+                        <label>Choose player</label>
+                            <select name="user_id" id="user_id" class="css_team_combobox bg-black border solid rounded pl-1" >
                                 @foreach($users as $user)
                                     @php
                                         $is_not_team_user = true;
@@ -67,7 +67,7 @@
                                     @endif
                                 @endforeach
                             </select>
-                        <button><i class="fa-solid"></i>Add player</button>
+                        <button><i class="fa-solid fa-plus"></i> Add player</button>
                     </form>
                 </x-card>
             @endif

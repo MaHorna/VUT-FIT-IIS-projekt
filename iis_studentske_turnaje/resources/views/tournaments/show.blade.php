@@ -63,7 +63,7 @@
                         <form method="POST" action="{{url('/contestant/destroy_team/'.$tournament->id)}}">
                             @csrf
                             @method('DELETE')
-                            <button class="text-red-500"><i class="fa-solid fa-trash"></i>Leave game</button>
+                            <button class="" style="padding:5px;margin:5px;"><i class="fa-solid fa-door-open"></i> Leave game</button>
                         </form>
                     @else
                         @if ($is_team_leader)
@@ -79,7 +79,7 @@
                                 </select>
                                 <input type="hidden" name="user_id" value="NULL">
                                 <input type="hidden" name="isteam" value="1">
-                                <button class="text-red-500"><i class="fa-solid fa-trash"></i>Join game</button>
+                                <button class="" style="padding:5px;margin:5px;"><i class="fa-solid fa-gamepad"></i> Join game</button>
                             </form>
                         @else    
                             <p>You are not team leader, cant join</p>
@@ -90,7 +90,7 @@
                         <form method="POST" action="{{url('/contestant/destroy_user/'.$tournament->id)}}">
                             @csrf
                             @method('DELETE')
-                            <button class="text-red-500"><i class="fa-solid fa-trash"></i>Leave game</button>
+                            <button class="" style="padding:5px;margin:5px;"><i class="fa-solid fa-door-open"></i> Leave game</button>
                         </form>
                     @else
                         <form action="{{url('/contestant')}}" method="POST">
@@ -99,7 +99,7 @@
                             <input type="hidden" name="team_id" value="NULL">
                             <input type="hidden" name="user_id" value="{{auth()->id()}}">
                             <input type="hidden" name="isteam" value="0">
-                            <button class="text-red-500"><i class="fa-solid fa-trash"></i>Join game</button>
+                            <button class="" style="padding:5px;margin:5px;"><i class="fa-solid fa-gamepad"></i> Join game</button>
                         </form>
                     @endif
 		        @endif
@@ -113,7 +113,7 @@
                         <input type="hidden" name="user_id" value="-1">
                         <input type="hidden" name="isteam" value="true">
 
-                        <button class="" style="padding:5px;margin:5px;" ><i class="fa-solid fa-play"></i>Start tournament</button>
+                        <button class="" style="padding:5px;margin:5px;" ><i class="fa-solid fa-play"></i> Start tournament</button>
 
                     </form>
 
@@ -124,25 +124,18 @@
                         <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
                         <input type="hidden" name="user_id" value="-1">
                         <input type="hidden" name="isteam" value="true">
-                        <button class=""><i class="fa-solid fa-flag-checkered"></i>End tournament</button>
+                        <button class="" style="padding:5px;margin:5px;"><i class="fa-solid fa-flag-checkered"></i> End tournament</button>
                     </form>
 
                 @endif
                 @if ($tournament->status != 'finished')
-                    <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}"><i class="fa-solid fa-pencil"></i>Edit</a>
+                    <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}" style="padding:5px;margin:5px;"><i class="fa-solid fa-pencil"></i>Edit</a>
                     <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}">
                         @csrf
                         @method('DELETE')
-                        <button class="text-red-500"><i class="fa-solid fa-trash"></i>Delete</button>
-                    </form>  
+                        <button class="text-red-500" style="padding:5px;margin:5px;"><i class="fa-solid fa-trash"></i> Delete</button>
+                    </form>
                 @endif
-
-                <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}" style="padding:5px;margin:5px;"><i class="fa-solid fa-pencil"></i>Edit</a>
-                <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}">
-                    @csrf
-                    @method('DELETE')
-                    <button class="text-red-500" style="padding:5px;margin:5px;"><i class="fa-solid fa-trash"></i>Delete</button>
-                </form>  
             @endif
             </x-card>
         </div>
