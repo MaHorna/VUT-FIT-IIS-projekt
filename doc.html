@@ -1,0 +1,94 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-2"/>
+<title>Projekt IIS</title>
+<style type="text/css">
+    table { border-collapse: collapse; }
+    td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    dt { font-weight: bold; margin-top: 0.5em; }
+</style>
+</head>
+<body>
+
+<h1>Studentské turnaje</h1>
+
+<dl>
+<dt>Autoři</dt>
+<dd>Matej Horňanský
+    <a href="mailto:xhorna17@stud.fit.vutbr.cz">xhorna17@stud.fit.vutbr.cz</a> -
+    turnaje, databáza
+</dd>
+<dd>Dávid Kán
+    <a href="mailto:xkanda01@stud.fit.vutbr.cz">xkanda01@stud.fit.vutbr.cz</a> - 
+    základy, užívateľ ,turnajový pavúk, databáza
+</dd>
+<dd>Andrej Madunický
+    <a href="mailto:xmadun01@stud.fit.vutbr.cz">xmadun01@stud.fit.vutbr.cz</a> - 
+    tími, controlery
+</dd>
+<dt>URL aplikace</dt>
+<dd><a href="https://www.stud.fit.vutbr.cz/~xhorna17/IIS/">https://www.stud.fit.vutbr.cz/~xhorna17/IIS/</a></dd>
+</dl>
+
+<h2>Uživatelé systému pro testování</h2>
+
+<table>
+<tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>admin@gmail.com</td><td>123456</td><td>Administrátor</td></tr>
+<tr><td>john@gmail.com</td><td>123456</td><td>Uživatel</td></tr>
+</table>
+
+<h3>Video</h3>
+
+<a href="https://drive.google.com/file/d/1tLI4J52_BrWDfzmkkYXwid3EBpVSsdq0/view?usp=share_link">https://drive.google.com/file/d/1tLI4J52_BrWDfzmkkYXwid3EBpVSsdq0/view?usp=share_link</a>
+
+<h2>Implementace</h2>
+<p> 
+PHP skripty v sekcii views implementujú grafické zobrazenie jednotlivých stránok informačného systému.
+<br> Detailnejší popis jednotlivých sekcií views:</p>
+<ul>
+<li>admin - zobrazuje systém z pohladu uživateľa administrátor s špeciálnimi privilégiami</li>
+<li>components - opakovane používané časti systému (layout, search, ...)</li>
+<li>pages - úvodná stránka informačného systému po prihlásení</li>
+<li>teams - zobrazenie zoznamu tímov a stránky jednotlivých tímov</li>
+<li>tournaments - zobrazenie zoznamu turnajov a stránky jednotlivých turnajov</li>
+<li>users - zobrazuje systém z pohladu bežného uživateľa</li>
+</ul>
+<p>
+PHP skripty v sekcii Controllers sú priamo naviazané na jednotlivé views a implementujú logiku nad databázou.
+<br> Detailnejší popis jednotlivých sekcií Controllers:</p>
+<ul>
+<li>admin - funkcie určené na zobrazenie špeciálnych privilégií administrátora</li>
+<li>contestants - funckie na spracovanie informácií o účastníkoch jednotlivých turnajov</li>
+<li>team - funckie na stránkach teamov (edit, delete, ...)</li>
+<li>tournament - funckie na stránkach turnajov (edit, delete, ...)</li>
+<li>user - funckie na stránkach užívatelov (edit, zoznam, ...)</li>
+</ul>
+<p>
+PHP skripty v sekcii databázy označené ako migrations inicializujú samotnú databázu systému, seeders túto databázu naĺňajú ukážkovými dátami.
+PHP skript web.php zakŕňa linky a prepája tak views s controllermi.
+</p>
+
+<h3>Databáze</h3>
+<img src="Untitled_Diagram.drawio1.png" width="500" height="600">
+
+<h2>Instalace</h2>
+Stručně popište: 
+<ul>
+<li>softwarové požiadavky (Laravel 9, PHP 8.1, Composer) - knižnice totožné zo serverom eva.fit.vutbr.cz</li>
+<li>vložiť súbory do cieľového priečinka</li>
+<li>v priečinku iis_studentske_turnaje - príkaz "php artisan install"</li>
+<li>nastaviť skrytý súbor ".env" - nastaviť adresu stránky a databázu</li>
+<li>presunutie priečinka public do verejného priečinku</li>
+<li>nastavenie public/index.php - pridať cestu k spustitelným súborom</li>
+<li>v priečinku iis_studentske_turnaje - príkaz "php artisan migrate --seed" - vytvorí a naplní tabulky v databáze</li>
+</ul>
+
+<h2>Známé problémy</h2>
+<p></p>
+
+</body>
+</html>
