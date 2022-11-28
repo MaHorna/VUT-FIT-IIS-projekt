@@ -8,8 +8,21 @@
                         src="{{$team->logo ? asset('images/logos/' . $team->logo) : asset('/images/placeholder.png')}}"
                         alt=""
                     />
-    
+
+                    @php 
+                        $total_games = $team->lost_games + $team->won_games;
+                        $win_rate = 0;
+                        if ($total_games !== 0) {
+                            $win_rate = ($team->won_games * 100) / $total_games;
+                            
+                        }
+                    @endphp
+
                     <h3 class="text-2xl mb-2 text-yellowish">{{$team->name}}</h3>
+                    <div class="text-xl mb-4">Total games: {{$total_games}}</div>
+                    <div class="text-xl mb-4">Won games: {{$team->won_games}}</div>
+                    <div class="text-xl mb-4">Lost games: {{$team->lost_games}}</div>
+                    <div class="text-xl mb-4">Win rate: {{round($win_rate, 2);}}%</div>
                     <div class="border border-gray-200 w-full mb-6"></div>
                     <div class="mb-2">
                         <div class="text-lg space-y-6 mb-4">

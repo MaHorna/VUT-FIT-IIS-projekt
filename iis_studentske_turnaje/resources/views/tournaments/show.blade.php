@@ -73,9 +73,9 @@
                                         @csrf
                                         <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
                                         <label>Choose which team of your's should compete: </label>
-                                        <select name="team_id" id="team_id" class="css_team_combobox" style="color:black;padding:5px;margin:5px;">
+                                        <select name="team_id" id="team_id" class="css_team_combobox bg-grayish rounded" style="padding:5px;margin:5px;">
                                             @foreach($my_non_registered_teams as $team)
-                                            <option style="color:black;" value="{{ $team->id }}">{{ $team->name}}</option>
+                                            <option style="" value="{{ $team->id }}">{{ $team->name}}</option>
                                             @endforeach
                                         </select>
                                         <input type="hidden" name="user_id" value="NULL">

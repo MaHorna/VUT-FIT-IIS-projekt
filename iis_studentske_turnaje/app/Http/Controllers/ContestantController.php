@@ -32,7 +32,6 @@ class ContestantController extends Controller
     
     // Delete team contestant
     public function destroy_team(Tournament $tournament){
-        $id_contestant = 1;
         $contestant = DB::table('teams')
             ->join('contestants', 'contestants.user_id', '=', 'teams.user_id')
             ->where('tournament_id', $tournament->id)
