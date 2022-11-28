@@ -100,6 +100,46 @@ class ContestantsTableSeeder extends Seeder
                 'tournament_id' => 3,
                 'user_id' => 17,
                 'isteam' => false
+            ],
+            [
+                'tournament_id' => 4,
+                'team_id' => 4,
+                'isteam' => true
+            ],
+            [
+                'tournament_id' => 4,
+                'team_id' => 5,
+                'isteam' => true
+            ],
+            [
+                'tournament_id' => 4,
+                'team_id' => 6,
+                'isteam' => true
+            ],
+            [
+                'tournament_id' => 4,
+                'team_id' => 7,
+                'isteam' => true
+            ],
+            [
+                'tournament_id' => 4,
+                'team_id' => 8,
+                'isteam' => true
+            ],
+            [
+                'tournament_id' => 4,
+                'team_id' => 9,
+                'isteam' => true
+            ],
+            [
+                'tournament_id' => 4,
+                'team_id' => 10,
+                'isteam' => true
+            ],
+            [
+                'tournament_id' => 4,
+                'team_id' => 11,
+                'isteam' => true
             ]
         ];
 
