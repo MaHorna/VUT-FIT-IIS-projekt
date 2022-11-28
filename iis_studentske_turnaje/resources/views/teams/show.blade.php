@@ -19,16 +19,18 @@
                         </div>
                     </div>
                     <div class="border border-gray-200 w-full mb-6"></div>
-                    @foreach($team_users as $team_user)
-                        <p>{{$team_user->name}}</p>
-                        @if ((Auth::user() && Auth::user()->id == $team->user_id) or (Auth::user() && Auth::user()->id == $team_user->user_id))
-                        <form method="POST" action="{{url('/my_teams/destroy/'. $team_user->user_id . '/'. $team_user->team_id)}}">
-                            @csrf
-                            @method('DELETE')
-                            <button class="text-red-500"><i class="fa-solid"></i> Delete</button>
-                        </form>
-                        @endif
-                    @endforeach
+                    @if (Auth::user())
+                        @foreach($team_users as $team_user)
+                            <p>{{$team_user->name}}</p>
+                            @if ((Auth::user() && Auth::user()->id == $team->user_id) or (Auth::user() && Auth::user()->id == $team_user->user_id))
+                            <form method="POST" action="{{url('/my_teams/destroy/'. $team_user->user_id . '/'. $team_user->team_id)}}">
+                                @csrf
+                                @method('DELETE')
+                                <button class="text-red-500"><i class="fa-solid"></i> Delete</button>
+                            </form>
+                            @endif
+                        @endforeach
+                    @endif
                 </div>
             </x-card>
 
@@ -54,14 +56,15 @@
                                     @php
                                         $is_not_team_user = true;
                                     @endphp
-
-                                    @foreach($team_users as $team_user)
-                                        @if($user->id == $team_user->id)
-                                            @php
-                                                $is_not_team_user = false;
-                                            @endphp
-                                        @endif
-                                    @endforeach
+                                    @if (Auth::user())
+                                        @foreach($team_users as $team_user)
+                                            @if($user->id == $team_user->id)
+                                                @php
+                                                    $is_not_team_user = false;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                    @endif
 
                                     @if ($is_not_team_user == true)
                                         <option value="{{ $user->id }}">{{ $user->name}}</option>

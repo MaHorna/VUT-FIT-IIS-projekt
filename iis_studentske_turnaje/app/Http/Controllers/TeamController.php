@@ -25,13 +25,14 @@ class TeamController extends Controller
     // Show single team
     public function show(Team $team)
     {
+        $team_users = null;
         if (Auth::check()) {
             $team_users = DB::table('teams')
                 ->join('teamusers', 'teamusers.team_id', '=', 'teams.id')  
                 ->join('users','teamusers.user_id', '=', 'users.id')
                 ->where('teams.id',$team->id)
                 ->get();
-                
+
         }
         return view('teams.show', 
         [
