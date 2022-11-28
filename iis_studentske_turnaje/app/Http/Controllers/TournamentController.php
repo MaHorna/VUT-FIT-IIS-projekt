@@ -100,15 +100,11 @@ class TournamentController extends Controller
             'prize' => 'required',
             'num_participants' => 'required',
             'teams_allowed' => 'required',
-            'description',
             'logo' => 'required',
         ]);
-
-        // if ($request->hasFile('logo')) {
-        //     $formFields['logo'] = $request->file('logo')->store('logos', 'public');
-        // }
        
         $formFields['user_id'] = auth()->id();
+        $formFields['description'] = $request->description;
 
         Tournament::create($formFields);
 
@@ -140,9 +136,10 @@ class TournamentController extends Controller
             'prize' => 'required',
             'num_participants' => 'required',
             'teams_allowed' => 'required',
-            'description',
             'logo' => 'required',
         ]);
+
+        $formFields['description'] = $request->description;
 
         $tournament->update($formFields);
 
