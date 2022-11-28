@@ -90,8 +90,17 @@ Route::get('/tournaments/{tournament}/edit', [TournamentController::class, 'edit
 // Update tournament
 Route::put('/tournaments/{tournament}', [TournamentController::class, 'update'])->middleware('auth');
 
-// Update tournament
+// Start tournament
 Route::put('/tournaments/{tournament}/start', [TournamentController::class, 'start'])->middleware('auth');
+
+// End tournament
+Route::put('/tournaments/{tournament}/end', [TournamentController::class, 'end'])->middleware('auth');
+
+// Update tournament match score
+Route::put('/tournaments/{contest}/updatescore', [TournamentController::class, 'updatescore'])->middleware('auth');
+
+// Update tournament match winner
+Route::put('/tournaments/{contest}/updatewinner', [TournamentController::class, 'updatewinner'])->middleware('auth');
 
 // Delete tournament
 Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destroy'])->middleware('auth');

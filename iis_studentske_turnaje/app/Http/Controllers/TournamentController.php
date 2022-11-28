@@ -132,10 +132,6 @@ class TournamentController extends Controller
             'logo' => 'required',
         ]);
 
-        // if ($request->hasFile('logo')) {
-        //     $formFields['logo'] = $request->file('logo')->store('logos', 'public');
-        // }
-
         $tournament->update($formFields);
 
         return back()->with('message', 'Tournament updated succesfully.');
@@ -249,6 +245,26 @@ class TournamentController extends Controller
 
         $tournament->status = 'ongoing';
         $tournament->save();
+        $round1 = 1;
+
+        $autowinners = Contest::where(['tournament_id' => $tournament->id])
+            ->where(['round' => $round1])
+            ->where(['contestant2_id' => NULL])
+            ->get();
+
+        foreach ($autowinners as $autowinner) {
+            $contest_child = Contest::find($autowinner->contest_child_id);
+
+            if (!is_null($contest_child)) {
+                if (is_null($contest_child->contestant1_id)) {
+                    $contest_child->contestant1_id = $autowinner->contestant1_id;
+                }
+                elseif (is_null($contest_child->contestant2_id)) {
+                    $contest_child->contestant2_id = $autowinner->contestant1_id;
+                }
+                $contest_child->update();
+            }
+        }
 
         return back()->with('message', 'Tournament has started');
     }
@@ -361,5 +377,53 @@ class TournamentController extends Controller
         ]);
     }
 
+    public function updatescore(Contest $contest, Request $request){
+        $contest->score1 = $request->score1;
+        $contest->score2 = $request->score2;
+        $contest->start_date = $request->start_date;
 
+        $contest->update();
+
+        return back()->with('message', 'Contest score updated succesfully.');
+    }
+
+    public function updatewinner(Contest $contest, Request $request){
+        $contest_child = Contest::find($contest->contest_child_id);
+
+        if (!is_null($contest_child)) {
+            $winner = 0;
+            if ($request->winner == 1) {
+                $winner = $contest->contestant1_id;
+            }
+            else if ($request->winner == 2) {
+                $winner = $contest->contestant2_id;
+            }
+
+            if (is_null($contest_child->contestant1_id) || $contest->contestant1_id == $contest_child->contestant1_id 
+            || $contest->contestant2_id == $contest_child->contestant1_id) {
+                $contest_child->contestant1_id = $winner;
+            }
+            elseif (is_null($contest_child->contestant2_id) || $contest->contestant1_id == $contest_child->contestant2_id 
+            || $contest->contestant2_id == $contest_child->contestant2_id) {
+                $contest_child->contestant2_id = $winner;
+            }
+
+            $contest_child->update();
+            return back()->with('message', 'Contest winner updated succesfully.');
+        }
+
+        return back()->with('message', 'Final contest updated.');
+    }
+
+    public function end(Tournament $tournament){
+        // Make sure logged in user is owner
+        if ($tournament->user_id != auth()->id() && Auth::user()->role == 0) {
+            abort(403, 'Unauthorized Action');
+        }
+
+        $tournament->status = 'finished';
+        $tournament->update();
+
+        return back()->with('message', 'Tournament finished.');
+    }
 }

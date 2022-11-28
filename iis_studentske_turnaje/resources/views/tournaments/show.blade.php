@@ -35,7 +35,7 @@
 
 
             </x-card>
-            @if ($tournament->status == 'ongoing')
+            @if ($tournament->status != 'preparing')
                 <x-card class="mt-4">
                     <div style='display: flex;overflow-x:auto'>
                         @for ($i = 1; $i <= $lastRound; $i++)
@@ -112,15 +112,28 @@
                         <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
                         <input type="hidden" name="user_id" value="-1">
                         <input type="hidden" name="isteam" value="true">
-                        <button class="text-red-500"><i class="fa-solid fa-trash"></i>Start tournament</button>
+                        <button class=""><i class="fa-solid fa-play"></i>Start tournament</button>
                     </form>
+
+                @elseif ($tournament->status == 'ongoing')
+                    <form action="{{url('/tournaments/' .$tournament->id .'/end')}}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
+                        <input type="hidden" name="user_id" value="-1">
+                        <input type="hidden" name="isteam" value="true">
+                        <button class=""><i class="fa-solid fa-flag-checkered"></i>End tournament</button>
+                    </form>
+
                 @endif
-                <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}"><i class="fa-solid fa-pencil"></i>Edit</a>
-                <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}">
-                    @csrf
-                    @method('DELETE')
-                    <button class="text-red-500"><i class="fa-solid fa-trash"></i>Delete</button>
-                </form>  
+                @if ($tournament->status != 'finished')
+                    <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}"><i class="fa-solid fa-pencil"></i>Edit</a>
+                    <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}">
+                        @csrf
+                        @method('DELETE')
+                        <button class="text-red-500"><i class="fa-solid fa-trash"></i>Delete</button>
+                    </form>  
+                @endif
             @endif
             </x-card>
         </div>
