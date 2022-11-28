@@ -39,7 +39,7 @@
         <div class="modal{{$contest->id}} " id="modal">
             @if (!is_null($team1) || !is_null($team2))
                 <x-card>
-                    <form method="POST" action="/tournaments/{{$contest->id}}/updatescore" class="form-container">
+                    <form method="POST" action="{{url('/tournaments/'.$contest->id.'/updatescore')}}" class="form-container">
                         @csrf
                         @method("PUT")
                         @if (!is_null($team1))
@@ -62,19 +62,19 @@
 
                         <div class="mb-6">
                             <label
-                                for="start_date"
+                                for="date"
                                 class="inline-block text-lg mb-2"
                                 >Start time</i></label
                             >
                             <input
                                 type="datetime-local"
                                 class="border border-gray-200 rounded p-2 w-full bg-grayish"
-                                name="start_date"
+                                name="date"
                                 min="{{now()}}"
                                 step="1"
-                                value="{{$contest->start_date}}"
+                                value="{{$contest->date}}"
                             />
-                            @error('start_date')
+                            @error('date')
                                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
                         </div>
@@ -85,7 +85,7 @@
                 </x-card>
                 <hr>
                 <x-card class="mt-3">
-                    <form method="POST" action="/tournaments/{{$contest->id}}/updatewinner" class="form-container">
+                    <form method="POST" action="{{url('/tournaments/' . $contest->id . '/updatewinner')}}" class="form-container">
                         @csrf
                         @method("PUT")
                         @if (!is_null($team1))
@@ -162,7 +162,7 @@
         <div class="modal{{$contest->id}} " id="modal">
             @if (!is_null($user1) || !is_null($user2))
                 <x-card>
-                    <form method="POST" action="/tournaments/{{$contest->id}}/updatescore" class="form-container">
+                    <form method="POST" action="{{url('/tournaments/'.$contest->id.'/updatescore')}}" class="form-container">
                         @csrf
                         @method("PUT")
                         @if (!is_null($user1))
@@ -185,19 +185,19 @@
 
                         <div class="mb-6">
                             <label
-                                for="start_date"
+                                for="date"
                                 class="inline-block text-lg mb-2"
                                 >Start time</i></label
                             >
                             <input
                                 type="datetime-local"
                                 class="border border-gray-200 rounded p-2 w-full bg-grayish"
-                                name="start_date"
+                                name="date"
                                 min="{{now()}}"
                                 step="1"
-                                value="{{$contest->start_date}}"
+                                value="{{$contest->date}}"
                             />
-                            @error('start_date')
+                            @error('date')
                                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
                         </div>
@@ -208,7 +208,7 @@
                 </x-card>
                 <hr>
                 <x-card class="mt-3">
-                    <form method="POST" action="/tournaments/{{$contest->id}}/updatewinner" class="form-container">
+                    <form method="POST" action="{{url('/tournaments/'.$contest->id.'/updatewinner')}}" class="form-container">
                         @csrf
                         @method("PUT")
                         @if (!is_null($user1))

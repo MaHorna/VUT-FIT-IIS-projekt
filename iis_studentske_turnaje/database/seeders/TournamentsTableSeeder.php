@@ -56,7 +56,7 @@ class TournamentsTableSeeder extends Seeder
                 'game' => 'League of legends',
                 'start_date' => DateTime::createFromFormat('Y-m-d H:i', '2022-06-20 13:00'),
                 'prize' => '500$',
-                'num_participants' => 32,
+                'num_participants' => 5,
                 'teams_allowed' => false,
             ]
         ];
