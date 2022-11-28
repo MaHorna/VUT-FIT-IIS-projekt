@@ -57,7 +57,14 @@ class TournamentController extends Controller
                 $is_registered_user = true;
             }
         }
+        $my_non_registered_teams = null;
+        if (Auth::check()) {
+            $my_non_registered_teams = Team::where('user_id', Auth::user()->id)->whereNotIn('id', function($query) use ($tournament) {
+                $query->select('team_id')->from('contestants')->where('tournament_id', $tournament->id);
+            })->get();
+        }
 
+        
         return view('tournaments.show', 
         [
             'tournament' => $tournament,
@@ -65,7 +72,7 @@ class TournamentController extends Controller
             'is_team_leader' => $is_team_leader,
             'is_registered_user' => $is_registered_user,
             'contestants' => Contestant::where('tournament_id', $tournament->id)->get(),
-            'teams' => Team::all(),
+            'my_non_registered_teams' => $my_non_registered_teams,
             'contests' => Contest::where(['tournament_id' => $tournament->id])->get(),
             'lastRound' => Contest::where(['tournament_id' => $tournament->id])->max('round'),
         ]);
