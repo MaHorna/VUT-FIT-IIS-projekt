@@ -1,6 +1,6 @@
 <x-layout>
     <x-search :path="'/tournaments'"/>
-        <a href="{{url('/')}}" class="inline-block ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        <a href="{{url('/tournaments')}}" class="inline-block ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
         <div class="mx-4">
             <x-card class="p-10">
                 <div class="flex flex-col items-center justify-center text-center">
@@ -27,8 +27,8 @@
                         </div>
                     </div>
                 </div>
-                
                 @foreach ($contestants as $contestant)
+                    
                     <div class="text-0.5xl mb-4">{{$contestant->name}}</div>
                 @endforeach
 
@@ -67,22 +67,25 @@
                         </form>
                     @else
                         @if ($is_team_leader)
-                            <form action="{{url('/contestant')}}" method="POST">
-                                @csrf
-                                <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
-                                
-                                <label>Choose which team of your's should compete: </label>
-                                <select name="team_id" id="team_id" class="css_team_combobox" style="color:black;padding:5px;margin:5px;">
-                                    @foreach($my_non_registered_teams as $team)
-                                    <option style="color:black;" value="{{ $team->id }}">{{ $team->name}}</option>
-                                    @endforeach
-                                </select>
-                                <input type="hidden" name="user_id" value="NULL">
-                                <input type="hidden" name="isteam" value="1">
-                                <button class="" style="padding:5px;margin:5px;"><i class="fa-solid fa-gamepad"></i> Join game</button>
-                            </form>
+                            @if ($my_non_registered_teams->count() > 0)
+                                <form action="{{url('/contestant')}}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="tournament_id" value="{{$tournament->id}}">
+                                    <label>Choose which team of your's should compete: </label>
+                                    <select name="team_id" id="team_id" class="css_team_combobox" style="color:black;padding:5px;margin:5px;">
+                                        @foreach($my_non_registered_teams as $team)
+                                        <option style="color:black;" value="{{ $team->id }}">{{ $team->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="user_id" value="NULL">
+                                    <input type="hidden" name="isteam" value="1">
+                                    <button class="" style="padding:5px;margin:5px;"><i class="fa-solid fa-gamepad"></i> Join game</button>
+                                </form>
+                            @else
+                                    <p style="padding:5px;margin:5px;">You don't have any teams that can compete in this tournament.</p>
+                            @endif
                         @else    
-                            <p>You are not team leader, cant join</p>
+                            <p style="padding:5px;margin:5px;">You are not team leader, cant join</p>
                         @endif
                     @endif
                 @else

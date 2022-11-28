@@ -17,12 +17,44 @@ class TeamusersTableSeeder extends Seeder
     {
         $teamusers = [
             [
-                'team_id' => 2,
+                'team_id' => 1,
                 'user_id' => 1
             ],
             [
                 'team_id' => 1,
                 'user_id' => 2
+            ],
+            [
+                'team_id' => 1,
+                'user_id' => 3
+            ],
+            [
+                'team_id' => 1,
+                'user_id' => 4
+            ],
+            [
+                'team_id' => 1,
+                'user_id' => 5
+            ],
+            [
+                'team_id' => 3,
+                'user_id' => 10
+            ],
+            [
+                'team_id' => 3,
+                'user_id' => 11
+            ],
+            [
+                'team_id' => 3,
+                'user_id' => 12
+            ],
+            [
+                'team_id' => 3,
+                'user_id' => 13
+            ],
+            [
+                'team_id' => 3,
+                'user_id' => 14
             ]
         ];
 

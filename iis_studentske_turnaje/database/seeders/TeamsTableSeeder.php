@@ -35,6 +35,16 @@ class TeamsTableSeeder extends Seeder
                 Maecenas libero. Nullam at arcu a est sollicitudin euismod. 
                 Integer rutrum, orci vestibulum ullamcorper ultricies, lacus quam ultricies odio, vitae placerat pede sem sit amet enim. 
                 Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Fusce consectetuer risus a nunc.'
+            ],
+            [
+                'user_id' => 10,
+                'name' => 'momoos test teams',
+                'description' => 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
+                Mauris metus. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor. 
+                Praesent vitae arcu tempor neque lacinia pretium. Aenean placerat. In enim a arcu imperdiet malesuada. 
+                Maecenas libero. Nullam at arcu a est sollicitudin euismod. 
+                Integer rutrum, orci vestibulum ullamcorper ultricies, lacus quam ultricies odio, vitae placerat pede sem sit amet enim. 
+                Fusce tellus odio, dapibus id fermentum quis, suscipit id erat. Fusce consectetuer risus a nunc.'
             ]
         ];
         
