@@ -1,5 +1,24 @@
 @props(['contest', 'tournament'])
-
+<script>
+    var opened = 0;
+    var id_name = 'modal';
+    function openForm(match_id) {        
+        if (opened == 0) {
+            var elem1 = document.getElementById(id_name.concat(match_id));
+            elem1.style.display = 'inline';
+            var elem2 = document.getElementById(id_name.concat(match_id).concat('_bgr'));
+            elem2.style.display = 'inline';
+            opened = 1;
+        }
+        else {
+            var elem1 = document.getElementById(id_name.concat(match_id));
+            elem1.style.display = 'none';
+            var elem2 = document.getElementById(id_name.concat(match_id).concat('_bgr'));
+            elem2.style.display = 'none';
+            opened = 0;
+        }
+    }
+</script>
 <div style="width:300px;">
     @if ($tournament->teams_allowed == true)
         @php
@@ -17,16 +36,16 @@
                 ->first();
         @endphp
 
-        <div style="margin: 15px 0; overflow: hidden; border-radius: 5px;">
+        <div onclick="openForm({{$contest->id}})" style="margin: 15px 0; overflow: hidden; border-radius: 5px;">
             <div style="color: #fff; padding: 10px 8px; background-color: #c69749;border-bottom: 1px solid #282a3a;">
                 @if (!is_null($team1))
                     <div class="flex">
                         <div class="flex-1 w-10">
-                            <a href="{{url('/teams', $team1->id)}}">{{$team1->name}}</a>
+                            <a onclick='event.stopPropagation();' href="{{url('/teams', $team1->id)}}">{{$team1->name}}</a>
                         </div>
 
                         <div class="flex-none">
-                            <button class="open-button" onclick="openForm()" style="text-align: right;"><span style="text-align: right;">{{$contest->score1}}</span></button>
+                            <button class="open-button"  onclick="openForm({{$contest->id}})"><span style="text-align: right;">{{$contest->score1}}</span></button>
                         </div>
                     </div>
                 @else
@@ -38,11 +57,11 @@
 
                     <div class="flex">
                         <div class="flex-1 w-10">
-                            <a href="{{url('/teams', $team2->id)}}">{{$team2->name}}</a>
+                            <a onclick='event.stopPropagation();' href="{{url('/teams', $team2->id)}}">{{$team2->name}}</a>
                         </div>
 
                         <div class="flex-none">
-                            <button class="open-button" onclick="openForm()"><span style="text-align: right;">{{$contest->score2}}</span></button>
+                            <button class="open-button"><span style="text-align: right;">{{$contest->score2}}</span></button>
                         </div>
                     </div>
 
@@ -51,8 +70,11 @@
                 @endif
             </div>
         </div>
+
         @if (Auth::user() && Auth::user()->id == $tournament->user_id && $tournament->status != 'finished')
-        <div class="modal{{$contest->id}} " id="modal">
+        <div onclick="openForm({{$contest->id}})" class="modal_bgr" id="modal{{$contest->id}}_bgr" style="display:none;">
+        </div>
+        <div class="modal" id="modal{{$contest->id}}" style="display:none;">
             @if (!is_null($team1) || !is_null($team2))
                 <x-card>
                     <form method="POST" action="{{url('/tournaments/'.$contest->id.'/updatescore')}}" class="form-container">
@@ -95,8 +117,7 @@
                             @enderror
                         </div>
                             
-                    <button type="submit" class="btn h-10 mt-2 w-36 text-white rounded-lg bg-yellowish hover:bg-grayish">Update score</button>
-                    <button type="button" class="close btn mt-2 cancel">Close</button>
+                    <button type="submit" onclick="openForm({{$contest->id}})" class="btn h-10 mt-2 w-36 text-white rounded-lg bg-yellowish hover:bg-grayish">Update score</button>
                     </form>
                 </x-card>
                 <hr>
@@ -118,8 +139,8 @@
                         @else
                             <p>-</p>
                         @endif         
-                    <button type="submit" class="btn mt-2 h-10 w-36 text-white rounded-lg bg-yellowish hover:bg-grayish">Confirm winner</button>
-                    <button type="button" class="close btn mt-2 cancel" >Close</button>
+                    <button type="submit" onclick="openForm({{$contest->id}})" class="btn mt-2 h-10 w-36 text-white rounded-lg bg-yellowish hover:bg-grayish">Confirm winner</button>
+                    <button type="button" onclick="openForm({{$contest->id}})" class="close btn mt-2 cancel" >Close</button>
                     </form>
                 </x-card>
             @endif
@@ -141,16 +162,16 @@
                 ->first();
         @endphp
         
-        <div style="margin: 15px 0; overflow: hidden; border-radius: 5px;">
+        <div onclick="openForm({{$contest->id}})" style="margin: 15px 0; overflow: hidden; border-radius: 5px;">
             <div style="color: #fff; padding: 10px 8px; background-color: #c69749;border-bottom: 1px solid #282a3a;">
                 @if (!is_null($user1))
                     <div class="flex">
                         <div class="flex-1 w-10">
-                            <a href="{{url('/users', $user1->id)}}">{{$user1->name}}</a>
+                            <a onclick='event.stopPropagation();' href="{{url('/users', $user1->id)}}">{{$user1->name}}</a>
                         </div>
 
                         <div class="flex-none">
-                            <button class="open-button" onclick="openForm()" style="text-align: right;"><span style="text-align: right;">{{$contest->score1}}</span></button>
+                            <button class="open-button"><span style="text-align: right;">{{$contest->score1}}</span></button>
                         </div>
                     </div>
                 @else
@@ -162,11 +183,11 @@
 
                     <div class="flex">
                         <div class="flex-1 w-10">
-                            <a href="{{url('/users', $user2->id)}}">{{$user2->name}}</a>
+                            <a onclick='event.stopPropagation();' href="{{url('/users', $user2->id)}}">{{$user2->name}}</a>
                         </div>
 
                         <div class="flex-none">
-                            <button class="open-button" onclick="openForm()"><span style="text-align: right;">{{$contest->score2}}</span></button>
+                            <button class="open-button"><span style="text-align: right;">{{$contest->score2}}</span></button>
                         </div>
                     </div>
 
@@ -177,7 +198,9 @@
         </div>
 
         @if (Auth::user() && Auth::user()->id == $tournament->user_id && $tournament->status != 'finished')
-        <div class="modal{{$contest->id}} " id="modal">
+        <div onclick="openForm({{$contest->id}})" class="modal_bgr" id="modal{{$contest->id}}_bgr" style="display:none;">
+        </div>
+        <div class="modal" id="modal{{$contest->id}}" style="display:none;">
             @if (!is_null($user1) || !is_null($user2))
                 <x-card>
                     <form method="POST" action="{{url('/tournaments/'.$contest->id.'/updatescore')}}" class="form-container">
@@ -220,8 +243,7 @@
                             @enderror
                         </div>
                             
-                    <button type="submit" class="btn h-10 mt-2 w-36 text-white rounded-lg bg-yellowish hover:bg-grayish">Update score</button>
-                    <button type="button" class="close btn mt-2 cancel">Close</button>
+                    <button type="submit" onclick="openForm({{$contest->id}})" class="btn h-10 mt-2 w-36 text-white rounded-lg bg-yellowish hover:bg-grayish">Update score</button>
                     </form>
                 </x-card>
                 <hr>
@@ -243,8 +265,8 @@
                         @else
                             <p>-</p>
                         @endif         
-                    <button type="submit" class="btn mt-2 h-10 w-36 text-white rounded-lg bg-yellowish hover:bg-grayish">Confirm winner</button>
-                    <button type="button" class="close btn mt-2 cancel" >Close</button>
+                    <button type="submit" onclick="openForm({{$contest->id}})" class="btn mt-2 h-10 w-36 text-white rounded-lg bg-yellowish hover:bg-grayish">Confirm winner</button>
+                    <button type="button" onclick="openForm({{$contest->id}})" class="close btn mt-2 cancel" >Close</button>
                     </form>
                 </x-card>
             @endif

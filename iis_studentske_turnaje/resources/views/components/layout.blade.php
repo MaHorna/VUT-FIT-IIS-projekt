@@ -48,24 +48,24 @@
         <script>
             let modalBtns = [...document.querySelectorAll(".button")];
             modalBtns.forEach(function (btn) {
-              btn.onclick = function () {
-                let modal = btn.getAttribute("data-modal");
-                document.getElementById(modal).style.display = "block";
-              };
+                btn.onclick = function () {
+                    let modal = btn.getAttribute("data-modal");
+                    document.getElementById(modal).style.display = "block";
+                };
             });
             let closeBtns = [...document.querySelectorAll(".close")];
             closeBtns.forEach(function (btn) {
-              btn.onclick = function () {
-                let modal = btn.closest(".modal");
-                modal.style.display = "none";
-              };
+                btn.onclick = function () {
+                    let modal = btn.closest(".modal");
+                    modal.style.display = "none";
+                };
             });
             window.onclick = function (event) {
-              if (event.target.className === "modal") {
-                event.target.style.display = "none";
-              }
+                if (event.target.className === "modal") {
+                    event.target.style.display = "none";
+                }
             };
-          </script>
+        </script>
         <style>
             .sidebar {
                 height: 100%;
@@ -110,7 +110,24 @@
             .logo_holder{
                 height: 240px;
             }
-	</style>
+
+            .modal {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                margin-top: -350px;
+                margin-left: -150px;
+            }
+            .modal_bgr {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background: #000;
+                opacity: 0.8;
+            }
+    	</style>
         <title>Studentske turnaje</title>
     </head>
     <body>
