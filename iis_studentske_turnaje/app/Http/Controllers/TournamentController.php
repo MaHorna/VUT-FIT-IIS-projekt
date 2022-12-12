@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Team;
+use App\Models\User;
 use App\Models\Contest;
 use App\Models\Contestant;
 use App\Models\Tournament;
@@ -384,21 +385,23 @@ class TournamentController extends Controller
 
     // Update score and date 
     public function updatescore(Contest $contest, Request $request){
+       
         $contest->score1 = $request->score1;
         $contest->score2 = $request->score2;
         $contest->date = $request->date;
 
         $contest->update();
 
-        return back()->with('message', 'Contest score updated succesfully.');
+        //return back()->with('message', 'Contest score updated succesfully.');
+        return response()->json(['success'=>'Data is successfully added', 'score1' => $contest->score1, 'score2' => $contest->score2]);
     }
 
     // Update winner
     public function updatewinner(Contest $contest, Request $request){
         $contest_child = Contest::find($contest->contest_child_id);
-
+        $next_pos = 0;
+        $winner = 0;
         if (!is_null($contest_child)) {
-            $winner = 0;
             if ($request->winner == 1) {
                 $winner = $contest->contestant1_id;
             }
@@ -409,17 +412,45 @@ class TournamentController extends Controller
             if (is_null($contest_child->contestant1_id) || $contest->contestant1_id == $contest_child->contestant1_id 
             || $contest->contestant2_id == $contest_child->contestant1_id) {
                 $contest_child->contestant1_id = $winner;
+                $next_pos = 1;
             }
             elseif (is_null($contest_child->contestant2_id) || $contest->contestant1_id == $contest_child->contestant2_id 
             || $contest->contestant2_id == $contest_child->contestant2_id) {
                 $contest_child->contestant2_id = $winner;
+                $next_pos = 2;
             }
 
             $contest_child->update();
-            return back()->with('message', 'Contest winner updated succesfully.');
+
+            $user1 = User::join('contestants', 'contestants.user_id', '=', 'users.id')
+                ->where('contestants.tournament_id', $contest->tournament_id)
+                ->join('contests', 'contestants.id', '=', 'contests.contestant1_id')
+                ->where('contestants.id', $contest->contestant1_id)
+                ->select('users.id', 'users.name',)
+                ->first();
+            $user2 = User::join('contestants', 'contestants.user_id', '=', 'users.id')
+                ->where('contestants.tournament_id', $contest->tournament_id)
+                ->join('contests', 'contestants.id', '=', 'contests.contestant2_id')
+                ->where('contestants.id', $contest->contestant2_id)
+                ->select('users.id', 'users.name',)
+                ->first();
+
+            return response()->json(['success'=>'Data is successfully added', 
+            'winner' => $request->winner, 
+            'next_pos' => $next_pos, 
+            'user1_name' => $user1->name, 
+            'user2_name' => $user2->name,
+            'next_id' => $contest_child->id]);
+
         }
 
-        return back()->with('message', 'Final contest updated.');
+        return response()->json(['success'=>'Data is successfully added', 
+        'winner' => $request->winner, 
+        'next_pos' => $next_pos,
+        'user1_name' => NULL, 
+        'user2_name' => NULL,
+        'next_id' => NULL]);
+
     }
 
     // Change tournament state to finished
