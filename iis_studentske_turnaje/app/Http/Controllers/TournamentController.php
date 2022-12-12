@@ -385,15 +385,16 @@ class TournamentController extends Controller
 
     // Update score and date 
     public function updatescore(Contest $contest, Request $request){
-       
-        $contest->score1 = $request->score1;
-        $contest->score2 = $request->score2;
-        $contest->date = $request->date;
+        if (!is_null($request->score1)) $contest->score1 = $request->score1;
+        if (!is_null($request->score2)) $contest->score2 = $request->score2;
+        if (!is_null($request->date)) $contest->date = $request->date;
 
         $contest->update();
 
         //return back()->with('message', 'Contest score updated succesfully.');
-        return response()->json(['success'=>'Data is successfully added', 'score1' => $contest->score1, 'score2' => $contest->score2]);
+        return response()->json(['success'=>'Data is successfully added', 
+        'score1' => (is_null($contest->score1))? NULL : $contest->score1, 
+        'score2' => (is_null($contest->score2))? NULL : $contest->score2]);
     }
 
     // Update winner
@@ -436,19 +437,25 @@ class TournamentController extends Controller
                 ->first();
 
             return response()->json(['success'=>'Data is successfully added', 
+            'url' => url('/users'),
             'winner' => $request->winner, 
             'next_pos' => $next_pos, 
-            'user1_name' => $user1->name, 
-            'user2_name' => $user2->name,
+            'user1_name' => (is_null($user1))? "-" : $user1->name, 
+            'user2_name' => (is_null($user2))? "-" : $user2->name,
+            'user1_id' => (is_null($user1))? NULL : $user1->id, 
+            'user2_id' => (is_null($user2))? NULL : $user2->id,
             'next_id' => $contest_child->id]);
 
         }
 
         return response()->json(['success'=>'Data is successfully added', 
+        'url' => url('/users'),
         'winner' => $request->winner, 
-        'next_pos' => $next_pos,
+        'next_pos' => $NULL,
         'user1_name' => NULL, 
         'user2_name' => NULL,
+        'user1_id' => NULL, 
+        'user2_id' => NULL,
         'next_id' => NULL]);
 
     }

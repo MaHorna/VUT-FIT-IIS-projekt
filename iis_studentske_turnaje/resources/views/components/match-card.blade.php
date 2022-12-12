@@ -175,7 +175,15 @@
                         </div>
                     </div>
                 @else
-                    <span>-</span>
+                    <div class="flex">
+                        <div class="flex-1 w-10">
+                            <a onclick='event.stopPropagation();' id="user1name{{$contest->id}}" href="{{url('/users', 1)}}" >-</a>
+                        </div>
+
+                        <div class="flex-none">
+                            <button class="open-button"><span id="score1Value{{$contest->id}}" style="text-align: right;"></span></button>
+                        </div>
+                    </div>
                 @endif
             </div>
             <div style="color: #fff; padding: 10px 8px; background-color: #c69749;">
@@ -192,7 +200,15 @@
                     </div>
 
                 @else
-                    <span>-</span>
+                    <div class="flex">
+                        <div class="flex-1 w-10">
+                            <a onclick='event.stopPropagation();' id="user2name{{$contest->id}}" href="{{url('/users', 1)}}"  >-</a>
+                        </div>
+
+                        <div class="flex-none">
+                            <button class="open-button"><span id="score2Value{{$contest->id}}" style="text-align: right;"></span></button>
+                        </div>
+                    </div>
                 @endif
             </div>
         </div>
@@ -263,6 +279,8 @@
                                     date: jQuery('#date{{$contest->id}}').val()
                                 },
                                 success: function(data){
+                                    console.log(data);
+                                    alert(data.success);
                                     document.getElementById("score1Value{{$contest->id}}").innerHTML = data.score1;
                                     document.getElementById("score2Value{{$contest->id}}").innerHTML = data.score2;
                                 }});
@@ -293,6 +311,8 @@
                     <script>
                         $("#updateWinner{{$contest->id}}").click(function(e)
                         {
+                            
+                            alert("click");
                             e.preventDefault();
                             $.ajaxSetup({
                                 headers: {
@@ -306,29 +326,45 @@
                                     winner: document.querySelector('input[name="winner{{$contest->id}}"]:checked').value
                                 },
                                 success: function(data){
+                                    console.log(data);
+                                    alert(data.success);
                                     if (data.next_pos == 1) {
+                                        alert(data.url+"/"+data.user1_id);
                                         if (data.winner == 1) {
+                                            alert(data.user1_name + " pos " + data.next_pos);
                                             document.getElementById("user1name" + data.next_id).innerHTML = data.user1_name;
                                             document.getElementById("user1nameRadio" + data.next_id).innerHTML = data.user1_name;
+                                            document.getElementById("user1name" + data.next_id).setAttribute("href", data.url+"/"+data.user1_id);
                                         }
                                         else
                                         {
+                                            alert(data.user2_name + " pos " + data.next_pos);
                                             document.getElementById("user1name" + data.next_id).innerHTML = data.user2_name;
                                             document.getElementById("user1nameRadio" + data.next_id).innerHTML = data.user2_name;
+                                            document.getElementById("user1name" + data.next_id).setAttribute("href", data.url+"/"+data.user2_id);
                                         }
                                     }
                                     else if (data.next_pos == 2) {
                                         if (data.winner == 1) {
+                                            alert(data.user1_name + " pos " + data.next_pos);
                                             document.getElementById("user2name" + data.next_id).innerHTML = data.user1_name;
                                             document.getElementById("user2nameRadio" + data.next_id).innerHTML = data.user1_name;
+                                            document.getElementById("user2name" + data.next_id).setAttribute("href", data.url+"/"+data.user1_id);
                                         }
                                         else
                                         {
+                                            alert(data.user2_name + " pos " + data.next_pos);
                                             document.getElementById("user2name" + data.next_id).innerHTML = data.user2_name;
                                             document.getElementById("user2nameRadio" + data.next_id).innerHTML = data.user2_name;
+                                            document.getElementById("user2name" + data.next_id).setAttribute("href", data.url+"/"+data.user2_id);
                                         }
                                     }
+                                    else
+                                    {
+                                        alert("last pos");
+                                    }
                                 }});
+                                
                         });
                     </script>
                 </x-card>
