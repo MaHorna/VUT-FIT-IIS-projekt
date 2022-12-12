@@ -263,8 +263,6 @@
                                     date: jQuery('#date{{$contest->id}}').val()
                                 },
                                 success: function(data){
-                                    console.log(data);
-                                    alert(data.success);
                                     document.getElementById("score1Value{{$contest->id}}").innerHTML = data.score1;
                                     document.getElementById("score2Value{{$contest->id}}").innerHTML = data.score2;
                                 }});
@@ -277,14 +275,14 @@
                         @if (!is_null($user1))
 
                         <input type="radio" id="contestant{{$contest->id}}" name="winner{{$contest->id}}" value="1" checked>
-                        <label for="contestant{{$contest->id}}">{{$user1->name}}</label><br>
+                        <label for="contestant{{$contest->id}}" id="user1nameRadio{{$contest->id}}">{{$user1->name}}</label><br>
                         @else
                             <p>-</p>
                         @endif
                         <hr>
                         @if (!is_null($user2))
                             <input type="radio" id="contestant{{$contest->id}}" name="winner{{$contest->id}}" value="2">
-                            <label for="contestant{{$contest->id}}">{{$user2->name}}</label><br>
+                            <label for="contestant{{$contest->id}}" id="user2nameRadio{{$contest->id}}">{{$user2->name}}</label><br>
                         @else
                             <p>-</p>
                         @endif
@@ -308,28 +306,26 @@
                                     winner: document.querySelector('input[name="winner{{$contest->id}}"]:checked').value
                                 },
                                 success: function(data){
-                                    console.log(data);
-                                    alert(data.success);
                                     if (data.next_pos == 1) {
                                         if (data.winner == 1) {
-                                            alert(data.user1_name + " pos " + data.next_pos);
                                             document.getElementById("user1name" + data.next_id).innerHTML = data.user1_name;
+                                            document.getElementById("user1nameRadio" + data.next_id).innerHTML = data.user1_name;
                                         }
                                         else
                                         {
-                                            alert(data.user2_name + " pos " + data.next_pos);
                                             document.getElementById("user1name" + data.next_id).innerHTML = data.user2_name;
+                                            document.getElementById("user1nameRadio" + data.next_id).innerHTML = data.user2_name;
                                         }
                                     }
                                     else if (data.next_pos == 2) {
                                         if (data.winner == 1) {
-                                            alert(data.user1_name + " pos " + data.next_pos);
                                             document.getElementById("user2name" + data.next_id).innerHTML = data.user1_name;
+                                            document.getElementById("user2nameRadio" + data.next_id).innerHTML = data.user1_name;
                                         }
                                         else
                                         {
-                                            alert(data.user2_name + " pos " + data.next_pos);
                                             document.getElementById("user2name" + data.next_id).innerHTML = data.user2_name;
+                                            document.getElementById("user2nameRadio" + data.next_id).innerHTML = data.user2_name;
                                         }
                                     }
                                 }});
