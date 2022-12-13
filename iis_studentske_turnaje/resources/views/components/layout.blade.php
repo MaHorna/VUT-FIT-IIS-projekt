@@ -119,15 +119,26 @@
                 position: fixed;
                 top: 50%;
                 left: 50%;
-                margin-top: -350px;
-                margin-left: -150px;
+                transform: translate(-50%, -50%);
+                max-height: 80vh;
+                overflow: auto;
             }
-            .modalTeams {
+            .delete {
                 position: fixed;
-                top: 1%;
+                top: 50%;
                 left: 50%;
-                
-                margin-left: -150px;
+                transform: translate(-50%, -50%);
+                max-height: 80vh;
+                overflow: auto;
+            }
+            .delete_bgr {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background: #000;
+                opacity: 0.8;
             }
             .modal_bgr {
                 position: fixed;
@@ -137,6 +148,53 @@
                 left: 0;
                 background: #000;
                 opacity: 0.8;
+            }
+            .bottom-three {
+                margin-bottom: 1cm;
+            }
+            .green {
+                background:linear-gradient(to bottom, #ffffff 5%, #d9d9d9 100%);
+                background-color:#ffffff;
+                border-radius:28px;
+                border:1px solid #566963;
+                display:inline-block;
+                cursor:pointer;
+                color:#000000;
+                font-family:Arial;
+                font-size:17px;
+                padding:10px 24px;
+                text-decoration:none;
+                text-shadow:0px 1px 0px #2b665e;
+            }
+            .green:hover {
+                background:linear-gradient(to bottom, #d9d9d9 5%, #ffffff 100%);
+                background-color:#d9d9d9;
+            }
+            .green:active {
+                position:relative;
+                top:1px;
+            }
+            .myButton {
+                background:linear-gradient(to bottom, #c74545 5%, #bd2a2a 100%);
+                background-color:#c74545;
+                border-radius:28px;
+                border:1px solid #ab1919;
+                display:inline-block;
+                cursor:pointer;
+                color:#ffffff;
+                font-family:Arial;
+                font-size:17px;
+                padding:10px 24px;
+                text-decoration:none;
+                text-shadow:0px 1px 0px #2f6627;
+            }
+            .myButton:hover {
+                background:linear-gradient(to bottom, #bd2a2a 5%, #c74545 100%);
+                background-color:#bd2a2a;
+            }
+            .myButton:active {
+                position:relative;
+                top:1px;
             }
     	</style>
         <title>Studentske turnaje</title>

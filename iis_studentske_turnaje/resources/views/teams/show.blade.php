@@ -19,6 +19,26 @@
             }
         }
     </script>
+    <script>
+        var opened = 0;
+        var id_delete = 'delete';
+        function openDELETETeamForm(delete_id) {
+            if (opened == 0) {
+                var elem11 = document.getElementById(id_delete.concat(delete_id));
+                elem11.style.display = 'inline';
+                var elem22 = document.getElementById(id_delete.concat(delete_id).concat('_bgr'));
+                elem22.style.display = 'inline';
+                opened = 1;
+            }
+            else {
+                var elem11 = document.getElementById(id_delete.concat(delete_id));
+                elem11.style.display = 'none';
+                var elem22 = document.getElementById(id_delete.concat(delete_id).concat('_bgr'));
+                elem22.style.display = 'none';
+                opened = 0;
+            }
+        }
+    </script>
      <div id="dom-target" style="display: none;">{{asset('images/logos')}}</div>
         <a href="{{url('/')}}" class="inline-block ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
         <div class="mx-4">
@@ -206,24 +226,46 @@
                             success: function(data){
                                 document.getElementById("nameProfile").innerHTML = data.name;
                                 document.getElementById("nameForm").innerHTML = data.name;
+                                document.getElementById("nameFormdel").innerHTML = data.name;
                                 document.getElementById("descriptionProfile").innerHTML = data.description;
                                 document.getElementById("logoProfile").setAttribute("src", data.logo);
                             }});
                     });
                 </script>
             </div>
+        <div onclick="openDELETETeamForm({{$team->id}})" class="delete_bgr" id="delete{{$team->id}}_bgr" style="display:none;"></div>
+            <div class="delete" id="delete{{$team->id}}" style="display:none;">
+                <x-card class="p-10 rounded mx-auto">
+                    <header class="text-center">
+                        <h2 class="mb-4">
+                            Are you sure you want delete this team ? 
+                        </h2>
+                        <p class="text-2xl font-bold  mb-1"  id="nameFormdel">{{$team->name}}</p>
+                    </header>
+                    <div class="bottom-three"> </div>
+                    <form method="POST" action="{{url('/teams/'.$team->id)}}">
+                        @csrf
+                        @method('DELETE')
+                        <div class="absolute bottom-4 right-12"> 
+                            <button class="myButton">Delete</button>
+                        </div>
+                    </form>
+                    <div class="absolute bottom-4 left-12"> 
+                        <a onclick="openDELETETeamForm({{$user->id}})" class="green"> No </a>
+                    </div>
 
+                </x-card>
+            </div>
             @if (Auth::user() && Auth::user()->id == $team->user_id)
                 <x-card class="mt-4 p-2 flex space-x-6">
                     <button onclick="openEditTeamForm({{$team->id}})">
                     <i class="fa-solid fa-pencil" ></i> Edit
                     </button>
 
-                    <form method="POST" action="/teams/{{$team->id}}">
-                        @csrf
-                        @method('DELETE')
-                        <button class="text-red-500"><i class="fa-solid fa-trash"></i> Delete</button>
-                    </form>
+                    <button onclick="openDELETETeamForm({{$team->id}})" class="text-red-500">
+                    <i class="fa-solid fa-trash"></i>Delete</button>
+                    </a>
+
        
                     
                     <form>
