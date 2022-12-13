@@ -451,7 +451,7 @@ class TournamentController extends Controller
         return response()->json(['success'=>'Data is successfully added', 
         'url' => url('/users'),
         'winner' => $request->winner, 
-        'next_pos' => $NULL,
+        'next_pos' => $next_pos,
         'user1_name' => NULL, 
         'user2_name' => NULL,
         'user1_id' => NULL, 

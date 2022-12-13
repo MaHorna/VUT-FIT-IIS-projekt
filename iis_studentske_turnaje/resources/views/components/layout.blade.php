@@ -39,12 +39,10 @@
             var mini = true;
             function toggleSidebar() {
                 if (mini) {
-                    console.log("opening sidebar");
                     document.getElementById("mySidebar").style.width = "300px";
                     document.getElementById("main").style.marginLeft = "300px";
                     this.mini = false;
                 } else {
-                    console.log("closing sidebar");
                     document.getElementById("mySidebar").style.width = "65px";
                     document.getElementById("main").style.marginLeft = "65px";
                     this.mini = true;
@@ -122,6 +120,13 @@
                 top: 50%;
                 left: 50%;
                 margin-top: -350px;
+                margin-left: -150px;
+            }
+            .modalTeams {
+                position: fixed;
+                top: 1%;
+                left: 50%;
+                
                 margin-left: -150px;
             }
             .modal_bgr {

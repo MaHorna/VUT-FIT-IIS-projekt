@@ -82,7 +82,11 @@ class TeamController extends Controller
 
         $team->update($formFields);
 
-        return redirect('/')->with('message', 'Team updated succesfully.');
+        return response()->json(['success'=>'Data is successfully added', 
+        'name' => $team->name, 
+        'logo' => asset('images/logos/'. $team->logo), 
+        'description' => $team->description]);
+        //return redirect('/')->with('message', 'Team updated succesfully.');
     }
 
     // Delete team
@@ -101,12 +105,62 @@ class TeamController extends Controller
             'team_id' => ['required'],
         ]);
         Teamuser::create($formFields);
-        return back()->with('message', 'player add succesfully.');
+
+        if (Auth::check()) {
+            $team_users = DB::table('teams')
+                ->join('teamusers', 'teamusers.team_id', '=', 'teams.id')  
+                ->join('users','teamusers.user_id', '=', 'users.id')
+                ->where('teams.id',$request->team_id)
+                ->where('users.id', $request->user_id)
+                ->first();
+
+        }
+
+        $addPlayer = "<div id=\"div".$request->team_id."a". $request->user_id."\"> 
+        <div class=\"flex\">
+            <div class=\"mr-2\">
+                <span>".$team_users->name."</span>
+            </div>
+            <div>
+                    <form>
+                        <button id=\"remove".$request->team_id ."a". $request->user_id."\" class=\"removePlayer text-red-500\"><i class=\"fa-solid fa-x\"></i></button>
+                    </form>
+            </div>
+        </div>
+        <script>
+            $(\"#remove".$request->team_id ."a" . $request->user_id."\").click(function(e)
+            {
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name=\"csrf-token\"]').attr('content')
+                    }
+                });
+                jQuery.ajax({
+                    url: \"".url('/my_teams/destroy/'. $request->user_id . '/'. $request->team_id)."\",
+                    method: 'DELETE',
+                    data: {
+                    },
+                    success: function(data){
+                        const tmp = document.getElementById(data.delete);
+                        tmp.remove();
+                    }});
+            });
+        </script>
+    </div>";
+
+
+        return response()->json(['success'=>'Data is successfully added',
+        'addPlayer' => $addPlayer,
+        'delete' =>'option'.$request->team_id .'a'. $request->user_id ]);
     }
     
     // Delete user
     public function remove_user($user_id,  $team_id){
         $deleted = Teamuser::where('user_id', $user_id)->where('team_id', $team_id)->delete();
+        
+        return response()->json(['success'=>'Data is successfully added',
+        'delete' => 'div'.$team_id .'a'. $user_id]);
         return back()->with('message', 'player removed succesfully.');
     }
     

@@ -1,9 +1,31 @@
 <x-layout>
+    <script>
+        var opened = 0;
+        var id_name = 'modal';
+        function openEditTeamForm(team_id) {
+            if (opened == 0) {
+                var elem1 = document.getElementById(id_name.concat(team_id));
+                elem1.style.display = 'inline';
+                var elem2 = document.getElementById(id_name.concat(team_id).concat('_bgr'));
+                elem2.style.display = 'inline';
+                opened = 1;
+            }
+            else {
+                var elem1 = document.getElementById(id_name.concat(team_id));
+                elem1.style.display = 'none';
+                var elem2 = document.getElementById(id_name.concat(team_id).concat('_bgr'));
+                elem2.style.display = 'none';
+                opened = 0;
+            }
+        }
+    </script>
+     <div id="dom-target" style="display: none;">{{asset('images/logos')}}</div>
         <a href="{{url('/')}}" class="inline-block ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
         <div class="mx-4">
             <x-card class="p-10">
                 <div class="flex flex-col items-center justify-center text-center">
                     <img
+                        id="logoProfile"
                         class="w-48 mr-6 mb-6"
                         src="{{$team->logo ? asset('images/logos/' . $team->logo) : asset('/images/placeholder.png')}}"
                         alt=""
@@ -18,54 +40,194 @@
                         }
                     @endphp
 
-                    <h3 class="text-2xl mb-2 text-yellowish">{{$team->name}}</h3>
+                    <h3 id="nameProfile" class="text-2xl mb-2 text-yellowish">{{$team->name}}</h3>
                     <div class="text-xl mb-4">Total games: {{$total_games}}</div>
                     <div class="text-xl mb-4">Won games: {{$team->won_games}}</div>
                     <div class="text-xl mb-4">Lost games: {{$team->lost_games}}</div>
                     <div class="text-xl mb-4">Win rate: {{round($win_rate, 2);}}%</div>
                     <div class="border border-gray-200 w-full mb-6"></div>
                     <div class="mb-2">
-                        <div class="text-lg space-y-6 mb-4">
+                        <div id="descriptionProfile" class="text-lg space-y-6 mb-4">
                             {{$team->description}}
                         </div>
                     </div>
                     <div class="border border-gray-200 w-full mb-6"></div>
                     @if (Auth::user())
-                        @foreach($team_users as $team_user)
-                            <div class="flex">
-                                <div class="mr-2">
-                                    <span>{{$team_user->name}}</span>
+                        <div id="forEachPlayers" class="a">
+                            @foreach($team_users as $team_user)
+                                <div id="div{{$team->id .'a'. $team_user->id}}" style="display: visible;">
+                                    <div class="flex">
+                                        <div class="mr-2">
+                                            <span>{{$team_user->name}}</span>
+                                        </div>
+                                        <div>
+                                            @if ((Auth::user() && Auth::user()->id == $team->user_id) or (Auth::user() && Auth::user()->id == $team_user->user_id))
+                                                <form>
+                                                    <button id="remove{{$team->id .'a'. $team_user->id}}" class="removePlayer text-red-500"><i class="fa-solid fa-x"></i></button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <script>
+                                        $("#remove{{$team->id .'a' . $team_user->id}}").click(function(e)
+                                        {
+                                            e.preventDefault();
+                                            $.ajaxSetup({
+                                                headers: {
+                                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                }
+                                            });
+                                            jQuery.ajax({
+                                                url: "{{url('/my_teams/destroy/'. $team_user->user_id . '/'. $team_user->team_id)}}",
+                                                method: 'DELETE',
+                                                data: {
+                                                },
+                                                success: function(data){
+                                                    const tmp = document.getElementById(data.delete);
+                                                    tmp.remove();
+                                                }});
+                                        });
+                                    </script>
                                 </div>
-                                <div>
-                                    @if ((Auth::user() && Auth::user()->id == $team->user_id) or (Auth::user() && Auth::user()->id == $team_user->user_id))
-                                        <form method="POST" action="{{url('/my_teams/destroy/'. $team_user->user_id . '/'. $team_user->team_id)}}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="text-red-500"><i class="fa-solid fa-x"></i></button>
-                                        </form>
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     @endif
                 </div>
             </x-card>
 
+            
+
+            <div onclick="openEditTeamForm({{$team->id}})" class="modal_bgr" id="modal{{$team->id}}_bgr" style="display:none;">
+            </div>
+            <div class="modalTeams" id="modal{{$team->id}}" style="display:none;">
+                <x-card class="p-10 rounded max-w-lg mx-auto mt-24">
+                    <header class="text-center">
+                        <h2 class="text-2xl font-bold uppercase mb-1">
+                            Edit Team
+                        </h2>
+                        <p class="mb-4" id="nameForm">{{$team->name}}</p>
+                    </header>
+            
+                    <form id="teamForm">
+                        <div class="mb-6">
+                            <label
+                                for="name"
+                                class="inline-block text-lg mb-2"
+                                >Team Name<i class="text-yellowish">*</i></label
+                            >
+                            <input
+                                type="text"
+                                class="border border-gray-200 rounded p-2 w-full bg-grayish"
+                                name="name"
+                                id="name"
+                                value="{{$team->name}}"
+                            />
+                            @error('name')
+                                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                            @enderror
+                        </div>
+            
+                        <div class="mb-6">
+                            <label
+                                for="logo"
+                                class="inline-block text-lg mb-2"
+                                >Tournament logo<i class="text-yellowish">*</i></label
+                            >
+                           
+                            <select id="logo" name="logo" form="teamForm" class="border bg-grayish border-gray-200 rounded p-2 w-full" onchange="document.getElementById('logoForm').src = document.getElementById('dom-target').textContent+'/'+this.value">
+                                <option value="assassin.jpg">Assassin</option>
+                                <option value="bull.jpg">Bull</option>
+                                <option value="cobra.jpg">Cobra</option>
+                                <option value="dragon.jpg">Dragon</option>
+                                <option value="saber.png">Saber</option>
+                                <option value="unicorn.png">Unicorn</option>
+                                <option value="wolf.jpg">Wolf</option>
+                            </select>
+                            @error('logo')
+                                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                            @enderror
+                        </div>
+            
+                        <img
+                        class="hidden w-48 mr-6 md:block"
+                        id="logoForm"
+                        src="{{$team->logo ? asset('images/logos/' . $team->logo) : asset('/images/placeholder.png')}}"
+                        alt=""
+                        />
+            
+                        <div class="mb-6">
+                            <label
+                                for="description"
+                                class="inline-block text-lg mb-2 mt-2"
+                            >
+                                Team Description
+                            </label>
+                            <textarea
+                                class="border border-gray-200 rounded p-2 w-full bg-grayish"
+                                name="description"
+                                id="description"
+                                rows="10"
+                            >{{$team->description}}</textarea>
+                            @error('description')
+                                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                            @enderror
+                        </div>
+            
+                        <div class="mb-6">
+                            <button
+                                class="bg-yellowish text-white rounded py-2 px-4 hover:bg-grayish"
+                                id="update"
+                            >
+                                Edit Team
+                            </button>
+            
+                            <a onclick="openEditTeamForm({{$team->id}})" class="ml-4"> Back </a>
+                        </div>
+                    </form>
+                </x-card>
+
+                <script>
+                    $("#update").click(function(e)
+                    {
+                        e.preventDefault();
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        jQuery.ajax({
+                            url: "{{ url('/teams/' . $team->id )}}",
+                            method: 'PUT',
+                            data: {
+                                name: jQuery('#name').val(),
+                                logo: $('#logo').find(":selected").val(),
+                                description: jQuery('#description').val()
+                            },
+                            success: function(data){
+                                document.getElementById("nameProfile").innerHTML = data.name;
+                                document.getElementById("nameForm").innerHTML = data.name;
+                                document.getElementById("descriptionProfile").innerHTML = data.description;
+                                document.getElementById("logoProfile").setAttribute("src", data.logo);
+                            }});
+                    });
+                </script>
+            </div>
+
             @if (Auth::user() && Auth::user()->id == $team->user_id)
                 <x-card class="mt-4 p-2 flex space-x-6">
-                    <a href="/teams/{{$team->id}}/edit">
-                    <i class="fa-solid fa-pencil"></i> Edit
-                    </a>
+                    <button onclick="openEditTeamForm({{$team->id}})">
+                    <i class="fa-solid fa-pencil" ></i> Edit
+                    </button>
 
                     <form method="POST" action="/teams/{{$team->id}}">
                         @csrf
                         @method('DELETE')
                         <button class="text-red-500"><i class="fa-solid fa-trash"></i> Delete</button>
                     </form>
-
-                    <form action="{{url('/my_teams/add_user/' . $team->id)}}" method="POST">
-                        @csrf
-                        <input type="hidden" name="team_id" value="{{$team->id}}">
+       
+                    
+                    <form>
+                        <input type="hidden" id="team_id" name="team_id" value="{{$team->id}}">
                                 
                         <label>Choose player</label>
                             <select name="user_id" id="user_id" class="css_team_combobox bg-black border solid rounded pl-1" >
@@ -84,12 +246,42 @@
                                     @endif
 
                                     @if ($is_not_team_user == true)
-                                        <option value="{{ $user->id }}">{{ $user->name}}</option>
+                                        <option id="option{{$team->id .'a'. $user->id}}" value="{{ $user->id }}">{{ $user->name}}</option>
                                     @endif
                                 @endforeach
                             </select>
-                        <button><i class="fa-solid fa-plus"></i> Add player</button>
+                        <button id="addPlayer"><i class="fa-solid fa-plus"></i> Add player</button>
                     </form>
+
+                    <script>
+                        $("#addPlayer").click(function(e)
+                        {
+                            //alert(jQuery('#team_id').val());
+                            //alert($('#user_id').find(":selected").val());
+                            e.preventDefault();
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+                            jQuery.ajax({
+                                url: "{{url('/my_teams/add_user/' . $team->id)}}",
+                                method: 'POST',
+                                data: {
+                                    team_id: jQuery('#team_id').val(),
+                                    user_id: $('#user_id').find(":selected").val()
+                                },
+                                success: function(data){
+                                    //console.log(data);
+                                    //alert(data.success);
+                                    //alert(data.addPlayer);
+                                    var div = document.createElement('div');
+                                    div.innerHTML = data.addPlayer;
+                                    document.getElementById("forEachPlayers").appendChild(div);
+                                    document.getElementById(data.delete).remove();
+                                }});
+                        });
+                    </script>
                 </x-card>
             @endif
         </div>
