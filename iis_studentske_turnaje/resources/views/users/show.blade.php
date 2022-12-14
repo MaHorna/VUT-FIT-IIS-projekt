@@ -180,7 +180,7 @@
                         alt=""
                         />
             
-                        <div class="mb-6">
+                        <div class="mb-6 mt-6 text-start">
                             <button
                                 class="bg-yellowish text-white rounded py-2 px-4 hover:bg-grayish"
                                 id="update_user"
