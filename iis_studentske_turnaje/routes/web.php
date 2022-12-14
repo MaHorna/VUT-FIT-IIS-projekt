@@ -1,12 +1,11 @@
-<!-- * FILENAME : web.php
-*
-* DESCRIPTION : Web Routes
-*
-* AUTHOR: Matej Horňanský - xhorna17
-* AUTHOR: Dávid Kán - xkanda01
-* AUTHOR: Andrej Madunický - xmadun01-->
-
 <?php
+// * FILENAME : web.php
+// *
+// * DESCRIPTION : Web Routes
+// *
+// * AUTHOR: Matej Horňanský - xhorna17
+// * AUTHOR: Dávid Kán - xkanda01
+// * AUTHOR: Andrej Madunický - xmadun01
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeamController;
