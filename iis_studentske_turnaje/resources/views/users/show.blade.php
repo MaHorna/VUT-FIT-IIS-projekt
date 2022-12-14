@@ -42,17 +42,36 @@
     <div id="dom-target" style="display: none;">{{asset('images/logos')}}</div>
     <a href="{{url('/')}}" class="inline-block ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
     <div class="mx-4">
-        <x-card class="p-10">
-            <div
-                class="flex flex-col items-center justify-center text-center"
-            >
+        <x-card class="p-0">
+            <div class="flex items-center justify-center text-center">
                 <img
                     id="logoProfile"
-                    class="w-48 mr-6 mb-6"
+                    class="w-48 mr-6 mb-6 absolute top-40 rounded-full"
                     src="{{$user->logo ? asset('images/logos/' . $user->logo) : asset('/images/placeholder.png')}}"
                     alt=""
                 />
-
+            </div>
+            <div style="background-image: url('{{asset('images/logos/bg2.png')}}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 14rem;
+            ">
+                <div class="flex items-end justify-end text-center p-10">
+                    @if (Auth::user() && Auth::user()->id == $user->id)
+                        <button onclick="openEditUserForm({{$user->id}})" class="mx-2 border px-2 py-1 rounded border-transparent bg-grayish hover:bg-yellowish hover:text-black">
+                        <i class="fa-solid fa-pencil" ></i>
+                        </button>
+                        <button onclick="openDELETEUserForm({{$user->id}})" class="text-red-500 mx-2 border px-2 py-1 rounded border-transparent bg-grayish hover:bg-red-500 hover:text-black">
+                            <i class="fa-solid fa-trash"></i></button>
+                            </a>
+                    @endif
+                </div>
+            </div>
+            
+            <div
+                class="flex flex-col items-center justify-center text-center p-10 pt-20"
+            >
+                
                 @php 
                 $total_games = $user->lost_games + $user->won_games;
                 $win_rate = 0;
@@ -62,12 +81,45 @@
                 }
                 @endphp
 
-                <h3 id="nameProfile" class="text-2xl mb-2 text-yellowish">{{$user->name}}</h3>
-                <div class="text-xl mb-4">Email: {{$user->email}}</div>
-                <div class="text-xl mb-4">Total games: {{$total_games}}</div>
-                <div class="text-xl mb-4">Won games: {{$user->won_games}}</div>
-                <div class="text-xl mb-4">Lost games: {{$user->lost_games}}</div>
-                <div class="text-xl mb-4">Win rate: {{round($win_rate, 2);}}%</div>
+                <h3 id="nameProfile" class="text-4xl mb-2 text-yellowish">{{$user->name}}</h3>
+
+                <div class="flex flex space-x-6 mt-6" style="">
+                    <div class="flex space-x-6">
+                        <div style="" class=" ">
+                            <div class="text-xl mb-4 px-3 py-1 rounded border-transparent bg-grayish hover:bg-yellowish hover:text-black">
+                                <div style="opacity: 0.4;" class="">Email</div>
+                                <div style="" class="">{{$user->email}}</div>
+                            </div>
+                        </div>
+                        <div style="" class=" ">
+                            <div class="text-xl mb-4 px-3 py-1 rounded border-transparent bg-grayish hover:bg-yellowish hover:text-black">
+                                <div style="opacity: 0.4;" class="">Total games</div>
+                                <div style="" class="">{{$total_games}}</div>
+                            </div>
+                        </div>
+                        <div style="" class=" ">
+                            <div class="text-xl mb-4 px-3 py-1 rounded border-transparent bg-grayish hover:bg-yellowish hover:text-black">
+                                <div style="opacity: 0.4;" class="">Won games</div>
+                                <div style="" class="">{{$user->won_games}}</div>
+                            </div>
+
+                        </div>
+                        <div style="" class="">
+                            <div class="text-xl mb-4 px-3 py-1 rounded border-transparent bg-grayish hover:bg-yellowish hover:text-black">
+                                <div style="opacity: 0.4;" class="">Lost games</div>
+                                <div style="" class="">{{$user->lost_games}}</div>
+                            </div>
+
+                        </div>
+                        <div style="" class=" ">
+                            <div class="text-xl mb-4 px-3 py-1 rounded border-transparent bg-grayish hover:bg-yellowish hover:text-black">
+                                <div style="opacity: 0.4;" class="">Win rate</div>
+                                <div style="" class="">{{round($win_rate, 2);}}%</div>
+                            </div>
+
+                        </div>
+                    <div>
+                </div>
             </div>
         </x-card>
 
@@ -189,15 +241,6 @@
                     </div>
                 </x-card>
             </div>
-        @if (Auth::user() && Auth::user()->id == $user->id)
-        <x-card class="mt-4 p-2 flex space-x-6">
-            <button onclick="openEditUserForm({{$user->id}})">
-            <i class="fa-solid fa-pencil"></i>Edit
-            </a>
-            <button onclick="openDELETEUserForm({{$user->id}})" class="text-red-500">
-            <i class="fa-solid fa-trash"></i>Delete</button>
-            </a>
-        </x-card>
-        @endif
+
     </div>
 </x-layout>
