@@ -12,3 +12,6 @@ postup:
  - presunutie priečinka public do verejného priečinku
  - nastavenie public/index.php - pridať cestu k spustitelným súborom
  - v priečinku iis_studentske_turnaje - príkaz "php artisan migrate --seed" - vytvorí a naplní tabulky v databáze
+
+link na stránku:
+https://www.stud.fit.vutbr.cz/~xhorna17/IIS/
