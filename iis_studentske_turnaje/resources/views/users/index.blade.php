@@ -2,7 +2,7 @@
 *
 * DESCRIPTION : Show all users
 *
-* AUTHOR :  --}}
+* AUTHOR : Andrej Madunický - xmadun01 --}}
 
 <x-layout>
     <h3 class="text-2xl relative left-5 text-white font-bold">Players</h3>
