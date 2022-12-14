@@ -83,12 +83,9 @@
                                         <button onclick="openEditTeamForm({{$team->id}})" class="mx-2 border px-2 py-1 rounded border-transparent bg-grayish hover:bg-yellowish hover:text-black">
                                         <i class="fa-solid fa-pencil" ></i>
                                         </button>
-    
-                                        <form method="POST" action="{{url('/teams/'.$team->id)}}">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="text-red-500 mx-2 border px-2 py-1 rounded border-transparent bg-grayish hover:bg-red-500 hover:text-black"><i class="fa-solid fa-trash"></i></button>
-                                        </form>
+                                        <button onclick="openDELETETeamForm({{$team->id}})" class="text-red-500 mx-2 border px-2 py-1 rounded border-transparent bg-grayish hover:bg-red-500 hover:text-black">
+                                            <i class="fa-solid fa-trash"></i></button>
+                                            </a>
                                 @endif
                             </div>
                         </div>
@@ -419,4 +416,28 @@
                     </script>
                 </div>
             </div>
+
+            <div onclick="openDELETETeamForm({{$team->id}})" class="delete_bgr" id="delete{{$team->id}}_bgr" style="display:none;"></div>
+            <div class="delete" id="delete{{$team->id}}" style="display:none;">
+                <x-card class="p-10 rounded mx-auto">
+                    <header class="text-center">
+                        <h2 class="mb-4">
+                            Are you sure you want delete this user ? 
+                        </h2>
+                        <p class="text-2xl font-bold  mb-1"  id="nameFormdel">{{$team->name}}</p>
+                    </header>
+                    <div class="bottom-three"> </div>
+                    <form method="POST" action="{{url('/teams/'.$team->id)}}">
+                        @csrf
+                        @method('DELETE')
+                        <div class="absolute bottom-4 right-12"> 
+                            <button class="myButton">Delete</button>
+                        </div>
+                    </form>
+                    <div class="absolute bottom-4 left-12"> 
+                        <a onclick="openDELETETeamForm({{$team->id}})" class="green"> No </a>
+                    </div>
+                </x-card>
+            </div>
+        </div>
         </x-layout>

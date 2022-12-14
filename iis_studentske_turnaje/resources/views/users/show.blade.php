@@ -241,6 +241,5 @@
                     </div>
                 </x-card>
             </div>
-
-    </div>
+        </div>
 </x-layout>
