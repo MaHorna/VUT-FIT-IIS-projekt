@@ -21,7 +21,7 @@
                                 </a>
                             </td>
                             
-                                @if ($tournament->approved == 0)
+                            @if ($tournament->approved == 0)
                                 <td
                                     class="px-4 py-8 border-t border-b border-gray-300 text-lg"
                                     >
@@ -32,14 +32,14 @@
                                 </td>   
                                 <td
                                 class="px-4 py-8 border-t border-b border-gray-300 text-lg"
-                            >
+                                >
                                 <form method="POST" action="{{url('/admin/tournaments/' . $tournament->id)}}" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <button class="text-green-500 rounded py-2 px-4 bg-grayish hover:bg-green-500 hover:text-black"><i class="fa-solid fa-check"></i>Approve</button>
                                 </form>
-                            </td>
-                                @else
+                                </td>
+                            @else
                                 <td
                                     class="px-4 py-8 border-t border-b border-gray-300 text-lg"
                                     >
@@ -57,7 +57,7 @@
                                     ></p
                                     >
                                 </td>
-                                @endif
+                            @endif
                                 
                             
                             <td

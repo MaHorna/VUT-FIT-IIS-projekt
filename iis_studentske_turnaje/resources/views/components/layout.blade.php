@@ -114,20 +114,13 @@
             .logo_holder{
                 height: 240px;
             }
-
             .modal {
                 position: fixed;
                 top: 50%;
                 left: 50%;
-                margin-top: -350px;
-                margin-left: -150px;
-            }
-            .modalTeams {
-                position: fixed;
-                top: 1%;
-                left: 50%;
-                
-                margin-left: -150px;
+                transform: translate(-50%, -50%);
+                max-height: 80vh;
+                overflow: auto;
             }
             .modal_bgr {
                 position: fixed;
