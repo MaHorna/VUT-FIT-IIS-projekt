@@ -110,7 +110,9 @@ class UserController extends Controller
 
         $user->update($formFields);
 
-        return back()->with('message', 'User profile updated succesfully.');
+        return response()->json(['success'=>'User profile updated succesfully.', 
+        'user' => $user->name, 
+        'logo' => asset('images/logos/'. $user->logo)]);
     }
 
     // Delete user profile

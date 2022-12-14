@@ -21,6 +21,26 @@
     </script>
     <script>
         var opened = 0;
+        var id_delete = 'delete';
+        function openDELETETeamForm(delete_id) {
+            if (opened == 0) {
+                var elem11 = document.getElementById(id_delete.concat(delete_id));
+                elem11.style.display = 'inline';
+                var elem22 = document.getElementById(id_delete.concat(delete_id).concat('_bgr'));
+                elem22.style.display = 'inline';
+                opened = 1;
+            }
+            else {
+                var elem11 = document.getElementById(id_delete.concat(delete_id));
+                elem11.style.display = 'none';
+                var elem22 = document.getElementById(id_delete.concat(delete_id).concat('_bgr'));
+                elem22.style.display = 'none';
+                opened = 0;
+            }
+        }
+    </script>
+    <script>
+        var opened = 0;
         var id_name = 'modal';
         function openAddPlayer(team_id) {
             if (opened == 0) {
@@ -295,6 +315,7 @@
                             success: function(data){
                                 document.getElementById("nameProfile").innerHTML = data.name;
                                 document.getElementById("nameForm").innerHTML = data.name;
+                                document.getElementById("nameFormdel").innerHTML = data.name;
                                 document.getElementById("descriptionProfile").innerHTML = data.description;
                                 document.getElementById("logoProfile").setAttribute("src", data.logo);
                             }});
@@ -302,16 +323,19 @@
                 </script>
             </div>
 
-            <div onclick="openAddPlayer('AddPlayer')" class="modal_bgr" id="modalAddPlayer_bgr" style="display:none;">
-            </div>
-            <div class="modal" id="modalAddPlayer" style="display:none;">
-                <x-card class="p-10 rounded max-w-lg mx-auto">
-                    <header class="text-center">
-                        <h2 class="text-2xl font-bold uppercase mb-1 text-yellowish">
-                            Add player
-                        </h2>
-                        <p class="mb-4">Choose player</p>
-                    </header>
+            @if (Auth::user() && Auth::user()->id == $team->user_id)
+                <x-card class="mt-4 p-2 flex space-x-6">
+                    <button onclick="openEditTeamForm({{$team->id}})">
+                    <i class="fa-solid fa-pencil" ></i> Edit
+                    </button>
+
+                    <form method="POST" action="/teams/{{$team->id}}">
+                        @csrf
+                        @method('DELETE')
+                        <button class="text-red-500"><i class="fa-solid fa-trash"></i> Delete</button>
+                    </form>
+       
+                    
                     <form>
                         <input type="hidden" id="team_id" name="team_id" value="{{$team->id}}">
                         <select name="user_id" id="user_id" class="css_team_combobox bg-black border solid rounded pl-1" >
