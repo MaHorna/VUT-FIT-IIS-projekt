@@ -404,6 +404,7 @@ class TournamentController extends Controller
         $next_pos = 0;
         $winner = 0;
         $message = "";
+
         if (!is_null($contest_child)) {
             if ($request->winner == 1) {
                 $winner = $contest->contestant1_id;
@@ -411,7 +412,6 @@ class TournamentController extends Controller
             else if ($request->winner == 2) {
                 $winner = $contest->contestant2_id;
             }
-
             if (is_null($contest_child->contestant1_id) || $contest->contestant1_id == $contest_child->contestant1_id 
             || $contest->contestant2_id == $contest_child->contestant1_id) {
                 $contest_child->contestant1_id = $winner;
@@ -422,7 +422,12 @@ class TournamentController extends Controller
                 $contest_child->contestant2_id = $winner;
                 $next_pos = 2;
             }
-
+            else 
+            {
+                $contest_child->contestant2_id = NULL;
+                $contest_child->contestant1_id = NULL;
+                $next_pos = 1;
+            }
             $contest_child->update();
             $cont1 = NULL;
             $cont2 = NULL;
