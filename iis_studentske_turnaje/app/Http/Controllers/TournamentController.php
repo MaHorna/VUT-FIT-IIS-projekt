@@ -464,7 +464,7 @@ class TournamentController extends Controller
         if (!is_null($request->date)) $contest->date = $request->date;
 
         $contest->update();
-        return response()->json([, 
+        return response()->json([
             'score1' => (is_null($contest->score1))? NULL : $contest->score1, 
             'score2' => (is_null($contest->score2))? NULL : $contest->score2
         ]);
