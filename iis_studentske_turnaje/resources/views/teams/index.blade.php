@@ -1,5 +1,13 @@
+{{-- * FILENAME : index.blade.php
+*
+* DESCRIPTION : Show all teams
+*
+* AUTHOR : Dávid Kán - xkanda01 --}}
+
 <x-layout>
     <h3 class="text-2xl relative left-5 text-white font-bold">Teams</h3>
+
+    {{-- Search form --}}
     <form>
         <div class="relative border-2 border-gray-100 m-4 rounded-lg">
             <div class="absolute top-4 left-3">
@@ -25,6 +33,7 @@
         </div>
     </form>
     
+    {{-- Search ajax script --}}
     <script>
         $("#searchbtn").click(function(e)
         {
@@ -49,6 +58,8 @@
                 }});
         });
     </script>
+
+    {{-- Team cards --}}
     <div id="ajax-teams" class="lg:grid lg:grid-cols-2 gap-4 space-y-4 md:space-y-0 mx-4">        
         @unless (count($teams) == 0)
             

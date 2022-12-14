@@ -1,3 +1,9 @@
+{{-- * FILENAME : match-card.blade.php
+*
+* DESCRIPTION : Match card
+*
+* AUTHOR : Matej Horňanský - xhorna17 --}}
+
 @props(['contest', 'tournament'])
 @php
     $data = App\Http\Controllers\MatchController::show_data($contest, $tournament);

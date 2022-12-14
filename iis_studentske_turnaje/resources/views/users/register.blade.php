@@ -1,3 +1,9 @@
+{{-- * FILENAME : register.blade.php
+*
+* DESCRIPTION : Register user
+*
+* AUTHOR: Dávid Kán - xkanda01  --}}
+
 <x-layout>
     <x-card class="p-10 rounded max-w-lg mx-auto mt-24">
         <h2 class="text-2xl font-bold uppercase mb-1">
@@ -8,6 +14,8 @@
 
         <form method="POST" action="{{url('/register')}}">
             @csrf
+
+            {{-- Name --}}
             <div class="mb-6">
                 <label for="name" class="inline-block text-lg mb-2">
                     Name
@@ -23,6 +31,7 @@
                 @enderror
             </div>
 
+            {{-- Email --}}
             <div class="mb-6">
                 <label for="email" class="inline-block text-lg mb-2">Email</label>
                 <input
@@ -36,6 +45,7 @@
                 @enderror
             </div>
 
+            {{-- Password --}}
             <div class="mb-6">
                 <label
                     for="password"
@@ -53,6 +63,7 @@
                 @enderror
             </div>
 
+            {{-- Confirm Password --}}
             <div class="mb-6">
                 <label
                     for="password2"
@@ -70,6 +81,7 @@
                 @enderror
             </div>
 
+            {{-- Submit --}}
             <div class="mb-6">
                 <button type="submit" class="bg-yellowish rounded py-2 px-4 hover:bg-grayish">Sign Up</button>
             </div>

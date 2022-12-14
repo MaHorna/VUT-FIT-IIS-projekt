@@ -1,3 +1,9 @@
+{{-- * FILENAME : login.blade.php
+*
+* DESCRIPTION : Login user
+*
+* AUTHOR : Dávid Kán - xkanda01 --}}
+
 <x-layout>
     <x-card class="p-10 rounded max-w-lg mx-auto mt-24">
         <h2 class="text-2xl font-bold uppercase mb-1">
@@ -8,6 +14,8 @@
 
         <form method="POST" action="{{url('/users/authenticate')}}">
             @csrf
+
+            {{-- Email --}}
             <div class="mb-6">
                 <label for="email" class="inline-block text-lg mb-2"
                     >Email</label>
@@ -22,6 +30,7 @@
                 @enderror
             </div>
 
+            {{-- Password --}}
             <div class="mb-6">
                 <label
                     for="password"
@@ -37,6 +46,8 @@
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>
+
+            {{-- Submit --}}
             <div class="mb-6">
                 <button type="submit" class="bg-yellowish text-white rounded py-2 px-4 hover:bg-grayish">Sign in</button>
             </div>

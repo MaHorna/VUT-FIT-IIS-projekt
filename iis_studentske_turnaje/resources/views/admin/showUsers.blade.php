@@ -1,3 +1,9 @@
+{{-- * FILENAME : showUsers.blade.php
+*
+* DESCRIPTION : Admin view show all users
+*
+* AUTHOR : Dávid Kán - xkanda01 --}}
+
 <x-layout>
     <x-card class="p-10">
         <header>

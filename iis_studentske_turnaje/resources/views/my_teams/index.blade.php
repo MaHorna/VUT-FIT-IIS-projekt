@@ -1,9 +1,15 @@
+{{-- * FILENAME : index.blade.php
+*
+* DESCRIPTION : Show all my teams
+*
+* AUTHOR : Dávid Kán - xkanda01 --}}
+
 <x-layout>
     <h3 class="text-2xl relative left-5 text-white font-bold">Teams</h3>
     <x-search :path="'/my_teams'"/>
 
+    {{-- Teams card --}}
     <div class="lg:grid lg:grid-cols-2 gap-4 space-y-4 md:space-y-0 mx-4">
-
         @unless (count($teams) == 0)
                 
             @foreach ($teams as $team)

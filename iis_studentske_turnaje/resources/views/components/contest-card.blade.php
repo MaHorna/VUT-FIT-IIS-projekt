@@ -1,3 +1,9 @@
+{{-- * FILENAME : contest-card.blade.php
+*
+* DESCRIPTION : Contest card
+*
+* AUTHOR : Matej Horňanský - xhorna17 --}}
+
 @props(['contest'])
 
 <x-card>

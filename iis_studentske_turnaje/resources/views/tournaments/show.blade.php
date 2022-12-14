@@ -1,5 +1,13 @@
+{{-- * FILENAME : show.blade.php
+*
+* DESCRIPTION : Show Tournament
+*
+* AUTHOR : Matej Horňanský - xhorna17--}}
+
 <x-layout>
     @if (Auth::user() && Auth::user()->id == $tournament->user_id && $tournament->status != 'finished')
+
+        {{-- Pop up Form --}}
         <div onclick="closeForm()" class="modal_bgr" id="modal_bgr" style="display:none;"></div>
         <div class="modal" id="modal" style="display:none;">
             <x-card>
@@ -182,17 +190,41 @@
                 @endif
                 @if ($tournament->status != 'finished')
                     <a href="{{url('/tournaments/' .$tournament->id. '/edit')}}" style="padding:5px;margin:5px;"><i class="fa-solid fa-pencil"></i>Edit</a>
-                    <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}">
-                        @csrf
-                        @method('DELETE')
-                        <button class="text-red-500" style="padding:5px;margin:5px;"><i class="fa-solid fa-trash"></i> Delete</button>
-                    </form>
+                    <button onclick="openDELETETournamentForm({{$tournament->id}})" class="text-red-500 mx-2">
+                        <i class="fa-solid fa-trash"></i>Delete</button>
+                        </a>
                 @endif
             @endif
         </x-card>
     </div>
+
+    {{-- Delete pop up form --}}
+    <div onclick="openDELETETournamentForm({{$tournament->id}})" class="delete_bgr" id="delete{{$tournament->id}}_bgr" style="display:none;"></div>
+        <div class="delete" id="delete{{$tournament->id}}" style="display:none;">
+            <x-card class="p-10 rounded mx-auto">
+                <header class="text-center">
+                    <h2 class="mb-4">
+                        Are you sure you want delete this tournament ? 
+                    </h2>
+                    <p class="text-2xl font-bold  mb-1"  id="nameFormdel">{{$tournament->name}}</p>
+                </header>
+                <div class="bottom-three"> </div>
+                <form method="POST" action="{{url('/tournaments/' .$tournament->id)}}">
+                    @csrf
+                    @method('DELETE')
+                    <div class="absolute bottom-4 right-12"> 
+                        <button class="myButton">Delete</button>
+                    </div>
+                </form>
+                <div class="absolute bottom-4 left-12"> 
+                    <a onclick="openDELETETournamentForm({{$tournament->id}})" class="green"> No </a>
+                </div>
+            </x-card>
+        </div>
+    </div>
 </x-layout>
 
+{{-- Ajax script for updating match --}}
 <script>
     var opened = 0;
     var elem1 = document.getElementById('modal');
@@ -332,5 +364,27 @@
                 }
             }
         });                     
+    }
+</script>
+
+{{-- Delete pop up script --}}
+<script>
+    var opened = 0;
+    var id_delete = 'delete';
+    function openDELETETournamentForm(delete_id) {
+        if (opened == 0) {
+            var elem11 = document.getElementById(id_delete.concat(delete_id));
+            elem11.style.display = 'inline';
+            var elem22 = document.getElementById(id_delete.concat(delete_id).concat('_bgr'));
+            elem22.style.display = 'inline';
+            opened = 1;
+        }
+        else {
+            var elem11 = document.getElementById(id_delete.concat(delete_id));
+            elem11.style.display = 'none';
+            var elem22 = document.getElementById(id_delete.concat(delete_id).concat('_bgr'));
+            elem22.style.display = 'none';
+            opened = 0;
+        }
     }
 </script>

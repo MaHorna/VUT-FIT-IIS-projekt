@@ -1,3 +1,11 @@
+<!-- * FILENAME : web.php
+*
+* DESCRIPTION : Web Routes
+*
+* AUTHOR: Matej Horňanský - xhorna17
+* AUTHOR: Dávid Kán - xkanda01
+* AUTHOR: Andrej Madunický - xmadun01-->
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -57,9 +65,6 @@ Route::post('/users/authenticate', [UserController::class, 'authenticate'])->mid
 
 // Show user profile
 Route::get('/users/{user}', [UserController::class, 'show']);
-
-// Edit user profile
-Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware('auth');
 
 // Update user profile
 Route::put('/users/{user}', [UserController::class, 'update'])->middleware('auth');
@@ -124,9 +129,6 @@ Route::post('/teams', [TeamController::class, 'store']);
 
 // Show single team
 Route::get('/teams/{team}', [TeamController::class, 'show']);
-
-// Edit team
-Route::get('/teams/{team}/edit', [TeamController::class, 'edit']);
 
 // Update team
 Route::put('/teams/{team}', [TeamController::class, 'update']);

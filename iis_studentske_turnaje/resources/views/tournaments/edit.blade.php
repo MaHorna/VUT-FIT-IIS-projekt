@@ -1,3 +1,9 @@
+{{-- * FILENAME : edit.blade.php
+*
+* DESCRIPTION : Edit tourament
+*
+* AUTHOR : Dávid Kán - xkanda01 --}}
+
 <x-layout>
     <div id="dom-target" style="display: none;">{{asset('images/logos')}}</div>
     <x-card class="p-10 rounded max-w-lg mx-auto mt-24">
@@ -8,10 +14,12 @@
             <p class="mb-4">Edit {{$tournament->name}}</p>
         </header>
 
+        {{-- Edit tournament form --}}
         <form method="POST" action="{{url('/tournaments/' . $tournament->id)}}" enctype="multipart/form-data" id="tournamentForm">
             @csrf
-
             @method('PUT')
+
+            {{-- Name --}}
             <div class="mb-6">
                 <label
                     for="name"
@@ -29,6 +37,7 @@
                 @enderror
             </div>
 
+            {{-- Game --}}
             <div class="mb-6">
                 <label for="game" class="inline-block text-lg mb-2"
                     >Game<i class="text-yellowish">*</i></label
@@ -44,6 +53,7 @@
                 @enderror
             </div>
 
+            {{-- Start time --}}
             <div class="mb-6">
                 <label
                     for="start_date"
@@ -61,6 +71,7 @@
                 @enderror
             </div>
 
+            {{-- Prize --}}
             <div class="mb-6">
                 <label for="prize" class="inline-block text-lg mb-2"
                     >Prize<i class="text-yellowish">*</i></label
@@ -76,6 +87,7 @@
                 @enderror
             </div>
 
+            {{-- Minimum contestants --}}
             <div class="mb-6">
                 <label
                     for="num_participants"
@@ -94,6 +106,7 @@
                 @enderror
             </div>
 
+            {{-- Teams or Players --}}
             <div class="mb-6">
                 <label for="teams_allowed" class="inline-block text-lg mb-2">
                     Teams
@@ -122,6 +135,7 @@
                 @enderror
             </div>
 
+            {{-- Tournament logo --}}
             <div class="mb-6">
                 <label
                     for="logo"
@@ -149,6 +163,7 @@
             alt=""
             />
 
+            {{-- Description --}}
             <div class="mb-6">
                 <label
                     for="description"
@@ -166,6 +181,7 @@
                 @enderror
             </div>
 
+            {{-- Edit and back button --}}
             <div class="mb-6">
                 <button
                     class="bg-yellowish text-white rounded py-2 px-4 hover:bg-grayish"

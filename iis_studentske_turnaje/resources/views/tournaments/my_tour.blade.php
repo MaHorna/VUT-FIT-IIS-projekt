@@ -1,3 +1,9 @@
+{{-- * FILENAME : my_tour.blade.php
+*
+* DESCRIPTION : Show My Tournaments
+*
+* AUTHOR : Matej Horňanský - xhorna17 --}}
+
 <x-layout>
     @if (count($my_hosted_tournaments) != 0)
         <h3 class="text-2xl relative left-9 text-white font-bold mb-2">My tournaments as host</h3>

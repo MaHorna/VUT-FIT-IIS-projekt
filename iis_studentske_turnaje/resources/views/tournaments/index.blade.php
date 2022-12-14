@@ -1,5 +1,13 @@
+{{-- * FILENAME : index.blade.php
+*
+* DESCRIPTION : Show all Tournaments
+*
+* AUTHOR : Dávid Kán - xkanda01--}}
+
 <x-layout>
     <h3 class="text-2xl relative left-5 text-white font-bold">Tournaments</h3>
+    
+    {{-- Search bar --}}
     <form>
         <div class="relative border-2 border-gray-100 m-4 rounded-lg">
             <div class="absolute top-4 left-3">
@@ -25,6 +33,7 @@
         </div>
     </form>
     
+    {{-- Ajax script for search bar --}}
     <script>
         $("#searchbtn").click(function(e)
         {
@@ -49,6 +58,8 @@
                 }});
         });
     </script>
+
+    {{-- Tournaments cards --}}
     <div id="ajax-tournaments" class="lg:grid lg:grid-cols-2 gap-4 space-y-4 md:space-y-0 mx-4">
         @unless (count($tournaments) == 0)
             @foreach ($tournaments as $tournament)

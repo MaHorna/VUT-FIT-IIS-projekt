@@ -1,3 +1,9 @@
+{{-- * FILENAME : showTournaments.blade.php
+*
+* DESCRIPTION : Admin view show all tournaments
+*
+* AUTHOR : Dávid Kán - xkanda01 --}}
+
 <x-layout>
     <x-card class="p-10">
         <header>

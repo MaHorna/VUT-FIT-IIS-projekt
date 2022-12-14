@@ -1,3 +1,9 @@
+{{-- * FILENAME : search.blade.php
+*
+* DESCRIPTION : Search bar
+*
+* AUTHOR : Dávid Kán - xkanda01 --}}
+
 @props(['path'])
  <form action="{{url($path)}}">
     <div class="relative border-2 border-gray-100 m-4 rounded-lg">

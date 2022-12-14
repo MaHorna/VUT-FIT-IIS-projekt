@@ -1,4 +1,11 @@
+{{-- * FILENAME : show.blade.php
+*
+* DESCRIPTION : Show user
+*
+* AUTHOR : Andrej Madunický - xmadun01 --}}
+
 <x-layout>
+    {{-- Scripit for pop up Edit user form --}}
     <script>
         var opened = 0;
         var id_name = 'modal';
@@ -19,6 +26,8 @@
             }
         }
     </script>
+
+    {{-- Script for pop us delete form --}}
     <script>
         var opened = 0;
         var id_delete = 'delete';
@@ -39,10 +48,18 @@
             }
         }
     </script>
+
+    {{-- Utility --}}
     <div id="dom-target" style="display: none;">{{asset('images/logos')}}</div>
+
+    {{-- Back button to home screen --}}
     <a href="{{url('/')}}" class="inline-block ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    
+    {{-- Main body --}}
     <div class="mx-4">
         <x-card class="p-0">
+
+            {{-- User logo --}}
             <div class="flex items-center justify-center text-center">
                 <img
                     id="logoProfile"
@@ -51,11 +68,14 @@
                     alt=""
                 />
             </div>
+
+            {{-- Background image --}}
             <div style="background-image: url('{{asset('images/logos/bg2.png')}}');
             background-size: cover;
             background-repeat: no-repeat;
             height: 14rem;
             ">
+                {{-- Edit and delete button --}}
                 <div class="flex items-end justify-end text-center p-10">
                     @if (Auth::user() && Auth::user()->id == $user->id)
                         <button onclick="openEditUserForm({{$user->id}})" class="mx-2 border px-2 py-1 rounded border-transparent bg-grayish hover:bg-yellowish hover:text-black">
@@ -81,8 +101,8 @@
                 }
                 @endphp
 
+                {{-- User informations --}}
                 <h3 id="nameProfile" class="text-4xl mb-2 text-yellowish">{{$user->name}}</h3>
-
                 <div class="flex flex space-x-6 mt-6" style="">
                     <div class="flex space-x-6">
                         <div style="" class=" ">
@@ -123,6 +143,7 @@
             </div>
         </x-card>
 
+        {{-- Edit user form --}}
         <div onclick="openEditUserForm({{$user->id}})" class="modal_bgr" id="modal{{$user->id}}_bgr" style="display:none;"></div>
             <div class="modal" id="modal{{$user->id}}" style="display:none;">
                 <x-card class="p-10 rounded max-w-lg mx-auto">
@@ -134,6 +155,7 @@
                     </header>
             
                     <form id="userForm">
+                        {{-- Name --}}
                         <div class="mb-6">
                             <label
                                 for="name"
@@ -151,7 +173,8 @@
                                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                             @enderror
                         </div>
-            
+                        
+                        {{-- Logo --}}
                         <div class="mb-6">
                             <label
                                 for="logo"
@@ -173,6 +196,7 @@
                             @enderror
                         </div>
             
+                        {{-- Image --}}
                         <img
                         class="hidden w-48 mr-6 md:block"
                         id="logoForm"
@@ -180,6 +204,7 @@
                         alt=""
                         />
             
+                        {{-- Edit and back button --}}
                         <div class="mb-6 mt-6 text-start">
                             <button
                                 class="bg-yellowish text-white rounded py-2 px-4 hover:bg-grayish"
@@ -193,6 +218,7 @@
                     </form>
                 </x-card>
 
+                {{-- Ajax script update user --}}
                 <script>
                     $("#update_user").click(function(e)
                     {
@@ -219,6 +245,7 @@
                 </script>
             </div>
 
+        {{-- Pop up delete --}}
         <div onclick="openDELETEUserForm({{$user->id}})" class="delete_bgr" id="delete{{$user->id}}_bgr" style="display:none;"></div>
             <div class="delete" id="delete{{$user->id}}" style="display:none;">
                 <x-card class="p-10 rounded mx-auto">

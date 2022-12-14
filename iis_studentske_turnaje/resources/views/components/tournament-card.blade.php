@@ -1,3 +1,9 @@
+{{-- * FILENAME : tournament-card.blade.php
+*
+* DESCRIPTION : Tournament card
+*
+* AUTHOR : Dávid Kán - xkanda01 --}}
+
 @props(['tournament'])
 
 <x-card>

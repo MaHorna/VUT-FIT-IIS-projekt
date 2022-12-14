@@ -1,4 +1,12 @@
+{{-- * FILENAME : create.blade.php
+*
+* DESCRIPTION : Create team
+*
+* AUTHOR : Dávid Kán - xkanda01 --}}
+
 <x-layout>
+
+    {{-- utility --}}
     <div id="dom-target" style="display: none;">{{asset('images/logos')}}</div>
     <x-card class="p-10 rounded max-w-lg mx-auto mt-24">
         <header class="text-center">
@@ -10,6 +18,8 @@
 
         <form method="POST" action="{{url('/teams')}}" enctype="multipart/form-data" id="teamForm">
             @csrf
+
+            {{-- Name --}}
             <div class="mb-6">
                 <label
                     for="name"
@@ -27,6 +37,7 @@
                 @enderror
             </div>
 
+            {{-- logo --}}
             <div class="mb-6">
                 <label
                     for="logo"
@@ -54,6 +65,7 @@
                 alt=""
             />
 
+            {{-- Description --}}
             <div class="mb-6">
                 <label
                     for="description"
@@ -73,6 +85,7 @@
                 @enderror
             </div>
 
+            {{-- Create and back button --}}
             <div class="mb-6">
                 <button
                     class="bg-yellowish text-white rounded py-2 px-4 hover:bg-grayish"

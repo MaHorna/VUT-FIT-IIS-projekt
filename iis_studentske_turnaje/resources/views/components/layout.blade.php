@@ -1,3 +1,9 @@
+{{-- * FILENAME : layout.blade.php
+*
+* DESCRIPTION : Layout
+*
+* AUTHOR : Matej Horňanský - xhorna17 --}}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>

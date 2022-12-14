@@ -1,5 +1,13 @@
+{{-- * FILENAME : index.blade.php
+*
+* DESCRIPTION : Show all users
+*
+* AUTHOR :  --}}
+
 <x-layout>
     <h3 class="text-2xl relative left-5 text-white font-bold">Players</h3>
+
+    {{-- Search bar --}}
     <form>
         <div class="relative border-2 border-gray-100 m-4 rounded-lg">
             <div class="absolute top-4 left-3">
@@ -25,6 +33,7 @@
         </div>
     </form>
     
+    {{-- Search bar ajax --}}
     <script>
         $("#searchbtn").click(function(e)
         {
@@ -49,11 +58,14 @@
                 }});
         });
     </script>
+
+    {{-- Users cards --}}
     <div id="ajax-users" class="lg:grid lg:grid-cols-2 gap-4 space-y-4 md:space-y-0 mx-4">
         @unless (count($users) == 0)
             @foreach ($users as $user)
                 <x-card>
                     <div class="flex text-white">
+                        {{-- User logo --}}
                         <img
                             class="hidden w-48 mr-6 md:block"
                             src="{{$user->logo ? asset('images/logos/' . $user->logo) : asset('/images/placeholder.png')}}"
@@ -68,7 +80,8 @@
                                 
                             }
                         @endphp
-    
+
+                        {{-- User information --}}
                         <div>
                             <h3 class="text-2xl font-bold text-yellowish">
                                 <a href="{{url('/users', $user->id)}}">{{$user->name}}</a>

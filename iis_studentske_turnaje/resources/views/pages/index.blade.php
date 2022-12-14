@@ -1,4 +1,12 @@
+{{-- * FILENAME : index.blade.php
+*
+* DESCRIPTION : Home page
+*
+* AUTHOR : Dávid Kán - xkanda01 --}}
+
 <x-layout>
+
+    {{-- Search button --}}
     <form>
         <div class="relative border-2 border-gray-100 m-4 rounded-lg">
             <div class="absolute top-4 left-3">
@@ -24,6 +32,7 @@
         </div>
     </form>
     
+    {{-- Ajax script search button --}}
     <script>
         $("#searchbtn").click(function(e)
         {
@@ -58,10 +67,10 @@
                 }});
         });
     </script>
+
+    {{-- Tournament cards --}}
     <h3 class="text-2xl relative left-9 text-white font-bold mb-2">Tournaments</h3>
     <div class="relative left-5" style="max-height:80vh;width:98%;overflow:auto;">
-        
-        
         <div id="ajax-tournaments" class="lg:grid lg:grid-cols-2 gap-4 space-y-4 mt-2 mb-2 md:space-y-0 mx-4">
             @unless (count($tournaments) == 0)
                 @foreach ($tournaments as $tournament)
@@ -72,6 +81,8 @@
             @endunless
         </div>
     </div>
+
+    {{-- Players cards --}}
     <h3 class="text-2xl relative left-9 text-white font-bold mb-2 mt-2">Players</h3>
     <div class="relative left-5" style="max-height:80vh;width:98%;overflow:auto;">
         <div id="ajax-users" class="lg:grid lg:grid-cols-2 gap-4 space-y-4 md:space-y-0 mx-4 mt-2 mb-2">
@@ -112,6 +123,8 @@
             @endunless
         </div>
     </div>
+
+    {{-- Team cards --}}
     <h3 class="text-2xl relative left-9 text-white font-bold mb-2 mt-2">Teams</h3>
     <div class="relative left-5" style="max-height:80vh;width:98%;overflow:auto;">
         <div id="ajax-teams" class="lg:grid lg:grid-cols-2 gap-4 space-y-4 md:space-y-0 mx-4">
