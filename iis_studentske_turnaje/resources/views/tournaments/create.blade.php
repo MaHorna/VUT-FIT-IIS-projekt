@@ -1,4 +1,5 @@
 <x-layout>
+    <div id="dom-target" style="display: none;">{{asset('images/logos')}}</div>
     <x-card class="p-10 rounded max-w-lg mx-auto mt-24">
         <header class="text-center">
             <h2 class="text-2xl font-bold uppercase mb-1">
@@ -128,7 +129,7 @@
                     class="inline-block text-lg mb-2"
                     >Tournament logo<i class="text-yellowish">*</i></label
                 >
-                <select id="logo" name="logo" form="tournamentForm" class="border border-gray-200 bg-grayish rounded p-2 w-full">
+                <select id="logo" name="logo" form="tournamentForm" class="border border-gray-200 bg-grayish rounded p-2 w-full" onchange="document.getElementById('logoForm').src = document.getElementById('dom-target').textContent+'/'+this.value">
                     <option value="assassin.jpg">Assassin</option>
                     <option value="bull.jpg">Bull</option>
                     <option value="cobra.jpg">Cobra</option>
@@ -141,6 +142,13 @@
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>
+
+            <img
+                class="hidden w-48 mr-6 md:block mb-6"
+                id="logoForm"
+                src="{{asset('images/logos/assassin.jpg')}}"
+                alt=""
+            />
 
             <div class="mb-6">
                 <label

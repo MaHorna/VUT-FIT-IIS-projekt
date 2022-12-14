@@ -114,7 +114,6 @@
             .logo_holder{
                 height: 240px;
             }
-
             .modal {
                 position: fixed;
                 top: 50%;
