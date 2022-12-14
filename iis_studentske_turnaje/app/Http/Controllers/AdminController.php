@@ -1,5 +1,22 @@
 <?php
-
+/***********************************************************************
+* FILENAME : AdminController.php
+*
+* DESCRIPTION : Functions for showing not yet approved tournaments or users. Also update function for approving tournaments
+*
+* PUBLIC FUNCTIONS :
+*   showTournaments()
+*       author: xkanda01
+*       returns: tournaments list
+*   showUsers()
+*       author: xkanda01
+*       returns: user list
+*   updateTournaments(Tournament)
+*       author: xkanda01
+*       returns: success message
+*
+* AUTHOR : Dávid Kán (xkanda01)
+***********************************************************************/
 namespace App\Http\Controllers;
 
 use App\Models\User;

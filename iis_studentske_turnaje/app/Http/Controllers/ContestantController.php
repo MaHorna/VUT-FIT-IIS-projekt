@@ -1,5 +1,24 @@
 <?php
 
+/***********************************************************************
+* FILENAME : ContestantController.php
+*
+* DESCRIPTION : Create and destroy methods for contestant model
+*
+* PUBLIC FUNCTIONS :
+*   store(Request)
+*       author: xkanda01
+*       returns: success message
+*   destroy_team(Tournament)
+*       author: xkanda01
+*       returns: success message
+*   destroy_user(Tournament)
+*       author: xkanda01
+*       returns: success message
+*
+* AUTHOR : Dávid Kán (xkanda01)
+***********************************************************************/
+
 namespace App\Http\Controllers;
 
 use App\Models\Contestant;
@@ -12,12 +31,15 @@ class ContestantController extends Controller
     // Store contestant data
     public function store(Request $request)
     {
-        $formFields = $request->validate([
+        // check if received data are correct  
+        $formFields = $request->validate([ 
             'tournament_id' => 'required',
             'team_id',
             'user_id',
             'isteam' => 'required',
         ]);
+
+
         $formFields['team_id'] = $request['team_id'];
         $formFields['user_id'] = $request['user_id'];
         if ($request['isteam'] == 1) {

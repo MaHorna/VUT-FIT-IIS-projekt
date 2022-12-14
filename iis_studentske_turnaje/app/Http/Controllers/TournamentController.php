@@ -1,7 +1,52 @@
 <?php
-
+/***********************************************************************
+* FILENAME : TournamentController.php
+*
+* DESCRIPTION : Functions for working with Tournament model and related data
+*
+* PUBLIC FUNCTIONS :
+*   index(Request)
+*       author: xhorna17
+*       returns: redirects to page with all tournaments
+*   show(Tournament)
+*       author: xhorna17
+*       returns: redirects to page with the tournaments, with boolean data and contests list 
+*   create()
+*       author: xhorna17
+*       returns: returns creation page
+*   store(Request)
+*       author: xhorna17
+*       returns: redirects to main menu with success message
+*   edit(Tournament)
+*       author: xhorna17
+*       returns: redirects to tournament edit page
+*   update(Request, Tournament)
+*       author: xhorna17
+*       returns: success message
+*   destroy(Tournament)
+*       author: xhorna17
+*       returns: redirects to main menu with success message
+*   start(Tournament)
+*       author: xhorna17
+*       returns: (backend to generate matches)
+*   harmonogram()
+*       author: xhorna17
+*       returns: returns view with data of users matches (list)
+*   my_tour()
+*       author: xhorna17
+*       returns: returns view with data of users tournaments (list)
+*   function updatescore(Contest, Request)
+*       author: xhorna17
+*       returns: ajax , new data
+*   updatewinner(Contest, Request)
+*       author: xhorna17
+*       returns: ajax , new data
+*   end(Tournament)
+*       author: xhorna17
+*       returns: message
+* AUTHOR : Matej Horňanský - xhorna17
+***********************************************************************/
 namespace App\Http\Controllers;
-
 
 use App\Models\Team;
 use App\Models\User;
@@ -353,58 +398,16 @@ class TournamentController extends Controller
         return back()->with('message', 'Tournament has started');
     }
 
-
     // Show harmonogram
     public function harmonogram()
     {
-        $my_matches1 = Contest::join('contestants', 'contestants.id', '=', 'contests.contestant1_id')
-            ->join('users', 'users.id', '=', 'contestants.user_id')
-            ->join('tournaments', 'tournaments.id', '=', 'contestants.tournament_id')
-            ->where(['users.id' => auth()->id()])
-            ->orderBy('contests.date', 'ASC')
-            ->get();
-        $my_matches2 = Contest::join('contestants', 'contestants.id', '=', 'contests.contestant2_id')
-            ->join('users', 'users.id', '=', 'contestants.user_id')
-            ->join('tournaments', 'tournaments.id', '=', 'contestants.tournament_id')
-            ->where(['users.id' => auth()->id()])
-            ->orderBy('contests.date', 'ASC')
-            ->get();
-
         $my_matches = Contest::leftjoin('contestants as con2', 'con2.id', '=', 'contests.contestant2_id')
             ->leftjoin('contestants as con1', 'con1.id', '=', 'contests.contestant1_id')
             ->join('users', 'users.id', '=', 'con1.user_id')
             ->join('tournaments', 'tournaments.id', '=', 'contests.tournament_id')
             ->where(['users.id' => auth()->id()])
             ->orderBy('contests.date', 'ASC')
-            ->get();
-
-
-        $my_team_matches1 = Contest::join('contestants', 'contestants.id', '=', 'contests.contestant1_id')
-            ->join('teams', 'teams.id', '=', 'contestants.team_id')
-            ->join('tournaments', 'tournaments.id', '=', 'contestants.tournament_id')
-            ->join('teamusers', 'teams.id', '=', 'teamusers.team_id')
-            ->join('users', 'teamusers.user_id', '=', 'users.id')
-            ->where(['users.id' => auth()->id()])
-            ->orderBy('contests.date', 'ASC')
-            ->select('contests.tournament_id', 'tournaments.name', 'contests.date', 'contests.score1', 'contests.score2', 'contests.round')
-            ->get();
-        $my_team_matches2 = Contest::join('contestants', 'contestants.id', '=', 'contests.contestant2_id')
-            ->join('teams', 'teams.id', '=', 'contestants.team_id')
-            ->join('tournaments', 'tournaments.id', '=', 'contestants.tournament_id')
-            ->join('teamusers', 'teams.id', '=', 'teamusers.team_id')
-            ->join('users', 'users.id', '=', 'teamusers.user_id')
-            ->where(['users.id' => auth()->id()])
-            ->orderBy('contests.date', 'ASC')
-            ->select('contests.tournament_id', 'tournaments.name', 'contests.date', 'contests.score1', 'contests.score2', 'contests.round')
-            ->get();
-
-        $my_team_matches = $my_team_matches1->union($my_team_matches2);
-        $merged = $my_team_matches1->merge($my_team_matches2);
-
-        $my_team_matches = $merged->all();
-        
-        
-
+            ->get();    
         $my_team_matches = Contest::leftjoin('contestants as con2', 'con2.id', '=', 'contests.contestant2_id')
             ->leftjoin('contestants as con1', 'con1.id', '=', 'contests.contestant1_id')
             ->leftjoin('teams as team1', 'team1.id', '=', 'con1.team_id')
@@ -419,7 +422,6 @@ class TournamentController extends Controller
             ->orWhere(['user2.id' => auth()->id()])
             ->orderBy('contests.date', 'ASC')
             ->get();
-
         
         return view('tournaments.harmonogram', 
         [
@@ -462,11 +464,11 @@ class TournamentController extends Controller
         if (!is_null($request->date)) $contest->date = $request->date;
 
         $contest->update();
+        return response()->json([, 
+            'score1' => (is_null($contest->score1))? NULL : $contest->score1, 
+            'score2' => (is_null($contest->score2))? NULL : $contest->score2
+        ]);
 
-        //return back()->with('message', 'Contest score updated succesfully.');
-        return response()->json(['success'=>'Data is successfully added', 
-        'score1' => (is_null($contest->score1))? NULL : $contest->score1, 
-        'score2' => (is_null($contest->score2))? NULL : $contest->score2]);
     }
 
     // Update winner

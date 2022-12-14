@@ -1,7 +1,38 @@
 <?php
-
+/***********************************************************************
+* FILENAME : TeamController.php
+*
+* DESCRIPTION : Functions for working with Team model and related data
+*
+* PUBLIC FUNCTIONS :
+*   index(Request $request)
+*       author: xmadun01
+*       returns: view with all teams (or only some if using search function)
+*   show(Team)
+*       author: xmadun01
+*       returns: new data to show 
+*   create()
+*       author: xmadun01
+*       returns: redirects to team creation page 
+*   store(Request)
+*       author: xmadun01
+*       returns: (creates team) redirects to main menu 
+*   update(Request, Team)
+*       author: xmadun01
+*       returns: new data to show 
+*   destroy(Team)
+*       author: xmadun01
+*       returns: success message
+*   add_user(Request)
+*       author: xmadun01
+*       returns: new data to show 
+*   remove_user(int user_id, int team_id)
+*       author: xmadun01
+*       returns: user div to remove
+*
+* AUTHOR : Andrej Madunický - xmadun01
+***********************************************************************/
 namespace App\Http\Controllers;
-
 
 use App\Models\Team;
 use App\Models\User;
@@ -38,7 +69,6 @@ class TeamController extends Controller
                     $win_rate = 0;
                     if ($total_games !== 0) {
                         $win_rate = ($team->won_games * 100) / $total_games;
-                        
                     }
 
                     $tmp = "
@@ -118,11 +148,6 @@ class TeamController extends Controller
         return redirect('/')->with('message', 'Team created succesfully.');
     }
 
-    // Show Edit team form
-    public function edit(Team $team){
-        return view('teams.edit', ['team' => $team]);
-    }
-
     // Store team data
     public function update(Request $request, Team $team)
     {
@@ -135,11 +160,11 @@ class TeamController extends Controller
 
         $team->update($formFields);
 
-        return response()->json(['success'=>'Data is successfully added', 
-        'name' => $team->name, 
-        'logo' => asset('images/logos/'. $team->logo), 
-        'description' => $team->description]);
-        //return redirect('/')->with('message', 'Team updated succesfully.');
+        return response()->json([ 
+            'name' => $team->name, 
+            'logo' => asset('images/logos/'. $team->logo), 
+            'description' => $team->description
+        ]);
     }
 
     // Delete team
@@ -166,9 +191,8 @@ class TeamController extends Controller
                 ->where('teams.id',$request->team_id)
                 ->where('users.id', $request->user_id)
                 ->first();
-
         }
-
+        //html generated
         $addPlayer = "<div id=\"div".$request->team_id."a". $request->user_id."\"> 
         <div class=\"flex\">
             <div class=\"mr-2\">
@@ -203,19 +227,15 @@ class TeamController extends Controller
     </div>";
 
 
-        return response()->json(['success'=>'Data is successfully added',
-        'addPlayer' => $addPlayer,
-        'delete' =>'option'.$request->team_id .'a'. $request->user_id ]);
+        return response()->json([
+            'addPlayer' => $addPlayer,
+            'delete' =>'option'.$request->team_id .'a'. $request->user_id
+        ]);
     }
     
     // Delete user
-    public function remove_user($user_id,  $team_id){
+    public function remove_user($user_id, $team_id){
         $deleted = Teamuser::where('user_id', $user_id)->where('team_id', $team_id)->delete();
-        
-        return response()->json(['success'=>'Data is successfully added',
-        'delete' => 'div'.$team_id .'a'. $user_id]);
-        return back()->with('message', 'player removed succesfully.');
+        return response()->json(['delete' => 'div'.$team_id .'a'. $user_id]);
     }
-    
-
 }

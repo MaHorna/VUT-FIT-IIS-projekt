@@ -1,5 +1,19 @@
 <?php
-
+/***********************************************************************
+* FILENAME : MyTeamController.php
+*
+* DESCRIPTION : functions managing my_teams page
+*
+* PUBLIC FUNCTIONS :
+*   index()
+*       author: xmadun01
+*       returns: redirects to page with all of my teams
+*   show(Team)
+*       author: xmadun01
+*       returns: redirects to page with the teams
+*
+* AUTHOR : Andrej Madunický - xmadun01
+***********************************************************************/
 namespace App\Http\Controllers;
 
 use App\Models\Team;

@@ -1,5 +1,16 @@
 <?php
-
+/***********************************************************************
+* FILENAME : PagesController.php
+*
+* DESCRIPTION : main page with search bar
+*
+* PUBLIC FUNCTIONS :
+*   index(Request)
+*       author: xkanda01
+*       returns: main page with search results
+*
+* AUTHOR : Dávid Kán (xkanda01)
+***********************************************************************/
 namespace App\Http\Controllers;
 
 use App\Models\Team;
@@ -90,11 +101,9 @@ class PagesController extends Controller
             }
 
             if (count($teams) == 0) {
-                $tmp = "
-                        <div class=\"bg-black border border-gray-200 rounded p-6\">
+                $tmp = "<div class=\"bg-black border border-gray-200 rounded p-6\">
                             <p class=\"text-2xl mb-2\">No Teams found</p>
-                        </div>
-                        ";
+                        </div>";
                 array_push($teams_HTML, $tmp);
             }
             else {
@@ -175,10 +184,11 @@ class PagesController extends Controller
                 }
             }
 
-            return response()->json(['success' => 'IDE TO YAY!!!',
-            'tournaments' => $tournaments_HTML,
-            'users' => $users_HTML,
-            'teams' => $teams_HTML]);
+            return response()->json([
+                'tournaments' => $tournaments_HTML,
+                'users' => $users_HTML,
+                'teams' => $teams_HTML
+            ]);
         }
 
         return view('pages.index', 

@@ -1,5 +1,40 @@
 <?php
-
+/***********************************************************************
+* FILENAME : UserController.php
+*
+* DESCRIPTION : Functions for working with User model and related data
+*
+* PUBLIC FUNCTIONS :
+*   index(Request)
+*       author: xkanda01
+*       returns: list of users
+*   create()
+*       author: xkanda01
+*       returns: redirect to register page
+*   store(Request)
+*       author: xkanda01
+*       returns: success message
+*   logout(Request)
+*       author: xkanda01
+*       returns: success message
+*   login()
+*       author: xkanda01
+*       returns: redirect to login page
+*   authenticate(Request)
+*       author: xkanda01
+*       returns: authenticate user login credentials
+*   show(User)
+*       author: xkanda01
+*       returns: redirect to user's profile page
+*   update(Request, User)
+*       author: xkanda01
+*       returns: updates user data
+*   destroy(Request, User)
+*       author: xkanda01
+*       returns: success message
+*
+* AUTHOR : Dávid Kán (xkanda01)
+***********************************************************************/
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -12,14 +47,17 @@ class UserController extends Controller
     //Show all users
     public function index(Request $request)
     {
+        //get result of search
         $users = User::latest()->filter(request(['search']))->get();
 
         $tmp = "";
+        //if we are getting asynchronous request
         if ($request->ajax())
         {
             $users_HTML = [];
 
             if (count($users) == 0) {
+                //frontend generation
                 $tmp = "
                         <div class=\"bg-black border border-gray-200 rounded p-6\">
                             <p class=\"text-2xl mb-2\">No Users found</p>
@@ -30,12 +68,14 @@ class UserController extends Controller
             else {
                 foreach ($users as $user)
                 {
+                    //statisctics calc
                     $total_games = $user->lost_games + $user->won_games;
                     $win_rate = 0;
                     if ($total_games !== 0) {
                         $win_rate = ($user->won_games * 100) / $total_games;
                     }
                     
+                    //frontend generation
                     $tmp = "
                         <div class=\"bg-black border border-gray-200 rounded p-6\">
                             <div class=\"flex text-white\">
@@ -63,7 +103,7 @@ class UserController extends Controller
 
             return response()->json(['users' => $users_HTML]);
         }
-
+        //normal, first time load
         return view('users.index', 
         [
             'users' => $users,
@@ -123,7 +163,7 @@ class UserController extends Controller
             $request->session()->regenerate();
 
             return redirect('/')->with('message', 'You have been logged in!');
-        }
+        }   
 
         return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
     }
@@ -131,17 +171,6 @@ class UserController extends Controller
     // Show single user profile
     public function show(User $user){
         return view('users.show', [
-            'user' => $user
-        ]);
-    }
-
-    // Show Edit user profile
-    public function edit(User $user){
-        // Make sure logged in user is owner
-        if ($user->id != auth()->id() && Auth::user()->role == 0) {
-            abort(403, 'Unauthorized Action');
-        }
-        return view('users.edit', [
             'user' => $user
         ]);
     }
@@ -157,7 +186,6 @@ class UserController extends Controller
         $formFields = $request->validate([
             'name' => 'required',
             'logo' => 'required',
-            
         ]);
 
         $user->update($formFields);
@@ -173,7 +201,7 @@ class UserController extends Controller
         if ($user->id != auth()->id() && Auth::user()->role == 0) {
             abort(403, 'Unauthorized Action');
         }
-
+        
         if ($user->id == auth()->id()) {
             auth()->logout();
             $request->session()->invalidate();
