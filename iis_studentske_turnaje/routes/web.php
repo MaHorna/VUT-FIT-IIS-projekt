@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ContestantController;
+use App\Http\Controllers\MatchController;
 use App\Http\Controllers\TournamentController;
 use App\Http\Controllers\MyTeamController;
 
@@ -96,10 +97,13 @@ Route::put('/tournaments/{tournament}/start', [TournamentController::class, 'sta
 Route::put('/tournaments/{tournament}/end', [TournamentController::class, 'end'])->middleware('auth');
 
 // Update tournament match score
-Route::put('/tournaments/{contest}/updatescore', [TournamentController::class, 'updatescore'])->middleware('auth');
+Route::put('/tournaments/updatescore/{contest}', [TournamentController::class, 'updatescore'])->middleware('auth');
 
 // Update tournament match winner
-Route::put('/tournaments/{contest}/updatewinner', [TournamentController::class, 'updatewinner'])->middleware('auth');
+Route::put('/tournaments/updatewinner/{contest}', [TournamentController::class, 'updatewinner'])->middleware('auth');
+
+// TODO:
+Route::post('/tournaments/get_popup_data/{contest}', [MatchController::class, 'get_popup_data'])->middleware('auth');
 
 // Delete tournament
 Route::delete('/tournaments/{tournament}', [TournamentController::class, 'destroy'])->middleware('auth');

@@ -400,8 +400,10 @@ class TournamentController extends Controller
     // Update winner
     public function updatewinner(Contest $contest, Request $request){
         $contest_child = Contest::find($contest->contest_child_id);
+        $tournament = Tournament::find($contest->tournament_id);
         $next_pos = 0;
         $winner = 0;
+        $message = "";
         if (!is_null($contest_child)) {
             if ($request->winner == 1) {
                 $winner = $contest->contestant1_id;
@@ -422,42 +424,105 @@ class TournamentController extends Controller
             }
 
             $contest_child->update();
-
-            $user1 = User::join('contestants', 'contestants.user_id', '=', 'users.id')
-                ->where('contestants.tournament_id', $contest->tournament_id)
-                ->join('contests', 'contestants.id', '=', 'contests.contestant1_id')
-                ->where('contestants.id', $contest->contestant1_id)
-                ->select('users.id', 'users.name',)
-                ->first();
-            $user2 = User::join('contestants', 'contestants.user_id', '=', 'users.id')
-                ->where('contestants.tournament_id', $contest->tournament_id)
-                ->join('contests', 'contestants.id', '=', 'contests.contestant2_id')
-                ->where('contestants.id', $contest->contestant2_id)
-                ->select('users.id', 'users.name',)
-                ->first();
-
-            return response()->json(['success'=>'Data is successfully added', 
-            'url' => url('/users'),
+            $cont1 = NULL;
+            $cont2 = NULL;
+            $url = url('/users');
+            if ($tournament->teams_allowed == 1) {
+                $url = url('/teams');
+                $cont1 = Team::join('contestants', 'contestants.team_id', '=', 'teams.id')
+                    ->where('contestants.tournament_id', $tournament->id)
+                    ->join('contests', 'contestants.id', '=', 'contests.contestant1_id')
+                    ->where('contestants.id', $contest->contestant1_id)
+                    ->select('teams.id', 'teams.name',)
+                    ->first();
+                $cont2 = Team::join('contestants', 'contestants.team_id', '=', 'teams.id')
+                    ->where('contestants.tournament_id', $tournament->id)
+                    ->join('contests', 'contestants.id', '=', 'contests.contestant2_id')
+                    ->where('contestants.id', $contest->contestant2_id)
+                    ->select('teams.id', 'teams.name',)
+                    ->first();
+            }
+            else {
+                $cont1 = User::join('contestants', 'contestants.user_id', '=', 'users.id')
+                    ->where('contestants.tournament_id', $contest->tournament_id)
+                    ->join('contests', 'contestants.id', '=', 'contests.contestant1_id')
+                    ->where('contestants.id', $contest->contestant1_id)
+                    ->select('users.id', 'users.name',)
+                    ->first();
+                $cont2 = User::join('contestants', 'contestants.user_id', '=', 'users.id')
+                    ->where('contestants.tournament_id', $contest->tournament_id)
+                    ->join('contests', 'contestants.id', '=', 'contests.contestant2_id')
+                    ->where('contestants.id', $contest->contestant2_id)
+                    ->select('users.id', 'users.name',)
+                    ->first();
+            }
+            
+            return response()->json([
+            'success'=>'Data is successfully added', 
+            'url' => $url,
             'winner' => $request->winner, 
             'next_pos' => $next_pos, 
-            'user1_name' => (is_null($user1))? "-" : $user1->name, 
-            'user2_name' => (is_null($user2))? "-" : $user2->name,
-            'user1_id' => (is_null($user1))? NULL : $user1->id, 
-            'user2_id' => (is_null($user2))? NULL : $user2->id,
-            'next_id' => $contest_child->id]);
-
+            'user1_name' => (is_null($cont1))? "-" : $cont1->name, 
+            'user2_name' => (is_null($cont2))? "-" : $cont2->name,
+            'user1_id' => (is_null($cont1))? NULL : $cont1->id, 
+            'user2_id' => (is_null($cont2))? NULL : $cont2->id,
+            'next_id' => $contest_child->id
+            ]);
+        }
+        else {
+            $cont_temp = NULL;
+            if ($request->winner == 1) {
+                $winner = $contest->contestant1_id;
+                if ($tournament->teams_allowed == 1) {
+                    $cont_temp = Team::join('contestants', 'contestants.team_id', '=', 'teams.id')
+                        ->where('contestants.tournament_id', $tournament->id)
+                        ->join('contests', 'contestants.id', '=', 'contests.contestant1_id')
+                        ->where('contestants.id', $winner)
+                        ->select('teams.id', 'teams.name',)
+                        ->first();
+                }
+                else {
+                    $cont_temp = User::join('contestants', 'contestants.user_id', '=', 'users.id')
+                        ->where('contestants.tournament_id', $contest->tournament_id)
+                        ->join('contests', 'contestants.id', '=', 'contests.contestant1_id')
+                        ->where('contestants.id', $winner)
+                        ->select('users.id', 'users.name',)
+                        ->first();
+                }
+            }
+            else if ($request->winner == 2) {
+                $winner = $contest->contestant2_id;
+                if ($tournament->teams_allowed == 1) {
+                    $cont_temp = Team::join('contestants', 'contestants.team_id', '=', 'teams.id')
+                        ->where('contestants.tournament_id', $tournament->id)
+                        ->join('contests', 'contestants.id', '=', 'contests.contestant2_id')
+                        ->where('contestants.id', $winner)
+                        ->select('teams.id', 'teams.name',)
+                        ->first();
+                }
+                else {
+                    $cont_temp = User::join('contestants', 'contestants.user_id', '=', 'users.id')
+                        ->where('contestants.tournament_id', $contest->tournament_id)
+                        ->join('contests', 'contestants.id', '=', 'contests.contestant2_id')
+                        ->where('contestants.id', $winner)
+                        ->select('users.id', 'users.name',)
+                        ->first();
+                }
+            }
+            $message = $cont_temp->name;
         }
 
-        return response()->json(['success'=>'Data is successfully added', 
+        return response()->json([
+        'success'=> $message, 
         'url' => url('/users'),
         'winner' => $request->winner, 
-        'next_pos' => $next_pos,
+        'next_pos' => NULL,
         'user1_name' => NULL, 
         'user2_name' => NULL,
         'user1_id' => NULL, 
         'user2_id' => NULL,
-        'next_id' => NULL]);
-
+        'next_id' => NULL
+        ]);
     }
 
     // Change tournament state to finished
@@ -473,3 +538,5 @@ class TournamentController extends Controller
         return back()->with('message', 'Tournament finished.');
     }
 }
+
+?>

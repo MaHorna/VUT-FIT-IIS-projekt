@@ -1,4 +1,52 @@
 <x-layout>
+    @if (Auth::user() && Auth::user()->id == $tournament->user_id && $tournament->status != 'finished')
+        <div onclick="closeForm()" class="modal_bgr" id="modal_bgr" style="display:none;"></div>
+        <div class="modal" id="modal" style="display:none;">
+            <x-card>
+                <form id="popup_link1" method="POST" action="" class="form-container">
+                    @csrf
+                    @method("PUT")
+
+                    <h1 id="popup_name1" class="text-2xl mb-2 text-yellowish"></h1>
+                    <label id="popup_score1_label" for="score1" class="font-bold mb-2">Score</label>
+                    <input id="popup_score1" type="number" value="" name="score1" class="border border-gray-200 rounded p-2 w-full bg-grayish"><br>
+
+                    <hr id="popup_hr" class="mt-5">
+
+                    <h1 id="popup_name2" class="text-2xl mb-2 text-yellowish"></h1>
+                    <label id="popup_score2_label" for="score2">Score</label>
+                    <input id="popup_score2" type="number" value="" name="score2" class="border border-gray-200 rounded p-2 w-full bg-grayish"><br>
+
+                    <div class="mb-6">
+                        <label for="date" class="inline-block text-lg mb-2">Start time</i></label>
+                        <input id="popup_date" type="datetime-local" class="border border-gray-200 rounded p-2 w-full bg-grayish" name="date" min="{{now()}}" step="1" value=""/>
+                        @error('date')
+                            <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+                        @enderror
+                    </div>
+
+                    <button type="submit" id="popup_update_score_btn" match_id="" onclick="closeForm();update_score(event, this.match_id);" class="btn h-10 mt-2 w-36 text-white rounded-lg bg-yellowish hover:bg-grayish">Update score</button>
+                </form>
+            </x-card>
+            <hr>
+            <x-card class="mt-3">
+                <form id="popup_link2" method="POST" action="" class="form-container">
+                    @csrf
+                    @method("PUT")
+                    <input id="popup_winner1_radio" type="radio" name="winner" value="1">
+                    <label for="popup_winner1_radio" id="popup_winner1"></label>
+                    <br>
+                    <hr id="popup_hr2">
+                    <input id="popup_winner2_radio" type="radio" name="winner" value="2">
+                    <label for="popup_winner2_radio" id="popup_winner2"></label>
+                    <br>
+                    <button type="submit" id="popup_update_winner_btn" match_id="" onclick="closeForm();update_winner(event, this.match_id);" class="btn mt-2 h-10 w-36 text-white rounded-lg bg-yellowish hover:bg-grayish">Confirm winner</button>
+                    <button type="button" onclick="closeForm();" class="close btn mt-2 cancel" >Close</button>
+                </form>
+            </x-card>
+        </div>
+    @endif
+
     <a href="{{url('/tournaments')}}" class="inline-block ml-4 mb-4"><i class="fa-solid fa-arrow-left"></i> Back</a>
     <div class="mx-4">
         <x-card class="p-10">
@@ -144,3 +192,145 @@
         </x-card>
     </div>
 </x-layout>
+
+<script>
+    var opened = 0;
+    var elem1 = document.getElementById('modal');
+    var elem2 = document.getElementById('modal_bgr');
+    function openForm(e, match_id) 
+    {
+        e.preventDefault();
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+        jQuery.ajax({
+            url: "{{ url('/tournaments/get_popup_data')}}"+"/"+match_id,
+            method: 'POST',
+            data: {match_id: match_id},
+            success: function (ret_data) {
+                if(ret_data.data1_is_null == 0 || ret_data.data2_is_null == 0) {
+                    elem1.style.display = 'inline';
+                    elem2.style.display = 'inline';
+                }
+                if(ret_data.data1_is_null == 1) {
+                    //remove elements if no contestant
+                    document.getElementById("popup_name1").style.display = "none";
+                    document.getElementById("popup_score1_label").style.display = "none";
+                    document.getElementById("popup_score1").style.display = "none";
+                    document.getElementById("popup_hr").style.display = "none";
+                    document.getElementById("popup_winner1").style.display = "none";
+                    document.getElementById("popup_hr2").style.display = "none";
+                    document.getElementById("popup_winner1").style.display = "none";
+                    document.getElementById("popup_winner2_radio").checked = true;
+                }
+                else {
+                    document.getElementById("popup_winner1_radio").checked = true;
+                }
+                if(ret_data.data2_is_null == 1) {
+                    //remove elements if no contestant
+                    document.getElementById("popup_name2").style.display = "none";
+                    document.getElementById("popup_score2_label").style.display = "none";
+                    document.getElementById("popup_score2").style.display = "none";
+                    document.getElementById("popup_hr").style.display = "none";
+                    document.getElementById("popup_winner2").style.display = "none";
+                    document.getElementById("popup_hr2").style.display = "none";
+                    document.getElementById("popup_winner2").style.display = "none";
+                    document.getElementById("popup_winner2_radio").style.display = "none";
+                    document.getElementById("popup_winner1_radio").checked = true;
+                }
+                //set values
+                document.getElementById("popup_name1").innerHTML = ret_data.name1;
+                document.getElementById("popup_score1").value = ret_data.score1;
+                document.getElementById("popup_name2").innerHTML = ret_data.name2;
+                document.getElementById("popup_score2").value = ret_data.score2;
+                document.getElementById("popup_winner1").innerHTML = ret_data.name1;
+                document.getElementById("popup_winner2").innerHTML = ret_data.name2;
+                document.getElementById("popup_link1").action = "{{url('/tournaments/updatescore')}}"+"/"+match_id;
+                document.getElementById("popup_link2").action = "{{url('/tournaments/updatewinner')}}"+"/"+match_id;
+                document.getElementById("popup_date").value = ret_data.date;
+                document.getElementById("popup_update_score_btn").match_id = match_id;
+                document.getElementById("popup_update_winner_btn").match_id = match_id;
+                
+                
+            } 
+        });
+    }
+    function closeForm()
+    {
+        elem1.style.display = 'none';
+        elem2.style.display = 'none';
+        //display elements once again
+        document.getElementById("popup_name1").style.display = "inline";
+        document.getElementById("popup_score1_label").style.display = "inline";
+        document.getElementById("popup_score1").style.display = "inline";
+        document.getElementById("popup_hr").style.display = "inline";
+        document.getElementById("popup_name2").style.display = "inline";
+        document.getElementById("popup_score2_label").style.display = "inline";
+        document.getElementById("popup_score2").style.display = "inline";
+        document.getElementById("popup_winner1").style.display = "inline";
+        document.getElementById("popup_winner2").style.display = "inline";
+        document.getElementById("popup_hr2").style.display = "inline";
+        document.getElementById("popup_winner1").style.display = "inline";
+        document.getElementById("popup_winner1_radio").style.display = "inline";
+        document.getElementById("popup_winner2").style.display = "inline";
+        document.getElementById("popup_winner2_radio").style.display = "inline";
+    }
+    function update_score(e, match_id)
+    {
+        e.preventDefault();
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+        jQuery.ajax({
+            url: "{{ url('/tournaments/updatescore')}}"+"/"+match_id,
+            method: 'PUT',
+            data: {
+                score1: document.getElementById("popup_score1").value,
+                score2: document.getElementById("popup_score2").value,
+                date: document.getElementById("popup_date").value,
+            },
+            success: function(data){
+                document.getElementById("match_card_score1_"+match_id).innerHTML = data.score1;
+                document.getElementById("match_card_score2_"+match_id).innerHTML = data.score2;
+            }
+        });
+    }
+    function update_winner(e, match_id) 
+    {          
+        e.preventDefault();
+        $.ajaxSetup({headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+        jQuery.ajax({
+            url: "{{ url('/tournaments/updatewinner')}}"+"/"+match_id,
+            method: 'PUT',
+            data: {winner: document.querySelector('input[name="winner"]:checked').value},
+            success: function(data){
+                if (data.next_pos == 1) {
+                    if (data.winner == 1) {
+                        document.getElementById("match_card_name1_" + data.next_id).innerHTML = data.user1_name;
+                        document.getElementById("match_card_name1_" + data.next_id).setAttribute("href", data.url+"/"+data.user1_id);
+                        document.getElementById("match_card_score1_" + data.next_id).innerHTML = 0;
+                    }
+                    else
+                    {
+                        document.getElementById("match_card_name1_" + data.next_id).innerHTML = data.user2_name;
+                        document.getElementById("match_card_name1_" + data.next_id).setAttribute("href", data.url+"/"+data.user2_id);
+                        document.getElementById("match_card_score1_" + data.next_id).innerHTML = 0;
+                    }
+                }
+                else if (data.next_pos == 2) {
+                    if (data.winner == 1) {
+                        document.getElementById("match_card_name2_" + data.next_id).innerHTML = data.user1_name;
+                        document.getElementById("match_card_name2_" + data.next_id).setAttribute("href", data.url+"/"+data.user1_id);
+                        document.getElementById("match_card_score2_" + data.next_id).innerHTML = 0;
+                    }
+                    else
+                    {
+                        document.getElementById("match_card_name2_" + data.next_id).innerHTML = data.user2_name;
+                        document.getElementById("match_card_name2_" + data.next_id).setAttribute("href", data.url+"/"+data.user2_id);
+                        document.getElementById("match_card_score2_" + data.next_id).innerHTML = 0;
+                    }
+                }
+                else
+                {
+                    alert("Winner is:" + data.success);
+                }
+            }
+        });                     
+    }
+</script>
