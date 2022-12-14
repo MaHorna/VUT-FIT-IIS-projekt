@@ -2,7 +2,7 @@
 *
 * DESCRIPTION : Show all upcoming matches ordered ba tyme
 *
-* AUTHOR : Dávid Kán - xkanda01 --}}
+* AUTHOR : Andrej Madunický - xmadun01  --}}
 
 <x-layout>
 
